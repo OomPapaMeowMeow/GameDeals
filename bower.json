@@ -1,0 +1,9 @@
+{
+  "name": "game-deals",
+  "version": "0.0.0",
+  "dependencies": {
+    "jquery": "~2.1.4",
+    "jquery-ajax-retry": "~0.2.7"
+  },
+  "devDependencies": {}
+}

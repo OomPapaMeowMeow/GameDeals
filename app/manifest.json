@@ -1,0 +1,62 @@
+{
+  "name": "game-deals",
+  "version": "0.3.3",
+  "manifest_version": 2,
+  "description": "Shows best deals when you shop for games, courtesy of isthereanydeal.com",
+  "author": "Daniel Kamkha",
+  "homepage_url": "https://github.com/DanielKamkha/GameDealsChrome",
+  "icons": {
+    "16": "images/icon-16.png",
+    "128": "images/icon-128.png"
+  },
+  "default_locale": "en",
+  "permissions": [
+    "storage",
+    "*://*.isthereanydeal.com/*",
+    "*://www.humblebundle.com/*"
+  ],
+  "background": {
+    "scripts": [
+      "scripts/chromereload.js",
+      "scripts/background.js"
+    ]
+  },
+  "page_action": {
+    "default_icon": {
+      "19": "images/icon-19.png",
+      "38": "images/icon-38.png"
+    },
+    "default_title": "Game Deals",
+    "default_popup": "popup.html"
+  },
+  "options_page": "options.html",
+  "content_scripts": [
+    {
+      "matches": [ "*://*/*" ],
+      "js": [
+        "bower_components/jquery/dist/jquery.min.js",
+        "bower_components/jquery-ajax-retry/dist/jquery.ajax-retry.js"
+        //"scripts/content-scripts/script-main.js"
+      ]
+    },
+    {
+      "matches": [ "*://www.humblebundle.com/*" ],
+      "exclude_matches": [ "*://www.humblebundle.com/store*" ],
+      "js": [
+        "bower_components/jquery/dist/jquery.min.js",
+        "bower_components/jquery-ajax-retry/dist/jquery.ajax-retry.js",
+        "scripts/content-scripts/data-tools.js",
+        "scripts/content-scripts/data-stores.js",
+        "scripts/content-scripts/data-itad.js",
+        "scripts/content-scripts/data-cache.js",
+        "scripts/content-scripts/script-humble-bundle.js"
+      ]
+    },
+    {
+      "matches": [ "*://*/*" ],
+      "include_globs": [ "*://www.gamesrocket.*" ],
+      "js": [ "scripts/content-scripts/script-warning.js" ],
+      "run_at": "document_start"
+    }
+  ]
+}
