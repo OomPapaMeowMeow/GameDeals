@@ -89,7 +89,7 @@
       cache: true,
       url: "http://isthereanydeal.com/ajax/game/info?plain=" + gamePlain
     }).retry(retryConfig).then(function(html) {
-      let storeTitle = GameDeals.Stores.getStoreTitleById(storeId);
+      let storeTitle = GameDeals.Consts.getStoreTitleById(storeId);
       let url = $(html).find("a.shopTitle:contains('" + storeTitle + "')").attr("href");
       assert(getStoreLink.name, storeId, gamePlain, successStr, url);
       return url;

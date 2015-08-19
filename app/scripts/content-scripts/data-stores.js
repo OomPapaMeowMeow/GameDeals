@@ -7,19 +7,6 @@
 (function() {
   "use strict";
 
-  const storeTitles = {
-    "steam": "Steam",
-    "humblestore": "Humble Store",
-    "gog": "GOG",
-    "origin": "Origin PC",
-    "wingamestore": "WinGameStore"
-  };
-
-  const storeIcons = {
-    "Steam": "fa-steam"
-    //"Amazon": "fa-amazon" // TODO: bug, does not pick up FontAwesome 4.4, still uses 4.3
-  };
-
   const storePageData = {
     "steam": {
       containerSelector: "div.game_meta_data",
@@ -150,18 +137,8 @@
     return storePageData[storeId];
   }
 
-  function getStoreTitleById(storeId) {
-    return storeTitles[storeId] || storeId;
-  }
-
-  function getStoreIconByTitle(storeTitle) {
-    return storeIcons[storeTitle] || "fa-shopping-cart";
-  }
-
   window.GameDeals = window.GameDeals || {};
   window.GameDeals.Stores = {
-    getStorePageData: getStorePageData,
-    getStoreTitleById: getStoreTitleById,
-    getStoreIconByTitle: getStoreIconByTitle
+    getStorePageData: getStorePageData
   };
 })();

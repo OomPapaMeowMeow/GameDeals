@@ -9,7 +9,7 @@
 
   const storeId = "humblestore";
   const steamStoreId = "steam";
-  const steamStoreTitle = GameDeals.Stores.getStoreTitleById(steamStoreId);
+  const steamStoreTitle = GameDeals.Consts.getStoreTitleById(steamStoreId);
 
   function addBundleSteamLink() {
     // jshint validthis:true
@@ -24,7 +24,7 @@
           return;
         }
 
-        let $icon = $("<i class='fa gs-icon'></i>").addClass(GameDeals.Stores.getStoreIconByTitle(steamStoreTitle));
+        let $icon = $("<i class='fa gs-icon'></i>").addClass(GameDeals.Consts.getStoreIconByTitle(steamStoreTitle));
         let $steamLink = $("<a></a>").attr("href", url).append($icon, steamStoreTitle);
         $steamLink.addClass("game-dev-link gs-marker");
         $topContainer.find("a.game-dev-link").last().after($steamLink);

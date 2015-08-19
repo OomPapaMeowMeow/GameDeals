@@ -11,13 +11,15 @@
   },
   "default_locale": "en",
   "permissions": [
-    "storage",
-    "*://*.isthereanydeal.com/*",
-    "*://www.humblebundle.com/*"
+    "storage"
   ],
   "background": {
     "scripts": [
+      "bower_components/jquery/dist/jquery.min.js",
+      "bower_components/jquery-ajax-retry/dist/jquery.ajax-retry.js",
       "scripts/chromereload.js",
+      "scripts/data-consts.js",
+      "scripts/data-itad.js",
       "scripts/background.js"
     ]
   },
@@ -33,6 +35,10 @@
   "content_scripts": [
     {
       "matches": [ "*://*/*" ],
+      "css": [
+        "styles/font-awesome.css",
+        "styles/content-style.css"
+      ],
       "js": [
         "bower_components/jquery/dist/jquery.min.js",
         "bower_components/jquery-ajax-retry/dist/jquery.ajax-retry.js"
@@ -42,13 +48,16 @@
     {
       "matches": [ "*://www.humblebundle.com/*" ],
       "exclude_matches": [ "*://www.humblebundle.com/store*" ],
+      "css": [
+        "styles/font-awesome.css",
+        "styles/content-style.css"
+      ],
       "js": [
         "bower_components/jquery/dist/jquery.min.js",
-        "bower_components/jquery-ajax-retry/dist/jquery.ajax-retry.js",
+        "scripts/data-consts.js",
         "scripts/content-scripts/data-tools.js",
         "scripts/content-scripts/data-stores.js",
-        "scripts/content-scripts/data-itad.js",
-        "scripts/content-scripts/data-cache.js",
+        "scripts/content-scripts/data-cache-chrome.js",
         "scripts/content-scripts/script-humble-bundle.js"
       ]
     },
