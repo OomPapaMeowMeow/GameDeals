@@ -1,5 +1,5 @@
 {
-  "name": "game-deals",
+  "name": "Game Deals",
   "version": "0.3.3",
   "manifest_version": 2,
   "description": "Shows best deals when you shop for games, courtesy of isthereanydeal.com",
@@ -34,15 +34,26 @@
   "options_page": "options.html",
   "content_scripts": [
     {
-      "matches": [ "*://*/*" ],
+      "matches": [
+        "*://store.steampowered.com/app/*",
+        "*://www.humblebundle.com/store*",
+        "*://www.gog.com/game/*",
+        "*://www.origin.com/*/store/buy/*",
+        "*://www.wingamestore.com/product/*",
+        "*://www.macgamestore.com/product/*"
+      ],
       "css": [
         "styles/font-awesome.css",
         "styles/content-style.css"
       ],
       "js": [
         "bower_components/jquery/dist/jquery.min.js",
-        "bower_components/jquery-ajax-retry/dist/jquery.ajax-retry.js"
-        //"scripts/content-scripts/script-main.js"
+        "bower_components/jquery-ajax-retry/dist/jquery.ajax-retry.js",
+        "scripts/data-consts.js",
+        "scripts/content-scripts/data-tools.js",
+        "scripts/content-scripts/data-stores.js",
+        "scripts/content-scripts/data-cache-chrome.js",
+        "scripts/content-scripts/script-main.js"
       ]
     },
     {

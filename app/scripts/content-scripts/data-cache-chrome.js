@@ -6,11 +6,11 @@
 (function() {
   "use strict";
 
-  function makeCachedRequest(tableName) {
-    let varArgs = Array.prototype.slice.call(arguments, 1);
+  function makeCachedRequest(methodName, cache) {
+    let varArgs = Array.prototype.slice.call(arguments, 2);
     return new Promise(function (resolve, reject) {
       chrome.runtime.sendMessage(
-        { tableName: tableName, args: varArgs },
+        { methodName: methodName, cache: cache, args: varArgs },
         function(data) {
           if (data.value) {
             resolve(data.value);
@@ -24,8 +24,9 @@
 
   window.GameDeals = window.GameDeals || {};
   window.GameDeals.Cache = {
-    getGamePlain: makeCachedRequest.bind(null, "plain"),
-    getStoreLink: makeCachedRequest.bind(null, "store-link")
+    getGamePlain: makeCachedRequest.bind(null, "getGamePlain", true),
+    getStoreLink: makeCachedRequest.bind(null, "getStoreLink", true),
+    getBestDeals: makeCachedRequest.bind(null, "getBestDeals", false)
   };
 })();
 

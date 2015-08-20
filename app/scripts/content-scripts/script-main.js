@@ -1,10 +1,31 @@
-//     This file is part of Game Deals extension for Mozilla Firefox
+//     This file is part of Game Deals extension for Chrome and Firefox
+//     https://github.com/DanielKamkha/GameDealsChrome
 //     https://github.com/DanielKamkha/GameDealsFirefox
 //     (c) 2015 Daniel Kamkha
 //     Game Deals is free software distributed under the terms of the MIT license.
 
 (function() {
   "use strict";
+
+  const urlsAndIds = [
+    { regex: /.*store\.steampowered\.com\/app\/.*/, storeId: "steam" },
+    { regex: /.*www\.humblebundle\.com\/store.*/, storeId: "humblestore" },
+    { regex: /.*www\.gog\.com\/game\/.*/, storeId: "gog" },
+    { regex: /.*www\.origin\.com\/.*\/store\/buy\/.*/, storeId: "origin" },
+    { regex: /.*www\.(win|mac)gamestore\.com\/product\/.*/, storeId: "wingamestore" }
+  ];
+
+  function getStoreIdByUrl(url) {
+    let storeId = null;
+    urlsAndIds.some(function(urlIdData) {
+      if (urlIdData.regex.test(url)) {
+        storeId = urlIdData.storeId;
+        return true;
+      }
+      return false;
+    });
+    return storeId;
+  }
 
   function addDealLinks(storeId, storeData, $topContainer) {
     if ($topContainer.length === 0) {
@@ -13,7 +34,7 @@
     let $container = storeData.getDealsContainer ? storeData.getDealsContainer($topContainer) : $topContainer;
     GameDeals.Cache.getGamePlain(storeId, storeData.getGameId($topContainer), storeData.gameIdType)
       .then(function(gamePlain) {
-        return gamePlain ? GameDeals.Itad.getBestDeals(gamePlain, storeData.dealsLimit) : null;
+        return gamePlain ? GameDeals.Cache.getBestDeals(gamePlain, storeData.dealsLimit) : null;
       })
       .then(function(dataArray) {
         if (!dataArray) {
@@ -24,14 +45,17 @@
         storeData.addDealsBlock($container, $block);
 
         let links = dataArray.map(function(dealData) {
-          return storeData.createLink(dealData, GameDeals.Stores.getStoreIconByTitle(dealData.storeTitle), $block);
+          return storeData.createLink(dealData, GameDeals.Consts.getStoreIconByTitle(dealData.storeTitle), $block);
         });
         storeData.addDealLinksToDealsBlock($block, links, $container);
       });
   }
 
   function doAttach() {
-    let storeId = self.options.storeId;
+    let storeId = getStoreIdByUrl(window.location.href);
+    if (!storeId) {
+      return;
+    }
     let storeData = GameDeals.Stores.getStorePageData(storeId);
     addDealLinks(storeId, storeData, $(storeData.containerSelector));
 
@@ -40,15 +64,17 @@
       observer = GameDeals.Tools.waitForElementObserver(storeData.containerSelector, addDealLinks.bind(null, storeId, storeData));
     }
 
-    self.port.on("detach", function(reason) {
-      if (observer) {
-        observer.disconnect();
-        observer = null;
-      }
-      if (reason) {
-        $(".gs-marker").remove();
-      }
-    });
+    if (!chrome) { // Firefox-specific cleanup
+      self.port.on("detach", function (reason) {
+        if (observer) {
+          observer.disconnect();
+          observer = null;
+        }
+        if (reason) {
+          $(".gs-marker").remove();
+        }
+      });
+    }
   }
 
   doAttach();

@@ -6,11 +6,6 @@
 (function() {
   "use strict";
 
-  const tableToRequest = {
-    "plain": GameDeals.Itad.getGamePlain,
-    "store-link": GameDeals.Itad.getStoreLink
-  };
-
   function makeCachedRequest(requestFunc, tableTame, id1, id2) {
     let varArgs = Array.prototype.slice.call(arguments, 2);
     return new Promise(function (resolve, reject) {
@@ -33,13 +28,17 @@
   }
 
   chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) { // jshint ignore:line
-    let newArgs = [tableToRequest[message.tableName], message.tableName].concat(message.args);
-    makeCachedRequest.apply(null, newArgs)
-      .then(function(value) {
-        sendResponse({ value: value });
-      })
-      .catch(function(response) {
-        sendResponse({ response: response });
+    let requestFunc = GameDeals.Itad[message.methodName];
+    let varArgs = message.args;
+    if (message.cache) {
+      varArgs = [requestFunc, message.methodName].concat(varArgs);
+      requestFunc = makeCachedRequest;
+    }
+    requestFunc.apply(null, varArgs)
+      .then(function (value) {
+        sendResponse({value: value});
+      }, function (response) {
+        sendResponse({response: response});
       });
     return true;
   });
