@@ -6,6 +6,8 @@
 (function() {
   "use strict";
 
+  let dealsPerTab = {};
+
   function makeCachedRequest(requestFunc, tableTame, id1, id2) {
     let varArgs = Array.prototype.slice.call(arguments, 2);
     return new Promise(function (resolve, reject) {
@@ -43,8 +45,13 @@
   }
 
   function showPageAction(message, sender) {
-    let deals = message.deals; // jshint ignore:line
-    chrome.pageAction.show(sender.tab.id);
+    let tabId = sender.tab.id;
+    dealsPerTab[tabId] = message.deals;
+    chrome.pageAction.show(tabId);
+  }
+
+  function getDealsForTab(message, sendResponse) {
+    sendResponse(dealsPerTab[message.tabId]);
   }
 
   chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
@@ -55,8 +62,10 @@
       case "showPageAction":
         showPageAction(message, sender);
         break;
+      case "getDealsForTab":
+        getDealsForTab(message, sendResponse);
+        break;
     }
   });
-
 })();
 

@@ -1,9 +1,9 @@
+.gs-icon {
+    margin-right: 5px;
+}
 .gs-price {
     margin-left: 6px;
     display: inline-block;
-}
-.gs-icon {
-    margin-right: 5px;
 }
 .gs-steam-icon {
     margin-top: 2px;
@@ -44,4 +44,7 @@
 .gs-wgs-icon {
     margin-left: -2px;
     margin-right: 5px;
+}
+.gs-popup-link {
+    color: black;
 }
