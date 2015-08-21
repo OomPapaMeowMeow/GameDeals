@@ -23,7 +23,7 @@
   }
 
   window.GameDeals = window.GameDeals || {};
-  window.GameDeals.Cache = {
+  window.GameDeals.Comm = {
     getGamePlain: makeCachedRequest.bind(null, "getGamePlain", true),
     getStoreLink: makeCachedRequest.bind(null, "getStoreLink", true),
     getBestDeals: makeCachedRequest.bind(null, "getBestDeals", false)

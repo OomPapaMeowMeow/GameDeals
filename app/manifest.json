@@ -6,8 +6,7 @@
   "author": "Daniel Kamkha",
   "homepage_url": "https://github.com/DanielKamkha/GameDealsChrome",
   "icons": {
-    "16": "images/icon-16.png",
-    "128": "images/icon-128.png"
+    "48": "images/icon-48.png"
   },
   "default_locale": "en",
   "permissions": [
@@ -25,8 +24,9 @@
   },
   "page_action": {
     "default_icon": {
-      "19": "images/icon-19.png",
-      "38": "images/icon-38.png"
+//      "19": "images/icon-19.png",
+//      "38": "images/icon-38.png",
+      "48": "images/icon-48.png"
     },
     "default_title": "Game Deals",
     "default_popup": "popup.html"
@@ -52,26 +52,26 @@
         "scripts/data-consts.js",
         "scripts/content-scripts/data-tools.js",
         "scripts/content-scripts/data-stores.js",
-        "scripts/content-scripts/data-cache-chrome.js",
+        "scripts/content-scripts/data-comm-chrome.js",
         "scripts/content-scripts/script-main.js"
       ]
     },
-    {
-      "matches": [ "*://www.humblebundle.com/*" ],
-      "exclude_matches": [ "*://www.humblebundle.com/store*" ],
-      "css": [
-        "styles/font-awesome.css",
-        "styles/content-style.css"
-      ],
-      "js": [
-        "bower_components/jquery/dist/jquery.min.js",
-        "scripts/data-consts.js",
-        "scripts/content-scripts/data-tools.js",
-        "scripts/content-scripts/data-stores.js",
-        "scripts/content-scripts/data-cache-chrome.js",
-        "scripts/content-scripts/script-humble-bundle.js"
-      ]
-    },
+//    {
+//      "matches": [ "*://www.humblebundle.com/*" ],
+//      "exclude_matches": [ "*://www.humblebundle.com/store*" ],
+//      "css": [
+//        "styles/font-awesome.css",
+//        "styles/content-style.css"
+//      ],
+//      "js": [
+//        "bower_components/jquery/dist/jquery.min.js",
+//        "scripts/data-consts.js",
+//        "scripts/content-scripts/data-tools.js",
+//        "scripts/content-scripts/data-stores.js",
+//        "scripts/content-scripts/data-comm-chrome.js",
+//        "scripts/content-scripts/script-humble-bundle.js"
+//      ]
+//    },
     {
       "matches": [ "*://*/*" ],
       "include_globs": [ "*://www.gamesrocket.*" ],

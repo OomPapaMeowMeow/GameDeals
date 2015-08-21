@@ -18,9 +18,12 @@
   "strict": true,
   "trailing": true,
   "smarttabs": true,
+  "jquery": true,
   "globals" : {
     "chrome": true,
     "crypto": true,
-    "GameDeals": false
+    "GameDeals": true,
+    "self": true,
+    "Promise": true
   }
 }

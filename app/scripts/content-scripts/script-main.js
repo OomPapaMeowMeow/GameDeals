@@ -32,9 +32,9 @@
       return;
     }
     let $container = storeData.getDealsContainer ? storeData.getDealsContainer($topContainer) : $topContainer;
-    GameDeals.Cache.getGamePlain(storeId, storeData.getGameId($topContainer), storeData.gameIdType)
+    GameDeals.Comm.getGamePlain(storeId, storeData.getGameId($topContainer), storeData.gameIdType)
       .then(function(gamePlain) {
-        return gamePlain ? GameDeals.Cache.getBestDeals(gamePlain, storeData.dealsLimit) : null;
+        return gamePlain ? GameDeals.Comm.getBestDeals(gamePlain, storeData.dealsLimit) : null;
       })
       .then(function(dataArray) {
         if (!dataArray) {

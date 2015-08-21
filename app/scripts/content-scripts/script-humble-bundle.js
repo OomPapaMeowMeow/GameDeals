@@ -15,9 +15,9 @@
     // jshint validthis:true
     let $topContainer = $(this);
     let gameId = $topContainer.children("h2").text();
-    GameDeals.Cache.getGamePlain(storeId, gameId, 2)
+    GameDeals.Comm.getGamePlain(storeId, gameId, 2)
       .then(function(gamePlain) {
-        return gamePlain ? GameDeals.Cache.getStoreLink(steamStoreId, gamePlain) : null;
+        return gamePlain ? GameDeals.Comm.getStoreLink(steamStoreId, gamePlain) : null;
       })
       .then(function(url) {
         if (!url) {

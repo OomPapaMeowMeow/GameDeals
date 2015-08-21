@@ -82,7 +82,7 @@
     });
   }
 
-  function getStoreLink(storeId, gamePlain) {
+  function getStoreLink(storeId, gamePlain) { // TODO: does not work if the shop is not in top 5 deals
     assert(getStoreLink.name, storeId, gamePlain);
     return $.ajax({
       method: "GET",
