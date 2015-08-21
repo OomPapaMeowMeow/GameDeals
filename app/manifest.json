@@ -24,9 +24,8 @@
   },
   "page_action": {
     "default_icon": {
-//      "19": "images/icon-19.png",
-//      "38": "images/icon-38.png",
-      "48": "images/icon-48.png"
+      "19": "images/cart-gray-19.png",
+      "38": "images/cart-gray-38.png"
     },
     "default_title": "Game Deals",
     "default_popup": "popup.html"

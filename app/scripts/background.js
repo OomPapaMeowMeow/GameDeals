@@ -27,11 +27,11 @@
     });
   }
 
-  chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) { // jshint ignore:line
-    let requestFunc = GameDeals.Itad[message.methodName];
+  function makeBackgroundRequest(message, sendResponse) {
+    let requestFunc = GameDeals.Itad[message.requestName];
     let varArgs = message.args;
     if (message.cache) {
-      varArgs = [requestFunc, message.methodName].concat(varArgs);
+      varArgs = [requestFunc, message.requestName].concat(varArgs);
       requestFunc = makeCachedRequest;
     }
     requestFunc.apply(null, varArgs)
@@ -40,7 +40,22 @@
       }, function (response) {
         sendResponse({response: response});
       });
-    return true;
+  }
+
+  function showPageAction(message, sender) {
+    let deals = message.deals; // jshint ignore:line
+    chrome.pageAction.show(sender.tab.id);
+  }
+
+  chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+    switch(message.methodName) {
+      case "makeBackgroundRequest":
+        makeBackgroundRequest(message, sendResponse);
+        return true;
+      case "showPageAction":
+        showPageAction(message, sender);
+        break;
+    }
   });
 
 })();

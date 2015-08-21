@@ -6,11 +6,11 @@
 (function() {
   "use strict";
 
-  function makeCachedRequest(methodName, cache) {
+  function makeBackgroundRequest(requestName, cache) {
     let varArgs = Array.prototype.slice.call(arguments, 2);
     return new Promise(function (resolve, reject) {
       chrome.runtime.sendMessage(
-        { methodName: methodName, cache: cache, args: varArgs },
+        { methodName: "makeBackgroundRequest", requestName: requestName, cache: cache, args: varArgs },
         function(data) {
           if (data.value) {
             resolve(data.value);
@@ -22,11 +22,16 @@
     });
   }
 
+  function showPageAction(deals) {
+    chrome.runtime.sendMessage({ methodName: "showPageAction", deals: deals });
+  }
+
   window.GameDeals = window.GameDeals || {};
   window.GameDeals.Comm = {
-    getGamePlain: makeCachedRequest.bind(null, "getGamePlain", true),
-    getStoreLink: makeCachedRequest.bind(null, "getStoreLink", true),
-    getBestDeals: makeCachedRequest.bind(null, "getBestDeals", false)
+    getGamePlain: makeBackgroundRequest.bind(null, "getGamePlain", true),
+    getStoreLink: makeBackgroundRequest.bind(null, "getStoreLink", true),
+    getBestDeals: makeBackgroundRequest.bind(null, "getBestDeals", false),
+    showPageAction: showPageAction
   };
 })();
 

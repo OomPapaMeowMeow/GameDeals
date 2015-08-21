@@ -36,15 +36,17 @@
       .then(function(gamePlain) {
         return gamePlain ? GameDeals.Comm.getBestDeals(gamePlain, storeData.dealsLimit) : null;
       })
-      .then(function(dataArray) {
-        if (!dataArray) {
+      .then(function(deals) {
+        if (!deals) {
           return;
         }
 
-        let $block = storeData.createBlock(GameDeals.Tools.getBestDealsString(dataArray.length));
+        GameDeals.Comm.showPageAction(deals);
+
+        let $block = storeData.createBlock(GameDeals.Tools.getBestDealsString(deals.length));
         storeData.addDealsBlock($container, $block);
 
-        let links = dataArray.map(function(dealData) {
+        let links = deals.map(function(dealData) {
           return storeData.createLink(dealData, GameDeals.Consts.getStoreIconByTitle(dealData.storeTitle), $block);
         });
         storeData.addDealLinksToDealsBlock($block, links, $container);
