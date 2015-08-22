@@ -50,6 +50,7 @@
         "bower_components/jquery-ajax-retry/dist/jquery.ajax-retry.js",
         "scripts/data-consts.js",
         "scripts/content-scripts/data-tools.js",
+        "scripts/content-scripts/data-currency.js",
         "scripts/content-scripts/data-stores.js",
         "scripts/content-scripts/data-comm-chrome.js",
         "scripts/content-scripts/script-main.js"

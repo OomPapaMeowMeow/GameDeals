@@ -6,6 +6,11 @@
 (function() {
   "use strict";
 
+  const cartImportant =  {
+    "19": "images/cart-gray-important-19.png",
+    "38": "images/cart-gray-important-38.png"
+  };
+
   let dealsPerTab = {};
 
   function makeCachedRequest(requestFunc, tableTame, id1, id2) {
@@ -48,6 +53,9 @@
     let tabId = sender.tab.id;
     dealsPerTab[tabId] = message.deals;
     chrome.pageAction.show(tabId);
+    if (message.important) {
+      chrome.pageAction.setIcon({tabId: tabId, path: cartImportant });
+    }
   }
 
   function getDealsForTab(message, sendResponse) {

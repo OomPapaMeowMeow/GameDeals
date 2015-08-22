@@ -10,7 +10,7 @@
     let $icon = $("<i class='fa gs-icon'></i>").addClass(iconClass);
     let $link = $("<a class='gs-popup-link'></a>").attr("href", dealData.url).append($icon, dealData.storeTitle);
     let $priceDiv = $("<div class='gs-price'></div>").text(dealData.price);
-    return $("<div class=''></div>").append($link, $priceDiv);
+    return $("<div class='gs-popup-line'></div>").append($link, $priceDiv);
   }
 
   function showDeals(deals) {
@@ -25,5 +25,8 @@
     chrome.runtime.sendMessage({ methodName: "getDealsForTab", tabId: tabs[0].id }, showDeals);
   });
 
-
+  $("body").on("click", "a", function() {
+    chrome.tabs.create({ url: $(this).attr("href") });
+    return false;
+  });
 })();

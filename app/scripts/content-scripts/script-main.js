@@ -27,6 +27,10 @@
     return storeId;
   }
 
+  function analyzePrice($topContainer, deals) {
+    GameDeals.Comm.showPageAction(deals, false);
+  }
+
   function addDealLinks(storeId, storeData, $topContainer) {
     if ($topContainer.length === 0) {
       return;
@@ -41,7 +45,7 @@
           return;
         }
 
-        GameDeals.Comm.showPageAction(deals);
+        analyzePrice($topContainer, deals);
 
         let $block = storeData.createBlock(GameDeals.Tools.getBestDealsString(deals.length));
         storeData.addDealsBlock($container, $block);

@@ -22,8 +22,8 @@
     });
   }
 
-  function showPageAction(deals) {
-    chrome.runtime.sendMessage({ methodName: "showPageAction", deals: deals });
+  function showPageAction(deals, important) {
+    chrome.runtime.sendMessage({ methodName: "showPageAction", deals: deals, important: important });
   }
 
   window.GameDeals = window.GameDeals || {};

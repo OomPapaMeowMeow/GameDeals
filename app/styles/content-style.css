@@ -5,6 +5,12 @@
     margin-left: 6px;
     display: inline-block;
 }
+.gs-popup-link {
+    color: black;
+}
+.gs-popup-line {
+    white-space: nowrap;
+}
 .gs-steam-icon {
     margin-top: 2px;
     margin-left: 5px;
@@ -44,7 +50,4 @@
 .gs-wgs-icon {
     margin-left: -2px;
     margin-right: 5px;
-}
-.gs-popup-link {
-    color: black;
 }
