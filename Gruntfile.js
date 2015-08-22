@@ -130,35 +130,6 @@ module.exports = function (grunt) {
       }
     },
 
-     // Compiles Sass to CSS and generates necessary files if requested
-    compass: {
-      options: {
-        sassDir: '<%= config.app %>/styles',
-        cssDir: '<%= config.dist %>/styles',
-        generatedImagesDir: '<%= config.dist %>/images/generated',
-        imagesDir: '<%= config.app %>/images',
-        javascriptsDir: '<%= config.app %>/scripts',
-        fontsDir: '<%= config.app %>/styles/fonts',
-        importPath: '<%= config.app %>/bower_components',
-        httpImagesPath: '/images',
-        httpGeneratedImagesPath: '/images/generated',
-        httpFontsPath: '/styles/fonts',
-        relativeAssets: false,
-        assetCacheBuster: false
-      },
-      chrome: {
-        options: {
-          cssDir: '<%= config.app %>/styles',
-          generatedImagesDir: '<%= config.app %>/images/generated',
-          debugInfo: true
-        }
-      },
-      dist: {
-      },
-      test: {
-      }
-    },
-
     // Automatically inject Bower components into the HTML file
     bowerInstall: {
       app: {
@@ -206,63 +177,6 @@ module.exports = function (grunt) {
       }
     },
 
-    svgmin: {
-      dist: {
-        files: [{
-          expand: true,
-          cwd: '<%= config.app %>/images',
-          src: '{,*/}*.svg',
-          dest: '<%= config.dist %>/images'
-        }]
-      }
-    },
-
-    htmlmin: {
-      dist: {
-        options: {
-          // removeCommentsFromCDATA: true,
-          // collapseWhitespace: true,
-          // collapseBooleanAttributes: true,
-          // removeAttributeQuotes: true,
-          // removeRedundantAttributes: true,
-          // useShortDoctype: true,
-          // removeEmptyAttributes: true,
-          // removeOptionalTags: true
-        },
-        files: [{
-          expand: true,
-          cwd: '<%= config.app %>',
-          src: '*.html',
-          dest: '<%= config.dist %>'
-        }]
-      }
-    },
-
-    // By default, your `index.html`'s <!-- Usemin block --> will take care of
-    // minification. These next options are pre-configured if you do not wish
-    // to use the Usemin blocks.
-    // cssmin: {
-    //   dist: {
-    //     files: {
-    //       '<%= config.dist %>/styles/main.css': [
-    //         '<%= config.app %>/styles/{,*/}*.css'
-    //       ]
-    //     }
-    //   }
-    // },
-    // uglify: {
-    //   dist: {
-    //     files: {
-    //       '<%= config.dist %>/scripts/scripts.js': [
-    //         '<%= config.dist %>/scripts/scripts.js'
-    //       ]
-    //     }
-    //   }
-    // },
-    // concat: {
-    //   dist: {}
-    // },
-
     // Copies remaining files to places other tasks can use
     copy: {
       dist: {
@@ -272,12 +186,15 @@ module.exports = function (grunt) {
           cwd: '<%= config.app %>',
           dest: '<%= config.dist %>',
           src: [
+            'manifest.json',
+            '**/*.js',
+            '!scripts/chromereload.js',
             '*.{ico,png,txt}',
             'images/{,*/}*.{webp,gif}',
             '{,*/}*.html',
             'styles/{,*/}*.css',
             'styles/fonts/{,*/}*.*',
-            '_locales/{,*/}*.json',
+            '_locales/{,*/}*.json'
           ]
         }]
       }
@@ -289,31 +206,11 @@ module.exports = function (grunt) {
         //'compass:chrome',
       ],
       dist: [
-        //'compass:dist',
-        'imagemin',
-        'svgmin'
+        'imagemin'
       ],
       test: [
         //'compass:test',
       ]
-    },
-
-    // Auto buildnumber, exclude debug files. smart builds that event pages
-    chromeManifest: {
-      dist: {
-        options: {
-          buildnumber: false,
-          indentSize: 2,
-          background: {
-            target: 'scripts/background.js',
-            exclude: [
-              'scripts/chromereload.js'
-            ]
-          }
-        },
-        src: '<%= config.app %>',
-        dest: '<%= config.dist %>'
-      }
     },
 
     // Compress dist files to package
@@ -332,6 +229,9 @@ module.exports = function (grunt) {
           dest: ''
         }]
       }
+    },
+    strip_code: {
+      src: 'dist/*.js'
     }
   });
 
@@ -351,12 +251,8 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'clean:dist',
-    'chromeManifest:dist',
     'useminPrepare',
     'concurrent:dist',
-    'cssmin',
-    'concat',
-    'uglify',
     'copy',
     'usemin',
     'compress'

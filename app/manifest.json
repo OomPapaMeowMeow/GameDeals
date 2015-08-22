@@ -1,6 +1,6 @@
 {
   "name": "Game Deals",
-  "version": "0.3.3",
+  "version": "0.4.0",
   "manifest_version": 2,
   "description": "Shows best deals when you shop for games, courtesy of isthereanydeal.com",
   "author": "Daniel Kamkha",
@@ -8,7 +8,6 @@
   "icons": {
     "48": "images/icon-48.png"
   },
-  "default_locale": "en",
   "permissions": [
     "storage"
   ],
@@ -59,22 +58,6 @@
         "scripts/content-scripts/script-main.js"
       ]
     },
-//    {
-//      "matches": [ "*://www.humblebundle.com/*" ],
-//      "exclude_matches": [ "*://www.humblebundle.com/store*" ],
-//      "css": [
-//        "styles/font-awesome.css",
-//        "styles/content-style.css"
-//      ],
-//      "js": [
-//        "bower_components/jquery/dist/jquery.min.js",
-//        "scripts/data-consts.js",
-//        "scripts/content-scripts/data-tools.js",
-//        "scripts/content-scripts/data-stores.js",
-//        "scripts/content-scripts/data-comm-chrome.js",
-//        "scripts/content-scripts/script-humble-bundle.js"
-//      ]
-//    },
     {
       "matches": [ "*://*/*" ],
       "include_globs": [ "*://www.gamesrocket.*" ],
