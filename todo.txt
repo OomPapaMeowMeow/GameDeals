@@ -1,0 +1,17 @@
+Features:
+- price data on wishlists
+- ownership data
+- wishlist data
+
+Improvements:
+- handle currencies
+
+Minor tweaks:
+- for multiple best deals, 'float up' the current store to the top of the list, or display static text for single-deal cases
+- Origin PC: discounted price parse
+- Humble: better processing for game names in bundles: remove "bundle", "(early access)"
+
+Shops:
+- Bundle Stars
+- unsupported by ITAD: Windows Store PC
+- mobile: Apple AppStore, Google Play, Windows Store Mobile

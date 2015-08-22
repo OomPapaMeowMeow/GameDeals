@@ -30,6 +30,7 @@
 
   window.GameDeals = window.GameDeals || {};
   window.GameDeals.Consts = {
+    getBestDealsString: function(count) { return count === 1 ? "Best deal" : "Best deals"; },
     getStoreTitleById: getStoreTitleById,
     getStoreIconByTitle: getStoreIconByTitle
   };

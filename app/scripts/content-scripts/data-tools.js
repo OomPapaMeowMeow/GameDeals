@@ -57,7 +57,6 @@
 
   window.GameDeals = window.GameDeals || {};
   window.GameDeals.Tools = {
-    getBestDealsString: function(count) { return count === 1 ? "Best deal" : "Best deals"; },
     waitForElementObserver: waitForElementObserver,
     trimStartByList: trimStartByList,
     trimEndByList: trimEndByList,

@@ -3,9 +3,6 @@
 //     (c) 2015 Daniel Kamkha
 //     Game Deals is free software distributed under the terms of the MIT license.
 
-// TODO: show current price in popup
-// TODO: Origin PC discounted price parse
-
 (function() {
   "use strict";
 
@@ -54,10 +51,10 @@
 
   function showPageAction(message, sender) {
     let tabId = sender.tab.id;
-    dealsPerTab[tabId] = message.deals;
+    dealsPerTab[tabId] = { price: message.price, deals: message.deals };
     chrome.pageAction.show(tabId);
     if (message.important) {
-      chrome.pageAction.setIcon({tabId: tabId, path: cartImportant });
+      chrome.pageAction.setIcon({ tabId: tabId, path: cartImportant });
     }
   }
 

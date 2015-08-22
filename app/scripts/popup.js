@@ -6,17 +6,17 @@
 (function() {
   "use strict";
 
-  function createLink(dealData, iconClass) {
-    let $icon = $("<i class='fa gs-icon'></i>").addClass(iconClass);
-    let $link = $("<a class='gs-popup-link'></a>").attr("href", dealData.url).append($icon, dealData.storeTitle);
+  function createLink(dealData) {
+    let $link = $("<a class='gs-popup-link'></a>").attr("href", dealData.url).append(dealData.storeTitle);
     let $priceDiv = $("<div class='gs-price'></div>").text(dealData.price);
     return $("<div class='gs-popup-line'></div>").append($link, $priceDiv);
   }
 
-  function showDeals(deals) {
+  function showDeals(dealsAndPrice) {
+    $("#price").text(dealsAndPrice.price);
     let $block = $("#deals").empty();
-    let links = deals.map(function(dealData) {
-      return createLink(dealData, GameDeals.Consts.getStoreIconByTitle(dealData.storeTitle));
+    let links = dealsAndPrice.deals.map(function(dealData) {
+      return createLink(dealData);
     });
     $block.append(links);
   }
