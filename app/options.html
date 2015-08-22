@@ -1,25 +1,22 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-  <head>
-    <!-- build:css styles/vendor.css -->
-    <!-- bower:css -->
-    <!-- endbower -->
-    <!-- endbuild -->
-    <!-- build:css styles/main.css -->
-    <link href="styles/main.css" rel="stylesheet">
-    <!-- endbuild -->
-  </head>
-  <body>
-    <h1>'Allo, 'Allo!</h1>
+<head>
+  <title>My Test Extension Options</title>
+  <style>
 
-    <!-- build:js scripts/vendor.js -->
-    <!-- bower:js -->
-    <script src="bower_components/jquery/dist/jquery.js"></script>
-    <!-- endbower -->
-    <!-- endbuild -->
+  </style>
+</head>
 
-    <!-- build:js scripts/options.js -->
-    <script src="scripts/options.js"></script>
-    <!-- endbuild -->
-  </body>
+<body>
+  <label>
+    <input type="checkbox" id="page-action">
+    Show "Best deals" icon in the address bar
+  </label>
+  <br>
+  <br>
+  <button id="close">Close</button>
+
+  <script src="bower_components/jquery/dist/jquery.js"></script>
+  <script src="scripts/options.js"></script>
+</body>
 </html>

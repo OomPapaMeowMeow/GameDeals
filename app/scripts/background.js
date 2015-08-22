@@ -58,6 +58,17 @@
     }
   }
 
+  function showPageActionIfOption(message, sender) {
+    chrome.storage.sync.get(
+      { usePageAction: true },
+      function(items) {
+        if (items.usePageAction) {
+          showPageAction(message, sender);
+        }
+      }
+    );
+  }
+
   function getDealsForTab(message, sendResponse) {
     sendResponse(dealsPerTab[message.tabId]);
   }
@@ -68,7 +79,7 @@
         makeBackgroundRequest(message, sendResponse);
         return true;
       case "showPageAction":
-        showPageAction(message, sender);
+        showPageActionIfOption(message, sender);
         break;
       case "getDealsForTab":
         getDealsForTab(message, sendResponse);

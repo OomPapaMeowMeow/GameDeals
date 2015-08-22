@@ -1,10 +1,12 @@
 Features:
+- store links in bundles
 - price data on wishlists
 - ownership data
 - wishlist data
 
 Improvements:
 - handle currencies
+- i10n
 
 Minor tweaks:
 - for multiple best deals, 'float up' the current store to the top of the list, or display static text for single-deal cases
