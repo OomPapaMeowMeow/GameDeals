@@ -3,6 +3,9 @@
 //     (c) 2015 Daniel Kamkha
 //     Game Deals is free software distributed under the terms of the MIT license.
 
+// TODO: show current price in popup
+// TODO: Origin PC discounted price parse
+
 (function() {
   "use strict";
 

@@ -79,6 +79,10 @@
   }
 
   function parseCurrency(str) {
+    if (!str) {
+      return null;
+    }
+
     let currencySymbol = currencySymbolFromString(str);
     let currencyType = currencySymbolToType[currencySymbol] || "USD";
     let info = currencyFormatInfo[currencyType];

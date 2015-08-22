@@ -26,6 +26,14 @@
 
         return $("<div class='game_area_details_specs'></div>").append($iconDiv, $textLink);
       },
+      getPrice: function() {
+        let $priceArea = $("#game_area_purchase");
+        let $priceDiv = $priceArea.find("div.discount_final_price");
+        if ($priceDiv.length === 0) {
+          $priceDiv = $priceArea.find("div.game_purchase_price");
+        }
+        return $priceDiv.first().text();
+      },
       addDealsBlock: function($container, $block) {
         $container.prepend($block);
       },
@@ -52,6 +60,9 @@
         }
         return $dd;
       },
+      getPrice: function() {
+        return $("span.price").first().text();
+      },
       getDealsContainer($topContainer) {
         return $topContainer.find("dl.product-links");
       },
@@ -76,6 +87,13 @@
         let $link = $("<a></a>").attr("href", dealData.url).append($icon, $block, dealData.storeTitle);
         let $priceDiv = $("<div class='gs-price'></div>").text(dealData.price);
         return $("<p class='gs-marker'></p>").append($link, $priceDiv).addClass("gs-gog-line");
+      },
+      getPrice: function() {
+        let $priceDiv = $("span.buy-price__new");
+        if ($priceDiv.length === 0) {
+          $priceDiv = $("span.buy-price");
+        }
+        return $priceDiv.first().text();
       },
       getDealsContainer($topContainer) {
         return $topContainer.find("div.buy-footer-info");
@@ -102,6 +120,9 @@
         let $priceDiv = $("<div class='gs-price'></div>").text(dealData.price);
         return $("<div class='gs-origin-line'></div>").append($link, $priceDiv);
       },
+      getPrice: function() {
+        return $("p.actual-price").first().text();
+      },
       addDealsBlock: function($container, $block) {
         $container.append($block);
       },
@@ -123,6 +144,9 @@
         let $priceDiv = $("<div class='gs-price'></div>").text(dealData.price);
         let $linkText = $("<b></b>").append($icon, dealData.storeTitle, $priceDiv);
         return $("<a class='gs-marker'></a>").attr("href", dealData.url).append($linkText);
+      },
+      getPrice: function() {
+        return $("span.price").first().text();
       },
       addDealsBlock: function() { },
       addDealLinksToDealsBlock: function($block, dealLinks, $container) {

@@ -38,8 +38,8 @@
     });
   }
 
-  function getBestDeals(gamePlain, limit) {
-    assert(getBestDeals.name, gamePlain, limit);
+  function getBestDeals(gamePlain) {
+    assert(getBestDeals.name, gamePlain);
     return $.ajax({
       method: "GET",
       cache: true,
@@ -49,9 +49,6 @@
       if ($allDeals.length === 0) {
         assert(getBestDeals.name, gamePlain, successStr, "no rows");
         return null;
-      }
-      if (limit) {
-        $allDeals = $allDeals.slice(0, limit);
       }
 
       let $bestDeal = $allDeals.first();

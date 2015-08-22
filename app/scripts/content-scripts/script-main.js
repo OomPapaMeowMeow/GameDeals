@@ -27,8 +27,19 @@
     return storeId;
   }
 
-  function analyzePrice($topContainer, deals) {
-    GameDeals.Comm.showPageAction(deals, false);
+  function analyzePrice(storeData, $topContainer, deals) {
+    let priceData = GameDeals.Currency.parseCurrency(storeData.getPrice($topContainer));
+    if (!priceData) {
+      return;
+    }
+    let dealPriceData = GameDeals.Currency.parseCurrency(deals[0].price);
+    if (!dealPriceData) {
+      return;
+    }
+    // TODO: disregarding currency, just dumb compare the values
+    if (dealPriceData.value < priceData.value) {
+      GameDeals.Comm.showPageAction(deals, dealPriceData.value <= priceData.value/2);
+    }
   }
 
   function addDealLinks(storeId, storeData, $topContainer) {
@@ -38,14 +49,17 @@
     let $container = storeData.getDealsContainer ? storeData.getDealsContainer($topContainer) : $topContainer;
     GameDeals.Comm.getGamePlain(storeId, storeData.getGameId($topContainer), storeData.gameIdType)
       .then(function(gamePlain) {
-        return gamePlain ? GameDeals.Comm.getBestDeals(gamePlain, storeData.dealsLimit) : null;
+        return gamePlain ? GameDeals.Comm.getBestDeals(gamePlain) : null;
       })
       .then(function(deals) {
         if (!deals) {
           return;
         }
 
-        analyzePrice($topContainer, deals);
+        analyzePrice(storeData, $topContainer, deals);
+        if (storeData.dealsLimit) {
+          deals = deals.slice(0, storeData.dealsLimit);
+        }
 
         let $block = storeData.createBlock(GameDeals.Tools.getBestDealsString(deals.length));
         storeData.addDealsBlock($container, $block);
