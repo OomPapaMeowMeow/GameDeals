@@ -38,7 +38,7 @@
     });
   }
 
-  function getBestDeals(gamePlain, limit) {
+  function getBestDeals(gamePlain) {
     assert(getBestDeals.name, gamePlain);
     return $.ajax({
       method: "GET",

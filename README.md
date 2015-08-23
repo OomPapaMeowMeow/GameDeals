@@ -2,7 +2,7 @@
 Shows best deals when you shop for games, courtesy of isthereanydeal.com.
 
 ## Usage
-No published to Chrome Web Store yet.
+Available in Chrome Web Store at https://chrome.google.com/webstore/detail/game-deals/phonaddfpjbifpkoefojoohagmbegjob
 
 ## License
 All source code in this project are licensed under the MIT license.

@@ -21,7 +21,6 @@
   "jquery": true,
   "globals" : {
     "chrome": true,
-    "crypto": true,
     "GameDeals": true,
     "self": true,
     "Promise": true
