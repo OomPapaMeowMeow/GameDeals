@@ -1,0 +1,15 @@
+{
+  "name": "game-deals",
+  "title": "Game Deals",
+  "description": "Shows best deals when you shop for games, courtesy of isthereanydeal.com",
+  "author": "Daniel Kamkha",
+  "license": "MIT",
+  "version": "0.3.3",
+  "homepage": "https://github.com/DanielKamkha/GameDealsFirefox",
+  "permissions": {
+    "cross-domain-content": [
+      "http://api.isthereanydeal.com/",
+      "http://isthereanydeal.com"
+    ]
+  }
+}

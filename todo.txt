@@ -1,3 +1,9 @@
+Maintenance:
+- create debug-ff and build-ff Grunt tasks
+- make *-ff tasks to reuse files from Chrome build as much as possible
+- rename repo
+- kill dedicated ff repo
+
 Features:
 - store links in bundles
 - price data on wishlists

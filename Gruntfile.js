@@ -20,7 +20,9 @@ module.exports = function (grunt) {
   // Configurable paths
   var config = {
     app: 'app',
-    dist: 'dist'
+    dist: 'dist',
+    appff: 'app-ff',
+    distff: 'dist-ff'
   };
 
   grunt.initConfig({
@@ -107,6 +109,15 @@ module.exports = function (grunt) {
             '!<%= config.dist %>/.git*'
           ]
         }]
+      },
+      distff: {
+        files: [{
+          dot: true,
+          src: [
+            '<%= config.distff %>/*',
+            '!<%= config.distff %>/.git*'
+          ]
+        }]
       }
     },
 
@@ -190,6 +201,9 @@ module.exports = function (grunt) {
           src: [
             'manifest.json',
             '**/*.js',
+            '!bower_components/**',
+            'bower_components/jquery/dist/jquery.min.js',
+            'bower_components/jquery-ajax-retry/dist/jquery.ajax-retry.js',
             '!scripts/chromereload.js',
             '*.{ico,png,txt}',
             'images/{,*/}*.{webp,gif}',
@@ -199,6 +213,30 @@ module.exports = function (grunt) {
             '_locales/{,*/}*.json'
           ]
         }]
+      },
+      distff: {
+        files: [{
+          expand: true,
+          dot: true,
+          cwd: '<%= config.appff %>',
+          dest: '<%= config.distff %>',
+          src: [
+            'package.json',
+            '{,*/}*.js',
+            '{,*/}*.css'
+          ]
+        },
+        {
+          expand: true,
+          flatten: true,
+          cwd: '<%= config.app %>',
+          dest: '<%= config.distff %>/data',
+          src: [
+            'bower_components/jquery/dist/jquery.min.js',
+            'bower_components/jquery-ajax-retry/dist/jquery.ajax-retry.js'
+          ]
+        }
+        ]
       }
     },
 
@@ -259,7 +297,7 @@ module.exports = function (grunt) {
     'clean:dist',
     'useminPrepare',
     'concurrent:dist',
-    'copy',
+    'copy:dist',
     'checkfiles:dist',
     'usemin',
     'compress'
@@ -269,5 +307,10 @@ module.exports = function (grunt) {
     'jshint',
     'test',
     'build'
+  ]);
+
+  grunt.registerTask('debugff', [
+    'clean:distff',
+    'copy:distff'
   ]);
 };
