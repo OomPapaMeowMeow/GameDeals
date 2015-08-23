@@ -17,9 +17,6 @@ Shops:
 - unsupported by ITAD: Windows Store PC
 - mobile: Apple AppStore, Google Play, Windows Store Mobile
 
-Maintenance:
-- automate dev code stripping
-
 Promotion:
 - more screenshots
 - promo images

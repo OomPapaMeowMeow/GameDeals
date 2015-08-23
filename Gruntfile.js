@@ -21,6 +21,63 @@ module.exports = function (grunt) {
     dist: 'dist'
   };
 
+  grunt.registerMultiTask('checkfiles', 'Check files mentioned in json for existence.', function() {
+    var pattern = this.data.pattern;
+    if (!pattern || !(pattern instanceof RegExp)) {
+      grunt.log.writeln('No pattern');
+      return;
+    }
+    var src = this.data.src;
+    if (!src || !grunt.file.exists(src)) {
+      grunt.log.writeln('Source not found');
+      return;
+    }
+    grunt.log.writeln('Src: ' + src);
+    var srcDir = src.split('/').slice(0, -1).join('/');
+    grunt.file.setBase();
+    var dst = this.data.dst || src;
+    grunt.log.writeln('Dst: ' + dst);
+
+    function checkFilesInArray(array) {
+      return array.reduce(function(result, val) {
+        if (typeof val === 'string') {
+          if (pattern.test(val) && !grunt.file.exists(srcDir, val)) {
+            grunt.log.writeln('Deleting reference to ' + val);
+            return result;
+          }
+        } else if (Array.isArray(val)) {
+          val = checkFilesInArray(val);
+        } else if (typeof val === 'object') {
+          val = checkFilesInData(val);
+        }
+        result.push(val);
+        return result;
+      }, []);
+    }
+
+    function checkFilesInData(data) {
+      for (var key in data) {
+        if (data.hasOwnProperty(key)) {
+          var val = data[key];
+          if (typeof val === 'string') {
+            if (pattern.test(val) && !grunt.file.exists(srcDir, val)) {
+              grunt.log.writeln('Deleting reference to ' + val);
+              delete data[key];
+            }
+          } else if (Array.isArray(val)) {
+            data[key] = checkFilesInArray(val);
+          } else if (typeof val === 'object') {
+            data[key] = checkFilesInData(val);
+          }
+        }
+      }
+      return data;
+    }
+
+    var srcData = checkFilesInData(grunt.file.readJSON(src));
+    grunt.file.write(dst, JSON.stringify(srcData, null, 2));
+  });
+
   grunt.initConfig({
 
     // Project settings
@@ -229,6 +286,13 @@ module.exports = function (grunt) {
           dest: ''
         }]
       }
+    },
+
+    checkfiles: {
+      dist: {
+        pattern: /.*\.js/,
+        src: '<%= config.dist %>/manifest.json'
+      }
     }
   });
 
@@ -251,6 +315,7 @@ module.exports = function (grunt) {
     'useminPrepare',
     'concurrent:dist',
     'copy',
+    'checkfiles:dist',
     'usemin',
     'compress'
   ]);
