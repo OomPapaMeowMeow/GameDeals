@@ -306,4 +306,10 @@ module.exports = function (grunt) {
     'copy:distff',
     'jpm:run'
   ]);
+
+  grunt.registerTask('buildff', [
+    'clean:distff',
+    'copy:distff',
+    'jpm:xpi'
+  ]);
 };
