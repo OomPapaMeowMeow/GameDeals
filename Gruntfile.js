@@ -201,7 +201,6 @@ module.exports = function (grunt) {
           cwd: '<%= config.appff %>',
           dest: '<%= config.distff %>',
           src: [
-            'package.json',
             '{,*/}*.js',
             '{,*/}*.css'
           ]
@@ -266,6 +265,14 @@ module.exports = function (grunt) {
         pattern: /.*\.js/,
         src: '<%= config.dist %>/manifest.json'
       }
+    },
+
+    chromeManifestToFf: {
+      distff: {
+        license: 'MIT',
+        src: '<%= config.app %>',
+        dst: '<%= config.distff %>'
+      }
     }
   });
 
@@ -304,12 +311,14 @@ module.exports = function (grunt) {
   grunt.registerTask('debugff', [
     'clean:distff',
     'copy:distff',
+    'chromeManifestToFf:distff',
     'jpm:run'
   ]);
 
   grunt.registerTask('buildff', [
     'clean:distff',
     'copy:distff',
+    'chromeManifestToFf:distff',
     'jpm:xpi'
   ]);
 };

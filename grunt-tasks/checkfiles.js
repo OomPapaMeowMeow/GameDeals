@@ -9,17 +9,16 @@ module.exports = function (grunt) {
   grunt.registerMultiTask("checkfiles", "Check files mentioned in a .json for existence.", function() {
     var pattern = this.data.pattern;
     if (!pattern || !(pattern instanceof RegExp)) {
-      grunt.log.writeln("No pattern");
+      grunt.log.error("No pattern");
       return;
     }
     var src = this.data.src;
     if (!src || !grunt.file.exists(src)) {
-      grunt.log.writeln("Source not found");
+      grunt.log.error("Source not found");
       return;
     }
     grunt.log.writeln("Src: " + src);
     var srcDir = src.split("/").slice(0, -1).join("/");
-    grunt.file.setBase();
     var dst = this.data.dst || src;
     grunt.log.writeln("Dst: " + dst);
 
