@@ -211,11 +211,15 @@ module.exports = function (grunt) {
           dot: true,
           cwd: '<%= config.app %>/scripts/lib',
           dest: '<%= config.distff %>/data',
-          src: [
-            '*.js'
-          ]
-        }
-        ]
+          src: ['*.js']
+        },
+        {
+          expand: true,
+          dot: true,
+          cwd: '<%= config.app %>/images',
+          dest: '<%= config.distff %>',
+          src: ['icon.png']
+        }]
       }
     },
 
@@ -250,6 +254,13 @@ module.exports = function (grunt) {
       }
     },
 
+    jpm: {
+      options: {
+        src: '<%= config.distff %>',
+        xpi: 'package/'
+      }
+    },
+
     checkfiles: {
       dist: {
         pattern: /.*\.js/,
@@ -257,6 +268,8 @@ module.exports = function (grunt) {
       }
     }
   });
+
+  grunt.option('firefox-profile', '../../_profile');
 
   grunt.registerTask('debug', function () {
     grunt.task.run([
@@ -290,6 +303,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('debugff', [
     'clean:distff',
-    'copy:distff'
+    'copy:distff',
+    'jpm:run'
   ]);
 };

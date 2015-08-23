@@ -4,7 +4,7 @@
   "description": "Shows best deals when you shop for games, courtesy of isthereanydeal.com",
   "author": "Daniel Kamkha",
   "license": "MIT",
-  "version": "0.3.3",
+  "version": "0.4.6",
   "homepage": "https://github.com/DanielKamkha/GameDealsFirefox",
   "permissions": {
     "cross-domain-content": [
