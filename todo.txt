@@ -1,9 +1,3 @@
-Maintenance:
-- create debug-ff and build-ff Grunt tasks
-- make *-ff tasks to reuse files from Chrome build as much as possible
-- rename repo
-- kill dedicated ff repo
-
 Features:
 - store links in bundles
 - price data on wishlists
@@ -22,6 +16,13 @@ Shops:
 - Bundle Stars
 - unsupported by ITAD: Windows Store PC
 - mobile: Apple AppStore, Google Play, Windows Store Mobile
+
+Maintenance:
+- create debug-ff and build-ff Grunt tasks
+- make *-ff tasks to reuse files from Chrome build as much as possible
+- rename repo
+- kill dedicated ff repo
+- add tests
 
 Promotion:
 - more screenshots

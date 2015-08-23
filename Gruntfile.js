@@ -32,10 +32,6 @@ module.exports = function (grunt) {
 
     // Watches files for changes and runs tasks based on the changed files
     watch: {
-      bower: {
-        files: ['bower.json'],
-        tasks: ['bowerInstall']
-      },
       js: {
         files: ['<%= config.app %>/scripts/{,*/}*.js'],
         tasks: ['jshint'],
@@ -143,19 +139,6 @@ module.exports = function (grunt) {
       }
     },
 
-    // Automatically inject Bower components into the HTML file
-    bowerInstall: {
-      app: {
-        src: [
-          '<%= config.app %>/*.html'
-        ]
-      },
-      sass: {
-        src: ['<%= config.app %>/styles/{,*/}*.{scss,sass}'],
-        ignorePath: '<%= config.app %>/bower_components/'
-      }
-    },
-
     // Reads HTML for usemin blocks to enable smart builds that automatically
     // concat, minify and revision files. Creates configurations in memory so
     // additional tasks can operate on them
@@ -201,9 +184,6 @@ module.exports = function (grunt) {
           src: [
             'manifest.json',
             '**/*.js',
-            '!bower_components/**',
-            'bower_components/jquery/dist/jquery.min.js',
-            'bower_components/jquery-ajax-retry/dist/jquery.ajax-retry.js',
             '!scripts/chromereload.js',
             '*.{ico,png,txt}',
             'images/{,*/}*.{webp,gif}',
@@ -228,12 +208,11 @@ module.exports = function (grunt) {
         },
         {
           expand: true,
-          flatten: true,
-          cwd: '<%= config.app %>',
+          dot: true,
+          cwd: '<%= config.app %>/scripts/lib',
           dest: '<%= config.distff %>/data',
           src: [
-            'bower_components/jquery/dist/jquery.min.js',
-            'bower_components/jquery-ajax-retry/dist/jquery.ajax-retry.js'
+            '*.js'
           ]
         }
         ]

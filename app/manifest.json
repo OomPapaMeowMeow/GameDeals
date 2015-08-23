@@ -1,6 +1,6 @@
 {
   "name": "Game Deals",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "manifest_version": 2,
   "description": "Shows best deals when you shop for games, courtesy of isthereanydeal.com",
   "author": "Daniel Kamkha",
@@ -16,8 +16,8 @@
   ],
   "background": {
     "scripts": [
-      "bower_components/jquery/dist/jquery.min.js",
-      "bower_components/jquery-ajax-retry/dist/jquery.ajax-retry.js",
+      "scripts/lib/jquery.min.js",
+      "scripts/lib/jquery.ajax-retry.js",
       "scripts/chromereload.js",
       "scripts/data-consts.js",
       "scripts/data-itad.js",
@@ -51,8 +51,8 @@
         "styles/content-style.css"
       ],
       "js": [
-        "bower_components/jquery/dist/jquery.min.js",
-        "bower_components/jquery-ajax-retry/dist/jquery.ajax-retry.js",
+        "scripts/lib/jquery.min.js",
+        "scripts/lib/jquery.ajax-retry.js",
         "scripts/data-consts.js",
         "scripts/content-scripts/data-tools.js",
         "scripts/content-scripts/data-currency.js",
