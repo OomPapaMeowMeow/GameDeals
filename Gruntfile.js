@@ -229,9 +229,6 @@ module.exports = function (grunt) {
           dest: ''
         }]
       }
-    },
-    strip_code: {
-      src: 'dist/*.js'
     }
   });
 
