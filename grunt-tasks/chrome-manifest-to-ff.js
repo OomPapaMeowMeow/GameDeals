@@ -3,8 +3,6 @@
 //     (c) 2015 Daniel Kamkha
 //     Game Deals is free software distributed under the terms of the MIT license.
 
-var path = require("path");
-
 module.exports = function (grunt) {
   "use strict";
 
@@ -12,15 +10,13 @@ module.exports = function (grunt) {
     "chromeManifestToFf",
     "Create package.json for Firefox extension based on manifest.json from Chrome extension.",
     function() {
-      var srcDir = this.data.src;
-      var src = path.join(srcDir, "manifest.json");
-      if (!srcDir || !grunt.file.exists(src)) {
+      var src = this.data.src;
+      if (!src || !grunt.file.exists(src)) {
         grunt.log.error("Source not found");
         return;
       }
       grunt.log.writeln("Src: " + src);
-      var dstDir = this.data.dst || srcDir;
-      var dst = path.join(dstDir, "package.json");
+      var dst = this.data.dst;
       grunt.log.writeln("Dst: " + dst);
       var license = this.data.license;
 

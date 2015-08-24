@@ -207,10 +207,13 @@ module.exports = function (grunt) {
         },
         {
           expand: true,
-          dot: true,
-          cwd: '<%= config.app %>/scripts/lib',
+          flatten: true,
+          cwd: '<%= config.app %>',
           dest: '<%= config.distff %>/data',
-          src: ['*.js']
+          src: [
+            'scripts/lib/*.js',
+            'styles/*.css'
+          ]
         },
         {
           expand: true,
@@ -270,8 +273,8 @@ module.exports = function (grunt) {
     chromeManifestToFf: {
       distff: {
         license: 'MIT',
-        src: '<%= config.app %>',
-        dst: '<%= config.distff %>'
+        src: '<%= config.app %>/manifest.json',
+        dst: '<%= config.distff %>/package.json'
       }
     }
   });
