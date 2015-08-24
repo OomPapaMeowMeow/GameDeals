@@ -85,8 +85,8 @@
       observer = GameDeals.Tools.waitForElementObserver(storeData.containerSelector, addDealLinks.bind(null, storeId, storeData));
     }
 
-    if (!chrome) { // Firefox-specific cleanup
-      self.port.on("detach", function (reason) {
+    if (self.port) { // Firefox-specific cleanup
+      self.port.on("detach", function(reason) {
         if (observer) {
           observer.disconnect();
           observer = null;

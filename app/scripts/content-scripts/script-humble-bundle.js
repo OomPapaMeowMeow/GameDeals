@@ -34,8 +34,8 @@
   function doAttach() {
     $("div.game-description").each(addBundleSteamLink);
 
-    if (!chrome) { // Firefox-specific cleanup
-      self.port.on("detach", function (reason) {
+    if (self.port) { // Firefox-specific cleanup
+      self.port.on("detach", function(reason) {
         if (reason) {
           $(".gs-marker").remove();
         }

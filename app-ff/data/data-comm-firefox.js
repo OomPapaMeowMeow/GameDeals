@@ -25,9 +25,11 @@
   }
 
   window.GameDeals = window.GameDeals || {};
-  window.GameDeals.Cache = {
+  window.GameDeals.Comm = {
     getGamePlain: makeCachedRequest.bind(null, GameDeals.Itad.getGamePlain, "plain"),
-    getStoreLink: makeCachedRequest.bind(null, GameDeals.Itad.getStoreLink, "store-link")
+    getStoreLink: makeCachedRequest.bind(null, GameDeals.Itad.getStoreLink, "store-link"),
+    getBestDeals: GameDeals.Itad.getBestDeals,
+    showPageAction: function() { } // stub
   };
 })();
 

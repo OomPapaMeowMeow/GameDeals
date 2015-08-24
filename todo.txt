@@ -1,10 +1,10 @@
 Features:
-- store links in bundles
 - price data on wishlists
 - ownership data
 - wishlist data
 
 Improvements:
+- re-implement store link retrieval for Humble Bundle bundles
 - handle currencies
 
 Minor tweaks:
@@ -18,12 +18,14 @@ Shops:
 - mobile: Apple AppStore, Google Play, Windows Store Mobile
 
 Maintenance:
-- make *-ff tasks to reuse files from Chrome build as much as possible
-- rename repo
-- kill dedicated ff repo
+- move Itad out of page scope for FF
+- 'page action' for FF
+- rename repo, update links
+- publish updated package for FF
+- kill dedicated FF repo
 - add tests
 
 Promotion:
-- more screenshots
-- promo images
+- more screenshots for Chrome
+- promo images for Chrome
 - i10n

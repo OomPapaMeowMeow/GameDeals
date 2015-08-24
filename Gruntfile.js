@@ -212,6 +212,9 @@ module.exports = function (grunt) {
           dest: '<%= config.distff %>/data',
           src: [
             'scripts/lib/*.js',
+            'scripts/content-scripts/*.js',
+            '!scripts/content-scripts/*-chrome.js',
+            'scripts/data-*.js',
             'styles/*.css'
           ]
         },
