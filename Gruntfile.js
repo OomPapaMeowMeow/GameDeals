@@ -213,8 +213,8 @@ module.exports = function (grunt) {
           src: [
             'scripts/lib/*.js',
             'scripts/content-scripts/*.js',
-            '!scripts/content-scripts/*-chrome.js',
             'scripts/data-*.js',
+            '!**/*-chrome.js',
             'styles/*.css'
           ]
         },

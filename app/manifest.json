@@ -2,7 +2,7 @@
   "name": "Game Deals",
   "version": "0.4.6",
   "manifest_version": 2,
-  "description": "Shows best deals when you shop for games, courtesy of isthereanydeal.com",
+  "description": "Shows best deals when you shop for games",
   "author": "Daniel Kamkha",
   "homepage_url": "https://github.com/DanielKamkha/GameDealsChrome",
   "icons": {
@@ -20,6 +20,7 @@
       "scripts/lib/jquery.ajax-retry.js",
       "scripts/chromereload.js",
       "scripts/data-consts.js",
+      "scripts/data-xhr-chrome.js",
       "scripts/data-itad.js",
       "scripts/background.js"
     ]

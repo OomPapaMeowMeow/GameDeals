@@ -53,6 +53,7 @@
       "./data-tools.js",
       "./data-currency.js",
       "./data-stores.js",
+      "./data-xhr-firefox.js",
       "./data-itad.js",
       "./data-comm-firefox.js",
       "./script-main.js"
