@@ -22,7 +22,7 @@
   }
 
   chrome.tabs.query({ active: true, currentWindow: true }, function callback(tabs) {
-    chrome.runtime.sendMessage({ methodName: "getDealsForTab", tabId: tabs[0].id }, showDeals);
+    chrome.runtime.sendMessage({ messageName: "getDealsForTab", tabId: tabs[0].id }, showDeals);
   });
 
   $("body").on("click", "a", function() {

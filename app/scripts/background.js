@@ -6,6 +6,10 @@
 (function() {
   "use strict";
 
+  if (typeof require !== "undefined") { // Firefox
+    var storage = require("sdk/simple-storage").storage;
+  }
+
   const cartImportant =  {
     "19": "images/cart-gray-important-19.png",
     "38": "images/cart-gray-important-38.png"
@@ -13,22 +17,38 @@
 
   let dealsPerTab = {};
 
-  function makeCachedRequest(requestFunc, tableTame, id1, id2) {
+  function getTableFromStorage(tableName, callback) {
+    if (chrome) { // Chrome
+      chrome.storage.local.get(tableName, callback);
+    } else { // Firefox
+      callback(storage);
+    }
+  }
+
+  function setTableToStorage(tableName, data) {
+    if (chrome) { // Chrome
+      chrome.storage.local.set(data);
+    } else { // Firefox
+      storage[tableName] = data[tableName];
+    }
+  }
+
+  function makeCachedRequest(requestFunc, tableName, id1, id2) {
     let varArgs = Array.prototype.slice.call(arguments, 2);
     return new Promise(function (resolve, reject) {
-      chrome.storage.local.get(tableTame, function(table) {
-        table = table || {};
+      getTableFromStorage(tableName, function(storage) {
+        let table = storage[tableName] || (storage[tableName] = {});
         let subTable = table[id1] || (table[id1] = {});
         let value = subTable[id2];
         if (value !== undefined) {
           resolve(value);
         } else {
-          requestFunc.apply(null, varArgs).then(function(value) {
+          requestFunc.apply(null, varArgs)
+            .then(function(value) {
               subTable[id2] = value;
-              chrome.storage.local.set({ tableTame: table });
+              setTableToStorage(tableName, storage);
               resolve(value);
-            },
-            reject);
+            }, reject);
         }
       });
     });
@@ -74,7 +94,7 @@
   }
 
   chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
-    switch(message.methodName) {
+    switch(message.messageName) {
       case "makeBackgroundRequest":
         makeBackgroundRequest(message, sendResponse);
         return true;

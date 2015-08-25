@@ -21,7 +21,6 @@ module.exports = function (grunt) {
   var config = {
     app: 'app',
     dist: 'dist',
-    appff: 'app-ff',
     distff: 'dist-ff'
   };
 
@@ -185,6 +184,7 @@ module.exports = function (grunt) {
             'manifest.json',
             '**/*.js',
             '!scripts/chromereload.js',
+            '!scripts/index.js',
             '*.{ico,png,txt}',
             'images/{,*/}*.{webp,gif}',
             '{,*/}*.html',
@@ -197,33 +197,24 @@ module.exports = function (grunt) {
       distff: {
         files: [{
           expand: true,
-          dot: true,
-          cwd: '<%= config.appff %>',
-          dest: '<%= config.distff %>',
-          src: [
-            '{,*/}*.js',
-            '{,*/}*.css'
-          ]
-        },
-        {
-          expand: true,
           flatten: true,
           cwd: '<%= config.app %>',
           dest: '<%= config.distff %>/data',
           src: [
             'scripts/lib/*.js',
             'scripts/content-scripts/*.js',
-            'scripts/data-*.js',
-            '!**/*-chrome.js',
             'styles/*.css'
           ]
         },
         {
           expand: true,
-          dot: true,
-          cwd: '<%= config.app %>/images',
+          flatten: true,
+          cwd: '<%= config.app %>',
           dest: '<%= config.distff %>',
-          src: ['icon.png']
+          src: [
+            'images/icon.png',
+            'scripts/index.js'
+          ]
         }]
       }
     },

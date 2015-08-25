@@ -1,21 +1,39 @@
-//     This file is part of Game Deals extension for Google Chrome
+//     This file is part of Game Deals extension for Chrome and Firefox
 //     https://github.com/DanielKamkha/GameDealsChrome
+//     https://github.com/DanielKamkha/GameDealsFirefox
 //     (c) 2015 Daniel Kamkha
 //     Game Deals is free software distributed under the terms of the MIT license.
 
 (function() {
   "use strict";
 
+  function sendMessage(messageName, data, callback) {
+    if (chrome) { // Chrome
+      data.messageName = messageName;
+      chrome.runtime.sendMessage(data, callback);
+    } else {
+      if (callback) {
+        self.port.once(messageName, callback);
+      }
+      self.port.emit(messageName, data);
+    }
+  }
+
   function makeBackgroundRequest(requestName, cache) {
     let varArgs = Array.prototype.slice.call(arguments, 2);
     return new Promise(function (resolve, reject) {
-      chrome.runtime.sendMessage(
-        { methodName: "makeBackgroundRequest", requestName: requestName, cache: cache, args: varArgs },
+      sendMessage(
+        "makeBackgroundRequest",
+        { requestName: requestName, cache: cache, args: varArgs },
         function(data) {
-          if (data.value) {
-            resolve(data.value);
+          if (data) {
+            if (data.value) {
+              resolve(data.value);
+            } else {
+              reject(data.response);
+            }
           } else {
-            reject(data.response);
+            reject({});
           }
         }
       );
@@ -23,7 +41,7 @@
   }
 
   function showPageAction(price, deals, important) {
-    chrome.runtime.sendMessage({ methodName: "showPageAction", price: price, deals: deals, important: important });
+    sendMessage("showPageAction", { price: price, deals: deals, important: important });
   }
 
   window.GameDeals = window.GameDeals || {};

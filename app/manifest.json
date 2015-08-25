@@ -19,8 +19,6 @@
       "scripts/lib/jquery.min.js",
       "scripts/lib/jquery.ajax-retry.js",
       "scripts/chromereload.js",
-      "scripts/data-consts.js",
-      "scripts/data-xhr-chrome.js",
       "scripts/data-itad.js",
       "scripts/background.js"
     ]
@@ -54,11 +52,11 @@
       "js": [
         "scripts/lib/jquery.min.js",
         "scripts/lib/jquery.ajax-retry.js",
-        "scripts/data-consts.js",
+        "scripts/content-scripts/data-consts.js",
         "scripts/content-scripts/data-tools.js",
         "scripts/content-scripts/data-currency.js",
         "scripts/content-scripts/data-stores.js",
-        "scripts/content-scripts/data-comm-chrome.js",
+        "scripts/content-scripts/data-comm.js",
         "scripts/content-scripts/script-main.js"
       ]
     }
