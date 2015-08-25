@@ -19,9 +19,6 @@ Shops:
 
 Maintenance:
 - 'page action' for FF
-- rename repo, update links
-- publish updated package for FF
-- kill dedicated FF repo
 - add tests
 
 Promotion:

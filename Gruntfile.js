@@ -207,7 +207,8 @@ module.exports = function (grunt) {
             'scripts/data-itad.js',
             'scripts/background.js',
             'styles/*.css',
-            'background.html'
+            'background.html',
+            '!scripts/content-scripts/script-humble-bundle.js'
           ]
         },
         {

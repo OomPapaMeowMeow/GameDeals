@@ -1,5 +1,5 @@
 //     This file is part of Game Deals extension for Google Chrome
-//     https://github.com/DanielKamkha/GameDealsChrome
+//     https://github.com/DanielKamkha/GameDeals
 //     (c) 2015 Daniel Kamkha
 //     Game Deals is free software distributed under the terms of the MIT license.
 

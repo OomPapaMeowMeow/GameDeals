@@ -4,7 +4,7 @@
   "manifest_version": 2,
   "description": "Shows best deals when you shop for games",
   "author": "Daniel Kamkha",
-  "homepage_url": "https://github.com/DanielKamkha/GameDealsChrome",
+  "homepage_url": "https://github.com/DanielKamkha/GameDeals",
   "icons": {
     "48": "images/icon.png",
     "128": "images/icon-128.png"
