@@ -93,18 +93,36 @@
     sendResponse(dealsPerTab[message.tabId]);
   }
 
-  chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
-    switch(message.messageName) {
-      case "makeBackgroundRequest":
-        makeBackgroundRequest(message, sendResponse);
-        return true;
-      case "showPageAction":
-        showPageActionIfOption(message, sender);
-        break;
-      case "getDealsForTab":
-        getDealsForTab(message, sendResponse);
-        break;
-    }
-  });
+  if (chrome) { // Chrome
+    chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+      switch (message.messageName) {
+        case "makeBackgroundRequest":
+          makeBackgroundRequest(message, sendResponse);
+          return true;
+        case "showPageAction":
+          showPageActionIfOption(message, sender);
+          break;
+        case "getDealsForTab":
+          getDealsForTab(message, sendResponse);
+          break;
+      }
+    });
+  } else { // Firefox
+    self.port.on("makeBackgroundRequest", function(message) {
+      makeBackgroundRequest(message, function(response) {
+        response.tabId = message.tabId;
+        self.port.emit("makeBackgroundRequest", response);
+      });
+    });
+    self.port.on("showPageAction", function() {
+      /* TODO: page action in Firefox */
+    });
+    self.port.on("getDealsForTab", function(message) {
+      getDealsForTab(message, function(response) {
+        response.tabId = message.tabId;
+        self.port.emit("getDealsForTab", response);
+      });
+    });
+  }
 })();
 
