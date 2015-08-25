@@ -188,6 +188,7 @@ module.exports = function (grunt) {
             '*.{ico,png,txt}',
             'images/{,*/}*.{webp,gif}',
             '{,*/}*.html',
+            '!background.html',
             'styles/{,*/}*.css',
             'styles/fonts/{,*/}*.*',
             '_locales/{,*/}*.json'
@@ -203,7 +204,8 @@ module.exports = function (grunt) {
           src: [
             'scripts/lib/*.js',
             'scripts/content-scripts/*.js',
-            'styles/*.css'
+            'styles/*.css',
+            'background.html'
           ]
         },
         {

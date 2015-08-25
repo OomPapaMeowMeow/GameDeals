@@ -7,13 +7,24 @@
   "use strict";
 
   const { PageMod } = require("sdk/page-mod");
-  //const PageWorker = require("sdk/page-worker").Page;
+  const PageWorker = require("sdk/page-worker").Page;
 
   //function startListening(worker) {
   //  worker.port.on("makeBackgroundRequest", makeBackgroundRequest.bind(null, "makeBackgroundRequest", worker));
   //  worker.port.on("showPageAction", showPageActionIfOption);
   //  worker.port.on("getDealsForTab", getDealsForTab.bind(null, "getDealsForTab", worker));
   //}
+
+  let pageWorker = PageWorker({
+    contentScriptFile: [
+      "./jquery.min.js",
+      "./jquery.ajax-retry.js",
+      "./data-consts.js",
+      "./data-itad.js",
+      "./background.js"
+    ],
+    contentURL: "./background.html"
+  });
 
   PageMod({
     include: [
