@@ -6,9 +6,7 @@
 (function() {
   "use strict";
 
-  if (typeof require !== "undefined") { // Firefox
-    var storage = require("sdk/simple-storage").storage;
-  }
+  const isChrome = typeof chrome !== "undefined";
 
   const cartImportant =  {
     "19": "images/cart-gray-important-19.png",
@@ -18,18 +16,19 @@
   let dealsPerTab = {};
 
   function getTableFromStorage(tableName, callback) {
-    if (chrome) { // Chrome
+    if (isChrome) { // Chrome
       chrome.storage.local.get(tableName, callback);
     } else { // Firefox
-      callback(storage);
+      self.port.once("get", callback);
+      self.port.emit("get", tableName);
     }
   }
 
-  function setTableToStorage(tableName, data) {
-    if (chrome) { // Chrome
+  function setTableToStorage(data) {
+    if (isChrome) { // Chrome
       chrome.storage.local.set(data);
     } else { // Firefox
-      storage[tableName] = data[tableName];
+      self.port.emit("set", data);
     }
   }
 
@@ -46,7 +45,7 @@
           requestFunc.apply(null, varArgs)
             .then(function(value) {
               subTable[id2] = value;
-              setTableToStorage(tableName, storage);
+              setTableToStorage(storage);
               resolve(value);
             }, reject);
         }
@@ -93,7 +92,7 @@
     sendResponse(dealsPerTab[message.tabId]);
   }
 
-  if (chrome) { // Chrome
+  if (isChrome) { // Chrome
     chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
       switch (message.messageName) {
         case "makeBackgroundRequest":

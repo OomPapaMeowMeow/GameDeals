@@ -8,6 +8,7 @@
 
   const { PageMod } = require("sdk/page-mod");
   const PageWorker = require("sdk/page-worker").Page;
+  let { storage } = require("sdk/simple-storage");
 
   let workers = {};
 
@@ -53,9 +54,26 @@
     });
   }
 
-  registerPageWorkerMessage("makeBackgroundRequest");
-  registerPageWorkerMessage("showPageAction");
-  registerPageWorkerMessage("getDealsForTab");
+  function registerPageWorkerEvents() {
+    registerPageWorkerMessage("makeBackgroundRequest");
+    registerPageWorkerMessage("showPageAction");
+    registerPageWorkerMessage("getDealsForTab");
+
+    pageWorker.port.on("get", function(tableName) {
+      let table = storage[tableName] || {};
+      let data = {};
+      data[tableName] = table;
+      pageWorker.port.emit("get", data);
+    });
+
+    pageWorker.port.on("set", function(data) {
+      for (let key in data) {
+        if (data.hasOwnProperty(key)) {
+          storage[key] = data[key];
+        }
+      }
+    });
+  }
 
   PageMod({
     include: [
@@ -83,4 +101,5 @@
     onAttach: startListening
   });
 
+  registerPageWorkerEvents();
 })();

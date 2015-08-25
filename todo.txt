@@ -18,7 +18,6 @@ Shops:
 - mobile: Apple AppStore, Google Play, Windows Store Mobile
 
 Maintenance:
-- move Itad out of page scope for FF
 - 'page action' for FF
 - rename repo, update links
 - publish updated package for FF

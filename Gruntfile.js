@@ -204,6 +204,8 @@ module.exports = function (grunt) {
           src: [
             'scripts/lib/*.js',
             'scripts/content-scripts/*.js',
+            'scripts/data-itad.js',
+            'scripts/background.js',
             'styles/*.css',
             'background.html'
           ]

@@ -8,7 +8,7 @@
   "use strict";
 
   function sendMessage(messageName, data, callback) {
-    if (chrome) { // Chrome
+    if (typeof chrome !== "undefined") { // Chrome
       data.messageName = messageName;
       chrome.runtime.sendMessage(data, callback);
     } else {
