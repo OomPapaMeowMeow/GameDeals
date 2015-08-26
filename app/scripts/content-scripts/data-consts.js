@@ -11,7 +11,8 @@
     "humblestore": "Humble Store",
     "gog": "GOG",
     "origin": "Origin PC",
-    "wingamestore": "WinGameStore"
+    "wingamestore": "WinGameStore",
+    "gamersgate": "GamersGate"
   };
 
   const storeIcons = {

@@ -153,6 +153,30 @@
         let $storeLink = dealLinks[0].prepend($block);
         $container.append($break, $storeLink);
       }
+    },
+    "gamersgate": {
+      containerSelector: "#PP_data_main",
+      getGameId: function() {
+        return GameDeals.Tools.getGameIdFromPathName().split("/")[0];
+      },
+      createBlock: function(blockTitle) {
+        return $("<h2 class='gs-marker gs-gamersgate-block'></h2>").text(blockTitle + ":");
+      },
+      createLink: function(dealData, iconClass) {
+        let $icon = $("<i class='fa gs-icon'></i>").addClass(iconClass);
+        let $link = $("<a class=''></a>").attr("href", dealData.url).append($icon, dealData.storeTitle);
+        let $priceDiv = $("<div class='gs-price'></div>").text(dealData.price);
+        return $("<div class='gs-marker gs-gamersgate-line'></div>").append($link, $priceDiv);
+      },
+      getPrice: function($topContainer) {
+        return $topContainer.find("div.price_price").text().trim();
+      },
+      addDealsBlock: function($container, $block) {
+        $container.children().last().before($block);
+      },
+      addDealLinksToDealsBlock: function($block, dealLinks) {
+        $block.after(dealLinks);
+      }
     }
   };
 

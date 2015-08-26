@@ -81,7 +81,8 @@
       /.*www\.humblebundle\.com\/store.*/,
       /.*www\.gog\.com\/game\/.*/,
       /.*www\.origin\.com\/.*\/store\/buy\/.*/,
-      /.*www\.(win|mac)gamestore\.com\/product\/.*/
+      /.*www\.(win|mac)gamestore\.com\/product\/.*/,
+      /.*www\.gamersgate\.com\/.*/
     ],
     attachTo: ["existing", "top"],
     contentStyleFile: [

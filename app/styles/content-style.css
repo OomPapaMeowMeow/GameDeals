@@ -1,8 +1,8 @@
 .gs-icon {
-    margin-right: 5px;
+    margin-right: 5px !important;
 }
 .gs-price {
-    margin-left: 6px;
+    margin-left: 6px !important;
     display: inline-block;
 }
 .gs-popup-link {
@@ -50,4 +50,13 @@
 .gs-wgs-icon {
     margin-left: -2px;
     margin-right: 5px;
+}
+.gs-gamersgate-block {
+    text-align: left !important;
+    margin-left: 20px !important;
+}
+.gs-gamersgate-line {
+    text-align: left !important;
+    margin-left: 20px !important;
+    font-size: 13px !important;
 }

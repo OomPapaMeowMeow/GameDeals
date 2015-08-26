@@ -13,7 +13,6 @@ Minor tweaks:
 - Humble: better processing for game names in bundles: remove "bundle", "(early access)"
 
 Shops:
-- Bundle Stars
 - unsupported by ITAD: Windows Store PC
 - mobile: Apple AppStore, Google Play, Windows Store Mobile
 

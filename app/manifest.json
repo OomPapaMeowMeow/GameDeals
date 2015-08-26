@@ -43,7 +43,8 @@
         "*://www.gog.com/game/*",
         "*://www.origin.com/*/store/buy/*",
         "*://www.wingamestore.com/product/*",
-        "*://www.macgamestore.com/product/*"
+        "*://www.macgamestore.com/product/*",
+        "*://www.gamersgate.com/*"
       ],
       "css": [
         "styles/font-awesome.css",
