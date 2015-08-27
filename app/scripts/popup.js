@@ -7,9 +7,9 @@
   "use strict";
 
   function createLink(dealData) {
-    let $link = $("<a class='gs-popup-link'></a>").attr("href", dealData.url).append(dealData.storeTitle);
+    let $link = $("<a class='gs-black'></a>").attr("href", dealData.url).append(dealData.storeTitle);
     let $priceDiv = $("<div class='gs-price'></div>").text(dealData.price);
-    return $("<div class='gs-popup-line'></div>").append($link, $priceDiv);
+    return $("<div class='gs-nowrap'></div>").append($link, $priceDiv);
   }
 
   function showDeals(dealsAndPrice) {

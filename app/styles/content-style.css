@@ -5,10 +5,10 @@
     margin-left: 6px !important;
     display: inline-block;
 }
-.gs-popup-link {
+.gs-black {
     color: black;
 }
-.gs-popup-line {
+.gs-nowrap {
     white-space: nowrap;
 }
 .gs-steam-icon {
@@ -21,6 +21,9 @@
 .gs-steam-price {
     margin-right: 5px;
     float: right;
+}
+.gs-steam-line {
+    margin-top: 10px;
 }
 .gs-humble-link {
     display: inline !important;

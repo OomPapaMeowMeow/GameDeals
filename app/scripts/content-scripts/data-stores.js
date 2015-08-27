@@ -212,20 +212,12 @@
       getGameId: function($container) {
         return $container.find("a.btn_small").attr("href").split("/").slice(-2).join("/");
       },
-      createBlock: function (blockTitle) {
-        let $blockTitle = $("<div class='block_title gs-steam-title'></div>").text(blockTitle + ":");
-        return $("<div class='block gs-marker'></div>").append($blockTitle);
-      },
+      createBlock: function () { },
       createLink: function (dealData, iconClass) {
-        let $icon = $("<i class='fa fa-lg gs-steam-icon'></i>").addClass(iconClass);
-        let $iconLink = $("<a></a>").attr("href", dealData.url).append($icon);
-        let $iconDiv = $("<div class='icon'></div>").append($iconLink);
-
-        let $priceDiv = $("<div class='gs-steam-price'></div>").text(dealData.price);
-        let $textLink = $("<a class='name'></a>");
-        $textLink.text(dealData.storeTitle).attr("href", dealData.url).append($priceDiv);
-
-        return $("<div class='game_area_details_specs'></div>").append($iconDiv, $textLink);
+        let $icon = $("<i class='fa gs-icon gs-line'></i>").addClass(iconClass);
+        let $link = $("<a></a>").attr("href", dealData.url).append($icon, dealData.storeTitle);
+        let $priceDiv = $("<div class='gs-price'></div>").text(dealData.price);
+        return $("<div class='gs-marker gs-steam-line'></div>").append($link, $priceDiv);
       },
       getPrice: function ($container) {
         let $priceDiv = $container.find("div.discount_final_price");
@@ -237,11 +229,9 @@
       getDealsContainer($topContainer) {
         return $topContainer.find("div.gameListPriceData");
       },
-      addDealsBlock: function ($container, $block) {
-        $container.prepend($block);
-      },
-      addDealLinksToDealsBlock: function ($block, dealLinks) {
-        $block.append(dealLinks);
+      addDealsBlock: function () { },
+      addDealLinksToDealsBlock: function ($block, dealLinks, $container) { // jshint ignore:line
+        $container.append(dealLinks);
       }
     }
   };
