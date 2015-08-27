@@ -205,8 +205,50 @@
     }
   };
 
-  function getStorePageData(storeId) {
-    return storePageData[storeId];
+  const storeWishlistData = {
+    "steam": {
+      containerSelector: "div.wishlistRow",
+      dealsLimit: 1,
+      getGameId: function($container) {
+        return $container.find("a.btn_small").attr("href").split("/").slice(-2).join("/");
+      },
+      createBlock: function (blockTitle) {
+        let $blockTitle = $("<div class='block_title gs-steam-title'></div>").text(blockTitle + ":");
+        return $("<div class='block gs-marker'></div>").append($blockTitle);
+      },
+      createLink: function (dealData, iconClass) {
+        let $icon = $("<i class='fa fa-lg gs-steam-icon'></i>").addClass(iconClass);
+        let $iconLink = $("<a></a>").attr("href", dealData.url).append($icon);
+        let $iconDiv = $("<div class='icon'></div>").append($iconLink);
+
+        let $priceDiv = $("<div class='gs-steam-price'></div>").text(dealData.price);
+        let $textLink = $("<a class='name'></a>");
+        $textLink.text(dealData.storeTitle).attr("href", dealData.url).append($priceDiv);
+
+        return $("<div class='game_area_details_specs'></div>").append($iconDiv, $textLink);
+      },
+      getPrice: function ($container) {
+        let $priceDiv = $container.find("div.discount_final_price");
+        if ($priceDiv.length === 0) {
+          $priceDiv = $container.find("div.price");
+        }
+        return $priceDiv.text().trim();
+      },
+      getDealsContainer($topContainer) {
+        return $topContainer.find("div.gameListPriceData");
+      },
+      addDealsBlock: function ($container, $block) {
+        $container.prepend($block);
+      },
+      addDealLinksToDealsBlock: function ($block, dealLinks) {
+        $block.append(dealLinks);
+      }
+    }
+  };
+
+  function getStorePageData(storeId, isWishlist) {
+    let dict = isWishlist ? storeWishlistData : storePageData;
+    return dict[storeId];
   }
 
   window.GameDeals = window.GameDeals || {};

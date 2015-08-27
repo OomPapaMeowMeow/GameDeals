@@ -16,9 +16,13 @@
     { regex: /.*www\.greenmangaming\.com\/.*/, storeId: "greenmangaming" }
   ];
 
-  function getStoreIdByUrl(url) {
+  const urlsAndIdsWishlist = [
+    { regex: /.*steamcommunity\.com\/profiles\/.*\/wishlist/, storeId: "steam" }
+  ];
+
+  function getStoreIdByUrl(url, array) {
     let storeId = null;
-    urlsAndIds.some(function(urlIdData) {
+    array.some(function(urlIdData) {
       if (urlIdData.regex.test(url)) {
         storeId = urlIdData.storeId;
         return true;
@@ -28,23 +32,7 @@
     return storeId;
   }
 
-  function analyzePrice(storeData, $topContainer, deals) {
-    let priceString = storeData.getPrice($topContainer);
-    let priceData = GameDeals.Currency.parseCurrency(priceString);
-    if (!priceData) {
-      return;
-    }
-    let dealPriceData = GameDeals.Currency.parseCurrency(deals[0].price);
-    if (!dealPriceData) {
-      return;
-    }
-    // TODO: disregarding currency, just dumb compare the values
-    if (dealPriceData.value < priceData.value) {
-      GameDeals.Comm.showPageAction(priceString, deals, dealPriceData.value <= priceData.value/2);
-    }
-  }
-
-  function addDealLinks(storeId, storeData, $topContainer) {
+  function addDealLinks(storeId, storeData, isWishlist, $topContainer) {
     if ($topContainer.length === 0) {
       return;
     }
@@ -58,7 +46,9 @@
           return;
         }
 
-        analyzePrice(storeData, $topContainer, deals);
+        if (!isWishlist) {
+          GameDeals.Comm.analyzePrice(storeData.getPrice($topContainer), deals);
+        }
         if (storeData.dealsLimit) {
           deals = deals.slice(0, storeData.dealsLimit);
         }
@@ -74,16 +64,24 @@
   }
 
   function doAttach() {
-    let storeId = getStoreIdByUrl(window.location.href);
+    let isWishlist = true;
+    let storeId = getStoreIdByUrl(window.location.href, urlsAndIdsWishlist);
     if (!storeId) {
-      return;
+      isWishlist = false;
+      storeId = getStoreIdByUrl(window.location.href, urlsAndIds);
+      if (!storeId) {
+        return;
+      }
     }
-    let storeData = GameDeals.Stores.getStorePageData(storeId);
-    addDealLinks(storeId, storeData, $(storeData.containerSelector));
+    let storeData = GameDeals.Stores.getStorePageData(storeId, isWishlist);
+    $(storeData.containerSelector).each(function() { addDealLinks(storeId, storeData, isWishlist, $(this)); });
 
     let observer = null;
     if (storeData.needsObserver) {
-      observer = GameDeals.Tools.waitForElementObserver(storeData.containerSelector, addDealLinks.bind(null, storeId, storeData));
+      observer = GameDeals.Tools.waitForElementObserver(
+        storeData.containerSelector,
+        addDealLinks.bind(null, storeId, storeData, isWishlist)
+      );
     }
 
     if (self.port) { // Firefox-specific cleanup

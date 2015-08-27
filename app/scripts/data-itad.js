@@ -15,7 +15,6 @@
 
   const itadApiKey = "e308215aaf460543e2a5d10794d0bec772a9c31a";
   const plainRequestUrl = "http://api.isthereanydeal.com/v02/game/plain/?key=" + itadApiKey;
-  const retryConfig = { times: 5, timeout: 1500, statusCodes: [503, 504] };
 
   function assert() {
     if (debug) {
@@ -33,7 +32,6 @@
     lock = true;
     let data = requestQueue.dequeue();
     $.ajax({ method: "GET", url: data.url })
-      .retry(retryConfig)
       .always(function () {
         lock = false;
         setTimeout(function () { processNextRequest(); }, 0);

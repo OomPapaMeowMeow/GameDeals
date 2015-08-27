@@ -17,7 +17,6 @@
   "background": {
     "scripts": [
       "scripts/lib/jquery.min.js",
-      "scripts/lib/jquery.ajax-retry.js",
       "scripts/lib/queue.js",
       "scripts/chromereload.js",
       "scripts/data-itad.js",
@@ -40,7 +39,7 @@
     {
       "matches": [
         "*://store.steampowered.com/app/*",
-
+        "*://steamcommunity.com/profiles/*/wishlist",
         "*://www.humblebundle.com/store*",
         "*://www.gog.com/game/*",
         "*://www.origin.com/*/store/buy/*",
@@ -55,7 +54,6 @@
       ],
       "js": [
         "scripts/lib/jquery.min.js",
-        "scripts/lib/jquery.ajax-retry.js",
         "scripts/content-scripts/data-consts.js",
         "scripts/content-scripts/data-tools.js",
         "scripts/content-scripts/data-currency.js",

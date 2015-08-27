@@ -43,12 +43,27 @@
     sendMessage("showPageAction", { price: price, deals: deals, important: important });
   }
 
+  function analyzePrice(priceString, deals) {
+    let priceData = GameDeals.Currency.parseCurrency(priceString);
+    if (!priceData) {
+      return;
+    }
+    let dealPriceData = GameDeals.Currency.parseCurrency(deals[0].price);
+    if (!dealPriceData) {
+      return;
+    }
+    // TODO: disregarding currency, just dumb compare the values
+    if (dealPriceData.value < priceData.value) {
+      showPageAction(priceString, deals, dealPriceData.value <= priceData.value/2);
+    }
+  }
+
   window.GameDeals = window.GameDeals || {};
   window.GameDeals.Comm = {
     getGamePlain: makeBackgroundRequest.bind(null, "getGamePlain", true),
     getStoreLink: makeBackgroundRequest.bind(null, "getStoreLink", true),
     getBestDeals: makeBackgroundRequest.bind(null, "getBestDeals", false),
-    showPageAction: showPageAction
+    analyzePrice: analyzePrice
   };
 })();
 

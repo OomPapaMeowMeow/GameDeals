@@ -79,7 +79,7 @@
   PageMod({
     include: [
       /.*store\.steampowered\.com\/app\/.*/,
-
+      /.*steamcommunity\.com\/profiles\/.*\/wishlist/,
       /.*www\.humblebundle\.com\/store.*/,
       /.*www\.gog\.com\/game\/.*/,
       /.*www\.origin\.com\/.*\/store\/buy\/.*/,
