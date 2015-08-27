@@ -12,7 +12,8 @@
     { regex: /.*www\.gog\.com\/game\/.*/, storeId: "gog" },
     { regex: /.*www\.origin\.com\/.*\/store\/buy\/.*/, storeId: "origin" },
     { regex: /.*www\.(win|mac)gamestore\.com\/product\/.*/, storeId: "wingamestore" },
-    { regex: /.*www\.gamersgate\.com\/.*/, storeId: "gamersgate" }
+    { regex: /.*www\.gamersgate\.com\/.*/, storeId: "gamersgate" },
+    { regex: /.*www\.greenmangaming\.com\/.*/, storeId: "greenmangaming" }
   ];
 
   function getStoreIdByUrl(url) {

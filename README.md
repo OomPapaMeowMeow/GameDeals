@@ -1,8 +1,10 @@
 # Game Deals
-Shows best deals when you shop for games, courtesy of isthereanydeal.com.
+Browser extension that shows best deals when you shop for games
 
 ## Usage
-Available in Chrome Web Store at https://chrome.google.com/webstore/detail/game-deals/phonaddfpjbifpkoefojoohagmbegjob
+For Google Chrome: https://chrome.google.com/webstore/detail/game-deals/phonaddfpjbifpkoefojoohagmbegjob
+
+For Mozilla Firefox: https://addons.mozilla.org/en-US/firefox/addon/game-deals/
 
 ## License
 All source code in this project are licensed under the MIT license.

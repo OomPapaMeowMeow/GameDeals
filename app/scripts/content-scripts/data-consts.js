@@ -12,7 +12,8 @@
     "gog": "GOG",
     "origin": "Origin PC",
     "wingamestore": "WinGameStore",
-    "gamersgate": "GamersGate"
+    "gamersgate": "GamersGate",
+    "greenmangaming": "GreenMan Gaming"
   };
 
   const storeIcons = {

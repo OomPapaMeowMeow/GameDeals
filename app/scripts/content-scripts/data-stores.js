@@ -164,7 +164,7 @@
       },
       createLink: function(dealData, iconClass) {
         let $icon = $("<i class='fa gs-icon'></i>").addClass(iconClass);
-        let $link = $("<a class=''></a>").attr("href", dealData.url).append($icon, dealData.storeTitle);
+        let $link = $("<a></a>").attr("href", dealData.url).append($icon, dealData.storeTitle);
         let $priceDiv = $("<div class='gs-price'></div>").text(dealData.price);
         return $("<div class='gs-marker gs-gamersgate-line'></div>").append($link, $priceDiv);
       },
@@ -176,6 +176,31 @@
       },
       addDealLinksToDealsBlock: function($block, dealLinks) {
         $block.after(dealLinks);
+      }
+    },
+    "greenmangaming": {
+      containerSelector: "#aside",
+      getGameId: function() {
+        return GameDeals.Tools.getGameIdFromPathName().split("/").slice(-1)[0];
+      },
+      createBlock: function(blockTitle) {
+        let $blockTitle = $("<div></div>").text(blockTitle + ":");
+        return $("<div class='gs-marker share_links gs-gmg-block'></div>").append($blockTitle);
+      },
+      createLink: function(dealData, iconClass) {
+        let $icon = $("<i class='fa gs-icon'></i>").addClass(iconClass);
+        let $link = $("<a></a>").attr("href", dealData.url).append($icon, dealData.storeTitle);
+        let $priceDiv = $("<div class='gs-price'></div>").text(dealData.price);
+        return $("<div></div>").append($link, $priceDiv);
+      },
+      getPrice: function($topContainer) {
+        return $topContainer.find("strong.curPrice").text();
+      },
+      addDealsBlock: function($container, $block) {
+        $container.children().first().after($block);
+      },
+      addDealLinksToDealsBlock: function($block, dealLinks) {
+        $block.append(dealLinks);
       }
     }
   };

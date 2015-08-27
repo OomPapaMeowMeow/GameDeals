@@ -60,3 +60,8 @@
     margin-left: 20px !important;
     font-size: 13px !important;
 }
+.gs-gmg-block {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+    height: auto !important;
+}

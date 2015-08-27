@@ -6,7 +6,7 @@
 (function() {
   "use strict";
 
-  const debug = true;
+  const debug = false;
   const successStr = "ok:";
   const failStr = "fail:";
 

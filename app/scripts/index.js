@@ -82,7 +82,8 @@
       /.*www\.gog\.com\/game\/.*/,
       /.*www\.origin\.com\/.*\/store\/buy\/.*/,
       /.*www\.(win|mac)gamestore\.com\/product\/.*/,
-      /.*www\.gamersgate\.com\/.*/
+      /.*www\.gamersgate\.com\/.*/,
+      /.*www\.greenmangaming\.com\/.*/
     ],
     attachTo: ["existing", "top"],
     contentStyleFile: [
