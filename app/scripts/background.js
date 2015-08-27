@@ -110,6 +110,7 @@
     self.port.on("makeBackgroundRequest", function(message) {
       makeBackgroundRequest(message, function(response) {
         response.tabId = message.tabId;
+        response.messageId = message.messageId;
         self.port.emit("makeBackgroundRequest", response);
       });
     });
@@ -119,6 +120,7 @@
     self.port.on("getDealsForTab", function(message) {
       getDealsForTab(message, function(response) {
         response.tabId = message.tabId;
+        response.messageId = message.messageId;
         self.port.emit("getDealsForTab", response);
       });
     });

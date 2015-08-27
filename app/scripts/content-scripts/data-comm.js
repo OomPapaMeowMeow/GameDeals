@@ -6,15 +6,19 @@
 (function() {
   "use strict";
 
+  let messageId = 0;
+
   function sendMessage(messageName, data, callback) {
     if (typeof chrome !== "undefined") { // Chrome
       data.messageName = messageName;
       chrome.runtime.sendMessage(data, callback);
     } else {
+      data.messageId = messageId;
       if (callback) {
-        self.port.once(messageName, callback);
+        self.port.once(messageName + messageId, callback);
       }
       self.port.emit(messageName, data);
+      messageId++;
     }
   }
 

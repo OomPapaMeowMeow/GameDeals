@@ -15,7 +15,6 @@
   let pageWorker = PageWorker({
     contentScriptFile: [
       "./jquery.min.js",
-      "./jquery.ajax-retry.js",
       "./queue.js",
       "./data-consts.js",
       "./data-itad.js",
@@ -30,7 +29,7 @@
       if (tabId) {
         let worker = workers[tabId];
         if (worker) {
-          worker.port.emit(messageName, message);
+          worker.port.emit(messageName + message.messageId, message);
         }
       }
     });
@@ -94,7 +93,6 @@
     ],
     contentScriptFile: [
       "./jquery.min.js",
-      "./jquery.ajax-retry.js",
       "./data-consts.js",
       "./data-tools.js",
       "./data-currency.js",
