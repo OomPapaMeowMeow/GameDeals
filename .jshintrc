@@ -23,6 +23,7 @@
     "chrome": true,
     "GameDeals": true,
     "self": true,
-    "Promise": true
+    "Promise": true,
+    "Queue": true
   }
 }

@@ -15,7 +15,7 @@
 
   const itadApiKey = "e308215aaf460543e2a5d10794d0bec772a9c31a";
   const plainRequestUrl = "http://api.isthereanydeal.com/v02/game/plain/?key=" + itadApiKey;
-  const retryConfig = { times: 3, timeout: 1500, statusCodes: [503, 504] };
+  const retryConfig = { times: 5, timeout: 1500, statusCodes: [503, 504] };
 
   function assert() {
     if (debug) {
@@ -23,27 +23,47 @@
     }
   }
 
+  let lock = false;
+  let requestQueue = new Queue();
+
+  function processNextRequest() {
+    if (lock || requestQueue.isEmpty()) {
+      return;
+    }
+    lock = true;
+    let data = requestQueue.dequeue();
+    $.ajax({ method: "GET", url: data.url })
+      .retry(retryConfig)
+      .always(function () {
+        lock = false;
+        setTimeout(function () { processNextRequest(); }, 0);
+      })
+      .then(data.resolve, data.reject);
+  }
+
+  function makeItadGetRequest(url) {
+    return new Promise(function (resolve, reject) {
+      requestQueue.enqueue({ url: url, resolve: resolve, reject: reject });
+      processNextRequest();
+    });
+  }
+
   function getGamePlain(storeId, gameId, idType) {
     idType = idType || 0;
     assert(getGamePlain.name, storeId, gameId, idType);
-    return $.ajax({
-      method: "GET",
-      url: plainRequestUrl + "&shop=" + storeId + "&" + idTypeStrings[idType] + "=" + gameId
-    }).retry(retryConfig).then(function(response) {
+    let url = plainRequestUrl + "&shop=" + storeId + "&" + idTypeStrings[idType] + "=" + gameId;
+    return makeItadGetRequest(url).then(function(response) {
       assert(getGamePlain.name, storeId, gameId, successStr, response.data.plain);
       return response.data.plain;
-    }).fail(function(jqXHR) {
+    }).catch(function(jqXHR) {
       assert(getGamePlain.name, storeId, gameId, failStr, jqXHR.status, jqXHR.statusText);
     });
   }
 
   function getBestDeals(gamePlain) {
     assert(getBestDeals.name, gamePlain);
-    return $.ajax({
-      method: "GET",
-      cache: true,
-      url: "http://isthereanydeal.com/ajax/game/info?plain=" + gamePlain
-    }).retry(retryConfig).then(function(html) {
+    let url = "http://isthereanydeal.com/ajax/game/info?plain=" + gamePlain;
+    return makeItadGetRequest(url).then(function(html) {
       let $allDeals = $(html).find("tr.row");
       if ($allDeals.length === 0) {
         assert(getBestDeals.name, gamePlain, successStr, "no rows");
@@ -73,23 +93,20 @@
       });
       assert(getBestDeals.name, gamePlain, successStr, bestDeals.length, "rows");
       return bestDeals;
-    }).fail(function(jqXHR) {
+    }).catch(function(jqXHR) {
       assert(getBestDeals.name, gamePlain, failStr, jqXHR.status, jqXHR.statusText);
     });
   }
 
   function getStoreLink(storeId, gamePlain) { // TODO: does not work if the shop is not in top 5 deals
     assert(getStoreLink.name, storeId, gamePlain);
-    return $.ajax({
-      method: "GET",
-      cache: true,
-      url: "http://isthereanydeal.com/ajax/game/info?plain=" + gamePlain
-    }).retry(retryConfig).then(function(html) {
+    let url = "http://isthereanydeal.com/ajax/game/info?plain=" + gamePlain;
+    return makeItadGetRequest(url).then(function(html) {
       let storeTitle = GameDeals.Consts.getStoreTitleById(storeId);
       let url = $(html).find("a.shopTitle:contains('" + storeTitle + "')").attr("href");
       assert(getStoreLink.name, storeId, gamePlain, successStr, url);
       return url;
-    }).fail(function(jqXHR) {
+    }).catch(function(jqXHR) {
       assert(getStoreLink.name, storeId, gamePlain, failStr, jqXHR.status, jqXHR.statusText);
     });
   }

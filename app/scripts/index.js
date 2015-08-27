@@ -16,6 +16,7 @@
     contentScriptFile: [
       "./jquery.min.js",
       "./jquery.ajax-retry.js",
+      "./queue.js",
       "./data-consts.js",
       "./data-itad.js",
       "./background.js"
@@ -78,6 +79,7 @@
   PageMod({
     include: [
       /.*store\.steampowered\.com\/app\/.*/,
+
       /.*www\.humblebundle\.com\/store.*/,
       /.*www\.gog\.com\/game\/.*/,
       /.*www\.origin\.com\/.*\/store\/buy\/.*/,
