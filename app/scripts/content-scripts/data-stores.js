@@ -6,6 +6,13 @@
 (function() {
   "use strict";
 
+  function createLinkBase(dealData, iconClass, linkClass) {
+    let $icon = $("<i class='fa gs-icon'></i>").addClass(iconClass);
+    let $link = $("<a></a>").addClass(linkClass).attr("href", dealData.url).append($icon, dealData.storeTitle);
+    let $priceDiv = $("<div class='gs-price'></div>").text(dealData.price);
+    return $("<div class='gs-marker'></div>").append($link, $priceDiv);
+  }
+
   const storePageData = {
     "steam": {
       containerSelector: "div.game_meta_data",
@@ -113,11 +120,8 @@
         let $gsBlockInner = $("<div class='price-area'></div>").append($blockTitle);
         return $("<div class='price gs-origin-block gs-marker'></div>").append($gsBlockInner);
       },
-      createLink: function(dealData, iconClass) {
-        let $icon = $("<i class='fa gs-icon'></i>").addClass(iconClass);
-        let $link = $("<a class='gs-origin-link'></a>").attr("href", dealData.url).append($icon, dealData.storeTitle);
-        let $priceDiv = $("<div class='gs-price'></div>").text(dealData.price);
-        return $("<div class='gs-origin-line'></div>").append($link, $priceDiv);
+      createLink: function (dealData, iconClass) {
+        return createLinkBase(dealData, iconClass, "gs-origin-link").addClass("gs-origin-line");
       },
       getPrice: function() {
         return $("p.actual-price").first().text();
@@ -162,11 +166,8 @@
       createBlock: function(blockTitle) {
         return $("<h2 class='gs-marker gs-gamersgate-block'></h2>").text(blockTitle + ":");
       },
-      createLink: function(dealData, iconClass) {
-        let $icon = $("<i class='fa gs-icon'></i>").addClass(iconClass);
-        let $link = $("<a></a>").attr("href", dealData.url).append($icon, dealData.storeTitle);
-        let $priceDiv = $("<div class='gs-price'></div>").text(dealData.price);
-        return $("<div class='gs-marker gs-gamersgate-line'></div>").append($link, $priceDiv);
+      createLink: function (dealData, iconClass) {
+        return createLinkBase(dealData, iconClass).addClass("gs-gamersgate-line");
       },
       getPrice: function($topContainer) {
         return $topContainer.find("div.price_price").text().trim();
@@ -187,12 +188,7 @@
         let $blockTitle = $("<div></div>").text(blockTitle + ":");
         return $("<div class='gs-marker share_links gs-gmg-block'></div>").append($blockTitle);
       },
-      createLink: function(dealData, iconClass) {
-        let $icon = $("<i class='fa gs-icon'></i>").addClass(iconClass);
-        let $link = $("<a></a>").attr("href", dealData.url).append($icon, dealData.storeTitle);
-        let $priceDiv = $("<div class='gs-price'></div>").text(dealData.price);
-        return $("<div></div>").append($link, $priceDiv);
-      },
+      createLink: createLinkBase,
       getPrice: function($topContainer) {
         return $topContainer.find("strong.curPrice").text();
       },
@@ -213,12 +209,7 @@
         let $blockTitleOuter = $("<div class='title'></div>").append($blockTitle);
         return $("<div class='gs-marker normalcorner'></div>").append($blockTitleOuter);
       },
-      createLink: function(dealData, iconClass) {
-        let $icon = $("<i class='fa gs-icon'></i>").addClass(iconClass);
-        let $link = $("<a></a>").attr("href", dealData.url).append($icon, dealData.storeTitle);
-        let $priceDiv = $("<div class='gs-price'></div>").text(dealData.price);
-        return $("<div></div>").append($link, $priceDiv);
-      },
+      createLink: createLinkBase,
       getPrice: function($topContainer) {
         return $topContainer.find("span.price").contents().last()[0].textContent;
       },
@@ -244,10 +235,7 @@
       },
       createBlock: function () { },
       createLink: function (dealData, iconClass) {
-        let $icon = $("<i class='fa gs-icon gs-line'></i>").addClass(iconClass);
-        let $link = $("<a></a>").attr("href", dealData.url).append($icon, dealData.storeTitle);
-        let $priceDiv = $("<div class='gs-price'></div>").text(dealData.price);
-        return $("<div class='gs-marker gs-steam-line'></div>").append($link, $priceDiv);
+        return createLinkBase(dealData, iconClass + " gs-line").addClass("gs-steam-line");
       },
       getPrice: function ($container) {
         let $priceDiv = $container.find("div.discount_final_price");
