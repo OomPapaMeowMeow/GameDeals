@@ -251,6 +251,28 @@
       addDealLinksToDealsBlock: function ($block, dealLinks, $container) { // jshint ignore:line
         $container.append(dealLinks);
       }
+    },
+    "humblestore": {
+      containerSelector: "div.storefront-list-product",
+      needsObserver: true,
+      dealsLimit: 1,
+      getGameId: function($container) {
+        return $container.find("a.product-details-link").attr("href").split("/").slice(-1)[0];
+      },
+      createBlock: function () { },
+      createLink: function (dealData, iconClass) {
+        return createLinkBase(dealData, iconClass + " gs-line").addClass("gs-humble-line");
+      },
+      getPrice: function ($container) {
+        return $container.find("span.text").text().trim();
+      },
+      getDealsContainer($topContainer) {
+        return $topContainer.find("div.platforms-and-buy-button");
+      },
+      addDealsBlock: function () { },
+      addDealLinksToDealsBlock: function ($block, dealLinks, $container) { // jshint ignore:line
+        $container.append(dealLinks);
+      }
     }
   };
 

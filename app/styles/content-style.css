@@ -28,6 +28,10 @@
 .gs-humble-link {
     display: inline !important;
 }
+.gs-humble-line {
+    margin-top: 1px;
+    margin-right: 10px;
+}
 .gs-gog-icon {
     margin-left: 9px;
     margin-right: 6px;

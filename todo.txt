@@ -4,7 +4,8 @@ Features:
 - wishlist data
 
 Improvements:
-- refactor default link creation method
+- fix Humble Store cross-observance
+- improve Humble Store wishlist style
 - re-implement store link retrieval for Humble Bundle bundles
 - handle currencies
 

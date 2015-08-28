@@ -18,7 +18,8 @@
   ];
 
   const urlsAndIdsWishlist = [
-    { regex: /.*steamcommunity\.com\/profiles\/.*\/wishlist/, storeId: "steam" }
+    { regex: /.*steamcommunity\.com\/profiles\/.*\/wishlist/, storeId: "steam" },
+    { regex: /.*www\.humblebundle\.com\/store\/wishlist/, storeId: "humblestore" }
   ];
 
   function getStoreIdByUrl(url, array) {
@@ -64,6 +65,10 @@
       });
   }
 
+  function addAllDealLinks(storeId, storeData, isWishlist) {
+    $(storeData.containerSelector).each(function() { addDealLinks(storeId, storeData, isWishlist, $(this)); });
+  }
+
   function doAttach() {
     let isWishlist = true;
     let storeId = getStoreIdByUrl(window.location.href, urlsAndIdsWishlist);
@@ -75,13 +80,14 @@
       }
     }
     let storeData = GameDeals.Stores.getStorePageData(storeId, isWishlist);
-    $(storeData.containerSelector).each(function() { addDealLinks(storeId, storeData, isWishlist, $(this)); });
+    addAllDealLinks(storeId, storeData, isWishlist);
 
     let observer = null;
     if (storeData.needsObserver) {
       observer = GameDeals.Tools.waitForElementObserver(
         storeData.containerSelector,
-        addDealLinks.bind(null, storeId, storeData, isWishlist)
+        addAllDealLinks.bind(null, storeId, storeData, isWishlist),
+        true
       );
     }
 
