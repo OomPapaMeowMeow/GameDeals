@@ -202,6 +202,36 @@
       addDealLinksToDealsBlock: function($block, dealLinks) {
         $block.append(dealLinks);
       }
+    },
+    "desura": {
+      containerSelector: "div.sidecolumn",
+      getGameId: function() {
+        return $("#watchtoggle").attr("href").split("=").slice(-1)[0];
+      },
+      createBlock: function(blockTitle) {
+        let $blockTitle = $("<span class='heading'></span>").text(blockTitle);
+        let $blockTitleOuter = $("<div class='title'></div>").append($blockTitle);
+        return $("<div class='gs-marker normalcorner'></div>").append($blockTitleOuter);
+      },
+      createLink: function(dealData, iconClass) {
+        let $icon = $("<i class='fa gs-icon'></i>").addClass(iconClass);
+        let $link = $("<a></a>").attr("href", dealData.url).append($icon, dealData.storeTitle);
+        let $priceDiv = $("<div class='gs-price'></div>").text(dealData.price);
+        return $("<div></div>").append($link, $priceDiv);
+      },
+      getPrice: function($topContainer) {
+        return $topContainer.find("span.price").contents().last()[0].textContent;
+      },
+      getDealsContainer($topContainer) {
+        return $topContainer.find("div.normalbox");
+      },
+      addDealsBlock: function($container, $block) {
+        $container.children().first().next().after($block);
+      },
+      addDealLinksToDealsBlock: function($block, dealLinks) {
+        let $linksContainer = $("<div class='gs-marker body gs-desura-block'></div>").append(dealLinks);
+        $block.after($linksContainer);
+      }
     }
   };
 

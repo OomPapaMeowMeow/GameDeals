@@ -1,6 +1,6 @@
 {
   "name": "Game Deals",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "manifest_version": 2,
   "description": "Shows best deals when you shop for games",
   "author": "Daniel Kamkha",
@@ -46,7 +46,8 @@
         "*://www.wingamestore.com/product/*",
         "*://www.macgamestore.com/product/*",
         "*://www.gamersgate.com/*",
-        "*://www.greenmangaming.com/*"
+        "*://www.greenmangaming.com/*",
+        "*://www.desura.com/games/*"
       ],
       "css": [
         "styles/font-awesome.css",

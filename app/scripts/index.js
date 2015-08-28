@@ -84,7 +84,8 @@
       /.*www\.origin\.com\/.*\/store\/buy\/.*/,
       /.*www\.(win|mac)gamestore\.com\/product\/.*/,
       /.*www\.gamersgate\.com\/.*/,
-      /.*www\.greenmangaming\.com\/.*/
+      /.*www\.greenmangaming\.com\/.*/,
+      /.*www\.desura\.com\/games\/.*/
     ],
     attachTo: ["existing", "top"],
     contentStyleFile: [

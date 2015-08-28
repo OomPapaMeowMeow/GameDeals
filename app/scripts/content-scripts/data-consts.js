@@ -13,7 +13,8 @@
     "origin": "Origin PC",
     "wingamestore": "WinGameStore",
     "gamersgate": "GamersGate",
-    "greenmangaming": "GreenMan Gaming"
+    "greenmangaming": "GreenMan Gaming",
+    "desura": "Desura"
   };
 
   const storeIcons = {
