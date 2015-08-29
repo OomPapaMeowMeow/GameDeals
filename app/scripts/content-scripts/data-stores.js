@@ -271,7 +271,7 @@
       },
       addDealsBlock: function () { },
       addDealLinksToDealsBlock: function ($block, dealLinks, $container) { // jshint ignore:line
-        $container.append(dealLinks);
+        $container.prepend(dealLinks);
       }
     }
   };

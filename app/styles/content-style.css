@@ -29,8 +29,8 @@
     display: inline !important;
 }
 .gs-humble-line {
-    margin-top: 1px;
     margin-right: 10px;
+    display: inline-block;
 }
 .gs-gog-icon {
     margin-left: 9px;

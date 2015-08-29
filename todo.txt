@@ -5,7 +5,6 @@ Features:
 
 Improvements:
 - fix Humble Store cross-observance
-- improve Humble Store wishlist style
 - re-implement store link retrieval for Humble Bundle bundles
 - handle currencies
 
