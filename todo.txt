@@ -4,7 +4,7 @@ Features:
 - wishlist data
 
 Improvements:
-- fix Humble Store cross-observance
+- add an option to show "non-deal" deals (default: true)
 - re-implement store link retrieval for Humble Bundle bundles
 - handle currencies
 
