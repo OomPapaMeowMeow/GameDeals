@@ -18,6 +18,12 @@ module.exports = function (grunt) {
       grunt.log.writeln("Src: " + src);
       var dst = this.data.dst;
       grunt.log.writeln("Dst: " + dst);
+      var options = this.data.options;
+      if (options && !grunt.file.exists(options)) {
+        grunt.log.error("Options not found");
+        return;
+      }
+      grunt.log.writeln("Options: " + options);
       var license = this.data.license;
 
       var srcData = grunt.file.readJSON(src);
@@ -36,6 +42,11 @@ module.exports = function (grunt) {
         author: srcData.author,
         homepage: srcData.homepage_url
       };
+      if (options) {
+        var optionsData = grunt.file.readJSON(options);
+        grunt.log.writeln("Options data: " + optionsData.preferences);
+        dstData.preferences = optionsData.preferences;
+      }
       if (license) {
         dstData.license = license;
       }

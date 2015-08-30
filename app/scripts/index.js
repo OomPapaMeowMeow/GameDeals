@@ -9,6 +9,7 @@
   const { PageMod } = require("sdk/page-mod");
   const PageWorker = require("sdk/page-worker").Page;
   let { storage } = require("sdk/simple-storage");
+  let { prefs } = require("sdk/simple-prefs");
 
   let workers = {};
 
@@ -49,6 +50,10 @@
     registerWorkerMessage(worker, "makeBackgroundRequest");
     registerWorkerMessage(worker, "showPageAction");
     registerWorkerMessage(worker, "getDealsForTab");
+    worker.port.on("getOption", function (message) {
+      message[message.optionName] = prefs[message.optionName];
+      worker.port.emit("getOption"  + message.messageId, message );
+    });
     worker.on("detach", function () {
       delete workers[tabId];
     });

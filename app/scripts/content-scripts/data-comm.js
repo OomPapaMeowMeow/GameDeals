@@ -22,6 +22,16 @@
     }
   }
 
+  function getOption(optionName) {
+    return new Promise(function (resolve) {
+      if (typeof chrome !== "undefined") { // Chrome
+        chrome.storage.sync.get(optionName, resolve);
+      } else {
+        sendMessage("getOption", {optionName: optionName}, resolve);
+      }
+    });
+  }
+
   function makeBackgroundRequest(requestName, cache) {
     let varArgs = Array.prototype.slice.call(arguments, 2);
     return new Promise(function (resolve, reject) {
@@ -47,7 +57,7 @@
     sendMessage("showPageAction", { price: price, deals: deals, important: important });
   }
 
-  function analyzePrice(priceString, deals) {
+  function analyzePrice(priceString, deals, isWishlist) {
     let priceData = GameDeals.Currency.parseCurrency(priceString);
     if (!priceData) {
       return;
@@ -57,9 +67,11 @@
       return;
     }
     // TODO: disregarding currency, just dumb compare the values
-    if (dealPriceData.value < priceData.value) {
+    let isBetterDeal = dealPriceData.value < priceData.value;
+    if (isBetterDeal && !isWishlist) {
       showPageAction(priceString, deals, dealPriceData.value <= priceData.value/2);
     }
+    return isBetterDeal;
   }
 
   window.GameDeals = window.GameDeals || {};
@@ -67,7 +79,8 @@
     getGamePlain: makeBackgroundRequest.bind(null, "getGamePlain", true),
     getStoreLink: makeBackgroundRequest.bind(null, "getStoreLink", true),
     getBestDeals: makeBackgroundRequest.bind(null, "getBestDeals", false),
-    analyzePrice: analyzePrice
+    analyzePrice: analyzePrice,
+    getOption: getOption
   };
 })();
 

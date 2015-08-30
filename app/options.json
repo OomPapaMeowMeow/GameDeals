@@ -1,0 +1,11 @@
+{
+  "preferences": [
+    {
+      "name": "showNonDeals",
+      "title": "Show deals even if the current price is the best",
+      "description": "",
+      "type": "bool",
+      "value": false
+    }
+  ]
+}

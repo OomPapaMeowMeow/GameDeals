@@ -33,17 +33,24 @@
       return;
     }
     let $container = storeData.getDealsContainer ? storeData.getDealsContainer($topContainer) : $topContainer;
+    let context = {};
     GameDeals.Comm.getGamePlain(storeId, storeData.getGameId($topContainer), storeData.gameIdType)
       .then(function(gamePlain) {
+        context.gamePlain = gamePlain;
         return gamePlain ? GameDeals.Comm.getBestDeals(gamePlain) : null;
       })
       .then(function(deals) {
+        context.deals = deals;
+        return deals ? GameDeals.Comm.getOption("showNonDeals") : null;
+      }).then(function(options) {
+        let deals = context.deals;
         if (!deals) {
           return;
         }
 
-        if (!isWishlist) {
-          GameDeals.Comm.analyzePrice(storeData.getPrice($topContainer), deals);
+        let isBetterDeal = GameDeals.Comm.analyzePrice(storeData.getPrice($topContainer), deals, isWishlist);
+        if (!isBetterDeal && !options.showNonDeals) {
+          return;
         }
         if (storeData.dealsLimit) {
           deals = deals.slice(0, storeData.dealsLimit);

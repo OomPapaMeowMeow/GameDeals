@@ -272,6 +272,7 @@ module.exports = function (grunt) {
     chromeManifestToFf: {
       distff: {
         license: 'MIT',
+        options: '<%= config.app %>/options.json',
         src: '<%= config.app %>/manifest.json',
         dst: '<%= config.distff %>/package.json'
       }
