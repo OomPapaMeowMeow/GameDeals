@@ -8,16 +8,19 @@
 
   // Wait for element defined by targetSelector, under the $root.
   // When the element appears, call callback() function on it and stop waiting (if once flag is true).
-  function waitForElementObserver(targetSelector, callback, once, $root) {
+  function waitForElementObserver(targetSelector, callback, once, oncePerCall, $root) {
     $root = $root || $("body");
 
     let observer = new MutationObserver(function (mutations, obs) {
       mutations.some(function (mutation) {
         let $target = $(mutation.addedNodes).find(targetSelector).addBack(targetSelector);
         if ($target.length > 0) {
-          callback($target);
+          setTimeout(function() { callback($target); }, 0);
           if (once) {
             obs.disconnect();
+            return true;
+          }
+          if (oncePerCall) {
             return true;
           }
         }

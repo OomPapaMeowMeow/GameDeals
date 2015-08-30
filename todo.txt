@@ -1,6 +1,3 @@
-Bugs:
-- deals disappear on Humble Store wishlist edit
-
 Features:
 - price data on wishlists
 - ownership data

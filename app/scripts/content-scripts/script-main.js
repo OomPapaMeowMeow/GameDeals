@@ -24,7 +24,7 @@
   };
 
   function getStoreIdFromLocation(dict) {
-    let host = window.location.hostname.split(".").slice(-2, 1)[0];
+    let host = window.location.hostname.split(".").slice(-2, -1)[0];
     return dict[host];
   }
 
@@ -76,7 +76,7 @@
       observer = GameDeals.Tools.waitForElementObserver(
         storeData.containerSelector,
         addAllDealLinks.bind(null, storeId, storeData, isWishlist),
-        true
+        false, true
       );
     }
 
