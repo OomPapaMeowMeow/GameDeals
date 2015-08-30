@@ -182,7 +182,7 @@
     "greenmangaming": {
       containerSelector: "#aside",
       getGameId: function() {
-        return GameDeals.Tools.getGameIdFromPathName().split("/").slice(-1)[0];
+        return GameDeals.Tools.getGameIdFromPathName().split("/").pop();
       },
       createBlock: function(blockTitle) {
         let $blockTitle = $("<div></div>").text(blockTitle + ":");
@@ -202,7 +202,7 @@
     "desura": {
       containerSelector: "div.sidecolumn",
       getGameId: function() {
-        return $("#watchtoggle").attr("href").split("=").slice(-1)[0];
+        return $("#watchtoggle").attr("href").split("=").pop();
       },
       createBlock: function(blockTitle) {
         let $blockTitle = $("<span class='heading'></span>").text(blockTitle);
@@ -257,7 +257,7 @@
       needsObserver: true,
       dealsLimit: 1,
       getGameId: function($container) {
-        return $container.find("a.product-details-link").attr("href").split("/").slice(-1)[0];
+        return $container.find("a.product-details-link").attr("href").split("/").pop();
       },
       createBlock: function () { },
       createLink: function (dealData, iconClass) {

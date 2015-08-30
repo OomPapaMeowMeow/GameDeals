@@ -6,32 +6,26 @@
 (function() {
   "use strict";
 
-  const urlsAndIds = [
-    { regex: /.*store\.steampowered\.com\/app\/.*/, storeId: "steam" },
-    { regex: /.*www\.humblebundle\.com\/store.*/, storeId: "humblestore" },
-    { regex: /.*www\.gog\.com\/game\/.*/, storeId: "gog" },
-    { regex: /.*www\.origin\.com\/.*\/store\/buy\/.*/, storeId: "origin" },
-    { regex: /.*www\.(win|mac)gamestore\.com\/product\/.*/, storeId: "wingamestore" },
-    { regex: /.*www\.gamersgate\.com\/.*/, storeId: "gamersgate" },
-    { regex: /.*www\.greenmangaming\.com\/.*/, storeId: "greenmangaming" },
-    { regex: /.*www\.desura\.com\/games\/.*/, storeId: "desura" }
-  ];
+  const idsDictStore = {
+    "steampowered": "steam",
+    "humblebundle": "humblestore",
+    "gog": "gog",
+    "origin": "origin",
+    "wingamestore": "wingamestore",
+    "macgamestore": "wingamestore",
+    "gamersgate": "gamersgate",
+    "greenmangaming": "greenmangaming",
+    "desura": "desura"
+  };
 
-  const urlsAndIdsWishlist = [
-    { regex: /.*steamcommunity\.com\/profiles\/.*\/wishlist/, storeId: "steam" },
-    { regex: /.*www\.humblebundle\.com\/store.*/, storeId: "humblestore" }
-  ];
+  const idsDictWishlist = {
+    "steamcommunity": "steam",
+    "humblebundle": "humblestore"
+  };
 
-  function getStoreIdByUrl(url, array) {
-    let storeId = null;
-    array.some(function(urlIdData) {
-      if (urlIdData.regex.test(url)) {
-        storeId = urlIdData.storeId;
-        return true;
-      }
-      return false;
-    });
-    return storeId;
+  function getStoreIdFromLocation(dict) {
+    let host = window.location.hostname.split(".").slice(-2, 1)[0];
+    return dict[host];
   }
 
   function addDealLinks(storeId, storeData, isWishlist, $topContainer) {
@@ -70,8 +64,7 @@
   }
 
   function doAttach(isWishlist) {
-    let array = isWishlist ? urlsAndIdsWishlist : urlsAndIds;
-    let storeId = getStoreIdByUrl(window.location.href, array);
+    let storeId = getStoreIdFromLocation(isWishlist ? idsDictWishlist : idsDictStore);
     if (!storeId) {
       return;
     }
