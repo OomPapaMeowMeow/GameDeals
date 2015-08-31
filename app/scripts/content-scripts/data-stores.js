@@ -6,11 +6,74 @@
 (function() {
   "use strict";
 
+  function ensureArray(value) {
+    return Array.isArray(value) ? value : [value];
+  }
+
+  function arrayInsertBefore($parent, children, $reference) {
+    let referenceNode = $reference[0];
+    ensureArray(children).forEach(function ($child) {
+      $parent[0].insertBefore($child[0], referenceNode);
+    });
+  }
+
+  // Safety: circumvent jQuery .append() to avoid unintentional HTML parsing.
+  function safeAppend($parent, children) {
+    if ($parent.length === 0) {
+      return;
+    }
+    ensureArray(children).forEach(function($child) {
+      $parent[0].appendChild($child[0]);
+    });
+  }
+
+  // Safety: circumvent jQuery .prepend() to avoid unintentional HTML parsing.
+  function safePrepend($parent, children) {
+    if ($parent.length === 0) {
+      return;
+    }
+    let $reference = $parent.contents().first();
+    if ($reference.length === 0) {
+      safeAppend($parent, children);
+    } else {
+      arrayInsertBefore($parent, children, $reference);
+    }
+  }
+
+  // Safety: circumvent jQuery .before() to avoid unintentional HTML parsing.
+  function safeBefore($reference, children) {
+    if ($reference.length === 0) {
+      return;
+    }
+    let $parent = $reference.parent();
+    if ($parent.length === 0) {
+      return;
+    }
+    arrayInsertBefore($parent, children, $reference);
+  }
+
+  // Safety: circumvent jQuery .after() to avoid unintentional HTML parsing.
+  function safeAfter($reference, children) {
+    if ($reference.length === 0) {
+      return;
+    }
+    let $parent = $reference.parent();
+    if ($parent.length === 0) {
+      return;
+    }
+    $reference = $reference.next();
+    if ($reference.length === 0) {
+      safeAppend($parent, children);
+    } else {
+      arrayInsertBefore($parent, children, $reference);
+    }
+  }
+
   function createLinkBase(dealData, iconClass, linkClass) {
-    let $icon = $("<i class='fa gs-icon'></i>").addClass(iconClass);
-    let $link = $("<a></a>").addClass(linkClass).attr("href", dealData.url).append($icon, dealData.storeTitle);
-    let $priceDiv = $("<div class='gs-price'></div>").text(dealData.price);
-    return $("<div class='gs-marker'></div>").append($link, $priceDiv);
+    let $icon = $("<i>", { "class": "fa gs-icon " + iconClass });
+    let $link = $("<a>", { "class": linkClass, "href": dealData.url }).text(dealData.storeTitle).prepend($icon);
+    let $priceDiv = $("<div>", { "class": "gs-price" }).text(dealData.price);
+    return $("<div>", { "class": "gs-marker" }).append($link, $priceDiv);
   }
 
   const storePageData = {
@@ -41,10 +104,10 @@
         return $priceDiv.first().text();
       },
       addDealsBlock: function($container, $block) {
-        $container.prepend($block);
+        safePrepend($container, $block);
       },
       addDealLinksToDealsBlock: function($block, dealLinks) {
-        $block.append(dealLinks);
+        safeAppend($block, dealLinks);
       }
     },
     "humblestore": {
@@ -73,10 +136,10 @@
         return $topContainer.find("dl.product-links");
       },
       addDealsBlock: function($container, $block) {
-        $container.prepend($block);
+        safePrepend($container, $block);
       },
       addDealLinksToDealsBlock: function($block, dealLinks) {
-        $block.after(dealLinks);
+        safeAfter($block, dealLinks);
       }
     },
     "gog": {
@@ -127,10 +190,10 @@
         return $("p.actual-price").first().text();
       },
       addDealsBlock: function($container, $block) {
-        $container.append($block);
+        safeAppend($container, $block);
       },
       addDealLinksToDealsBlock: function($block, dealLinks) {
-        $block.append(dealLinks);
+        safeAppend($block, dealLinks);
       }
     },
     "wingamestore": {
@@ -145,7 +208,7 @@
       createLink: function(dealData, iconClass) {
         let $icon = $("<i class='fa fa-lg gs-wgs-icon'></i>").addClass(iconClass);
         let $priceDiv = $("<div class='gs-price'></div>").text(dealData.price);
-        let $linkText = $("<b></b>").append($icon, dealData.storeTitle, $priceDiv);
+        let $linkText = $("<b></b>").text(dealData.storeTitle).prepend($icon).append($priceDiv);
         return $("<a class='gs-marker'></a>").attr("href", dealData.url).append($linkText);
       },
       getPrice: function() {
@@ -154,7 +217,8 @@
       addDealsBlock: function() { },
       addDealLinksToDealsBlock: function($block, dealLinks, $container) {
         let $break = $("<br class='gs-marker'>");
-        let $storeLink = dealLinks[0].prepend($block);
+        let $storeLink = dealLinks[0];
+        safePrepend($storeLink, $block);
         $container.append($break, $storeLink);
       }
     },
@@ -173,10 +237,10 @@
         return $topContainer.find("div.price_price").text().trim();
       },
       addDealsBlock: function($container, $block) {
-        $container.children().last().before($block);
+        safeBefore($container.children().last(), $block);
       },
       addDealLinksToDealsBlock: function($block, dealLinks) {
-        $block.after(dealLinks);
+        safeAfter($block, dealLinks);
       }
     },
     "greenmangaming": {
@@ -193,10 +257,10 @@
         return $topContainer.find("strong.curPrice").text();
       },
       addDealsBlock: function($container, $block) {
-        $container.children().first().after($block);
+        safeAfter($container.children().first(), $block);
       },
       addDealLinksToDealsBlock: function($block, dealLinks) {
-        $block.append(dealLinks);
+        safeAppend($block, dealLinks);
       }
     },
     "desura": {
@@ -217,10 +281,11 @@
         return $topContainer.find("div.normalbox");
       },
       addDealsBlock: function($container, $block) {
-        $container.children().first().next().after($block);
+        safeAfter($container.children().first().next(), $block);
       },
       addDealLinksToDealsBlock: function($block, dealLinks) {
-        let $linksContainer = $("<div class='gs-marker body gs-desura-block'></div>").append(dealLinks);
+        let $linksContainer = $("<div class='gs-marker body gs-desura-block'></div>");
+        safeAppend($linksContainer, dealLinks);
         $block.after($linksContainer);
       }
     },
@@ -231,8 +296,8 @@
         return $("#product-page").find("h1").first().text().trim();
       },
       createBlock: function(blockTitle) {
-        let $blockTitle = $("<h4 class=''></h4>").text(blockTitle);
-        return $("<div class='gs-marker gs-gamesrepublic-block'></div>").append($blockTitle);
+        let $blockTitle = $("<h4>").text(blockTitle);
+        return $("<div>", { "class": "gs-marker gs-gamesrepublic-block" }).append($blockTitle);
       },
       createLink: createLinkBase,
       getPrice: function($topContainer) {
@@ -242,10 +307,10 @@
         return $topContainer.find("div.iii-sellit-container");
       },
       addDealsBlock: function($container, $block) {
-        $container.after($block);
+        safeAfter($container, $block);
       },
       addDealLinksToDealsBlock: function($block, dealLinks) {
-        $block.append(dealLinks);
+        safeAppend($block, dealLinks);
       }
     }
   };
@@ -273,7 +338,7 @@
       },
       addDealsBlock: function () { },
       addDealLinksToDealsBlock: function ($block, dealLinks, $container) { // jshint ignore:line
-        $container.append(dealLinks);
+        safeAppend($container, dealLinks);
       }
     },
     "humblestore": {
@@ -295,7 +360,7 @@
       },
       addDealsBlock: function () { },
       addDealLinksToDealsBlock: function ($block, dealLinks, $container) { // jshint ignore:line
-        $container.prepend(dealLinks);
+        safePrepend($container, dealLinks);
       }
     }
   };

@@ -42,11 +42,6 @@ module.exports = function (grunt) {
         author: srcData.author,
         homepage: srcData.homepage_url
       };
-      if (options) {
-        var optionsData = grunt.file.readJSON(options);
-        grunt.log.writeln("Options data: " + optionsData.preferences);
-        dstData.preferences = optionsData.preferences;
-      }
       if (license) {
         dstData.license = license;
       }
@@ -78,6 +73,12 @@ module.exports = function (grunt) {
         if (dstPermissions.length > 0) {
           dstData.permissions = { "cross-domain-content": dstPermissions };
         }
+      }
+
+      if (options) {
+        var optionsData = grunt.file.readJSON(options);
+        grunt.log.writeln("Options data: " + optionsData.preferences);
+        dstData.preferences = optionsData.preferences;
       }
 
       grunt.file.write(dst, JSON.stringify(dstData, null, 2));
