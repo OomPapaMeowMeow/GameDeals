@@ -14,7 +14,8 @@
     "wingamestore": "WinGameStore",
     "gamersgate": "GamersGate",
     "greenmangaming": "GreenMan Gaming",
-    "desura": "Desura"
+    "desura": "Desura",
+    "gamesrepublic": "GamesRepublic"
   };
 
   const storeIcons = {

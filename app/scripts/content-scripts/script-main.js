@@ -15,7 +15,8 @@
     "macgamestore": "wingamestore",
     "gamersgate": "gamersgate",
     "greenmangaming": "greenmangaming",
-    "desura": "desura"
+    "desura": "desura",
+    "gamesrepublic": "gamesrepublic"
   };
 
   const idsDictWishlist = {

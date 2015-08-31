@@ -90,7 +90,8 @@
       /.*www\.(win|mac)gamestore\.com\/product\/.*/,
       /.*www\.gamersgate\.com\/.*/,
       /.*www\.greenmangaming\.com\/.*/,
-      /.*www\.desura\.com\/games\/.*/
+      /.*www\.desura\.com\/games\/.*/,
+      /.*gamesrepublic\.com\/game\/.*/
     ],
     attachTo: ["existing", "top"],
     contentStyleFile: [

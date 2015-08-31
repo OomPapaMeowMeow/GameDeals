@@ -223,6 +223,30 @@
         let $linksContainer = $("<div class='gs-marker body gs-desura-block'></div>").append(dealLinks);
         $block.after($linksContainer);
       }
+    },
+    "gamesrepublic": {
+      containerSelector: "div.product-right",
+      gameIdType: 2,
+      getGameId: function() {
+        return $("#product-page").find("h1").first().text().trim();
+      },
+      createBlock: function(blockTitle) {
+        let $blockTitle = $("<h4 class=''></h4>").text(blockTitle);
+        return $("<div class='gs-marker gs-gamesrepublic-block'></div>").append($blockTitle);
+      },
+      createLink: createLinkBase,
+      getPrice: function($topContainer) {
+        return $topContainer.find("#iii-product-price-for-transaction").text();
+      },
+      getDealsContainer($topContainer) {
+        return $topContainer.find("div.iii-sellit-container");
+      },
+      addDealsBlock: function($container, $block) {
+        $container.after($block);
+      },
+      addDealLinksToDealsBlock: function($block, dealLinks) {
+        $block.append(dealLinks);
+      }
     }
   };
 
