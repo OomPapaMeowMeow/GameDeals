@@ -153,7 +153,8 @@
       },
       createLink: function(dealData, iconClass, $block) {
         let $icon = $("<i class='fa gs-gog-icon'></i>").addClass(iconClass);
-        let $link = $("<a></a>").attr("href", dealData.url).append($icon, $block, dealData.storeTitle);
+        let $link = $("<a></a>").attr("href", dealData.url).text(dealData.storeTitle);
+        safePrepend($link, [$icon, $block]);
         let $priceDiv = $("<div class='gs-price'></div>").text(dealData.price);
         return $("<p class='gs-marker'></p>").append($link, $priceDiv).addClass("gs-gog-line");
       },
@@ -169,7 +170,7 @@
       },
       addDealsBlock: function() { },
       addDealLinksToDealsBlock: function($block, dealLinks, $container) { // jshint ignore:line
-        $container.prepend(dealLinks);
+        safePrepend($container, dealLinks);
       }
     },
     "origin": {
@@ -319,8 +320,8 @@
     "steam": {
       containerSelector: "div.wishlistRow",
       dealsLimit: 1,
-      getGameId: function($container) {
-        return $container.find("a.btn_small").attr("href").split("/").slice(-2).join("/");
+      getGameId: function($topContainer) {
+        return $topContainer.find("a.btn_small").attr("href").split("/").slice(-2).join("/");
       },
       createBlock: function () { },
       createLink: function (dealData, iconClass) {
@@ -345,8 +346,8 @@
       containerSelector: "div.storefront-list-product",
       needsObserver: true,
       dealsLimit: 1,
-      getGameId: function($container) {
-        return $container.find("a.product-details-link").attr("href").split("/").pop();
+      getGameId: function($topContainer) {
+        return $topContainer.find("a.product-details-link").attr("href").split("/").pop();
       },
       createBlock: function () { },
       createLink: function (dealData, iconClass) {
@@ -361,6 +362,26 @@
       addDealsBlock: function () { },
       addDealLinksToDealsBlock: function ($block, dealLinks, $container) { // jshint ignore:line
         safePrepend($container, dealLinks);
+      }
+    },
+    "gog": {
+      containerSelector: "div.product-row",
+      dealsLimit: 1,
+      getGameId: function($topContainer) {
+        return $topContainer.attr("gog-product");
+      },
+      createBlock: function () { },
+      createLink: function (dealData, iconClass) {
+        return createLinkBase(dealData, iconClass).addClass("gs-gog-link");
+      },
+      getPrice: function ($container) {
+        return $container.find("div.price-btn").children().last().children().last().text().trim();
+      },
+      addDealsBlock: function () { },
+      addDealLinksToDealsBlock: function ($block, dealLinks, $container) { // jshint ignore:line
+        let $rating = $container.find("span.rating");
+        safeBefore($rating, dealLinks);
+        $rating.addClass("gs-hide-marker").hide();
       }
     }
   };

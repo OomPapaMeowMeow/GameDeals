@@ -86,6 +86,7 @@
       /.*steamcommunity\.com\/profiles\/.*\/wishlist/,
       /.*www\.humblebundle\.com\/store.*/,
       /.*www\.gog\.com\/game\/.*/,
+      /.*www\.gog\.com\/.*\/wishlist/,
       /.*www\.origin\.com\/.*\/store\/buy\/.*/,
       /.*www\.(win|mac)gamestore\.com\/product\/.*/,
       /.*www\.gamersgate\.com\/.*/,

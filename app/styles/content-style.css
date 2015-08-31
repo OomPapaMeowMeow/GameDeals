@@ -36,6 +36,10 @@
     margin-left: 9px;
     margin-right: 6px;
 }
+.gs-gog-link {
+    margin-right: 10px;
+    display: inline;
+}
 .gs-gog-line {
     margin-top: 0;
 }

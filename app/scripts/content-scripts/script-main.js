@@ -21,7 +21,8 @@
 
   const idsDictWishlist = {
     "steamcommunity": "steam",
-    "humblebundle": "humblestore"
+    "humblebundle": "humblestore",
+    "gog": "gog"
   };
 
   function getStoreIdFromLocation(dict) {
@@ -96,6 +97,7 @@
         }
         if (reason) {
           $(".gs-marker").remove();
+          $(".gs-hide-marker").removeClass("gs-hide-marker").show();
         }
       });
     }

@@ -1,6 +1,6 @@
 {
   "name": "Game Deals",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "manifest_version": 2,
   "description": "Shows best deals when you shop for games",
   "author": "Daniel Kamkha",
@@ -42,6 +42,7 @@
         "*://steamcommunity.com/profiles/*/wishlist",
         "*://www.humblebundle.com/store*",
         "*://www.gog.com/game/*",
+        "*://www.gog.com/*/wishlist",
         "*://www.origin.com/*/store/buy/*",
         "*://www.wingamestore.com/product/*",
         "*://www.macgamestore.com/product/*",
