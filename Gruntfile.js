@@ -185,6 +185,7 @@ module.exports = function (grunt) {
             '**/*.js',
             '!scripts/chromereload.js',
             '!scripts/index.js',
+            '!scripts/pageaction.js',
             '*.{ico,png,txt}',
             'images/{,*/}*.{webp,gif}',
             '{,*/}*.html',
@@ -218,7 +219,17 @@ module.exports = function (grunt) {
           dest: '<%= config.distff %>',
           src: [
             'images/icon.png',
-            'scripts/index.js'
+            'scripts/index.js',
+            'scripts/pageaction.js'
+          ]
+        },
+        {
+          expand: true,
+          dot: true,
+          cwd: '<%= config.app %>/images',
+          dest: '<%= config.distff %>/data/images',
+          src: [
+            'cart-*-19.png'
           ]
         }]
       }

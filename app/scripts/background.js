@@ -114,9 +114,9 @@
         self.port.emit("makeBackgroundRequest", response);
       });
     });
-    self.port.on("showPageAction", function() {
-      /* TODO: page action in Firefox */
-    });
+    //self.port.on("showPageAction", function() {
+    //  /* do nothing atm */
+    //});
     self.port.on("getDealsForTab", function(message) {
       getDealsForTab(message, function(response) {
         response.tabId = message.tabId;
