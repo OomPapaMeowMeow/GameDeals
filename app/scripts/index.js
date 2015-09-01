@@ -9,6 +9,8 @@
   const { PageMod } = require("sdk/page-mod");
   const PageWorker = require("sdk/page-worker").Page;
   const { PageAction } = require("pageaction");
+  const Popup = require("sdk/panel").Panel;
+  const tabs = require("sdk/tabs");
 
   let { storage } = require("sdk/simple-storage");
   let { prefs } = require("sdk/simple-prefs");
@@ -18,15 +20,23 @@
 
   let workers = {};
 
-  function pageActionClickHandler() {
-
-  }
+  let popup = Popup({
+    contentStyleFile: [
+      "./font-awesome.css",
+      "./content-style.css"
+    ],
+    contentScriptFile: [
+      "./jquery.min.js",
+      "./popup.js"
+    ],
+    contentURL: "./popup.html"
+  });
 
   let pageAction = PageAction({
     id: "gs-page-action",
     defaultImage: cartGray,
     tooltip: "Game Deals",
-    onClick: pageActionClickHandler
+    popup: popup
   });
 
   let pageWorker = PageWorker({
@@ -40,18 +50,6 @@
     contentURL: "./background.html"
   });
 
-  function registerPageWorkerMessage(messageName) {
-    pageWorker.port.on(messageName, function(message) {
-      let tabId = message.tabId;
-      if (tabId) {
-        let worker = workers[tabId];
-        if (worker) {
-          worker.port.emit(messageName + message.messageId, message);
-        }
-      }
-    });
-  }
-
   function registerWorkerMessage(worker, messageName) {
     let tabId = worker.tab.id;
     worker.port.on(messageName, function(message) {
@@ -64,7 +62,7 @@
     let tabId = worker.tab.id;
     workers[tabId] = worker;
     registerWorkerMessage(worker, "makeBackgroundRequest");
-    registerWorkerMessage(worker, "getDealsForTab");
+    registerWorkerMessage(worker, "showPageAction");
     worker.port.on("getOption", function (message) {
       message[message.optionName] = prefs[message.optionName];
       worker.port.emit("getOption"  + message.messageId, message );
@@ -73,7 +71,7 @@
       let imagePath = message.important ? cartGrayImportant : cartGray;
       pageAction.setImage(worker.tab, imagePath);
       pageAction.show(worker.tab);
-      // TODO: popup, option, smaller icon
+      // TODO: popup size and position, option, smaller icon
     });
     worker.on("detach", function () {
       delete workers[tabId];
@@ -81,8 +79,19 @@
   }
 
   function registerPageWorkerEvents() {
-    registerPageWorkerMessage("makeBackgroundRequest");
-    registerPageWorkerMessage("getDealsForTab");
+    pageWorker.port.on("makeBackgroundRequest", function (message) {
+      let tabId = message.tabId;
+      if (tabId) {
+        let worker = workers[tabId];
+        if (worker) {
+          worker.port.emit("makeBackgroundRequest" + message.messageId, message);
+        }
+      }
+    });
+
+    pageWorker.port.on("getDealsForTab", function(message) {
+      popup.port.emit("getDealsForTab", message);
+    });
 
     pageWorker.port.on("get", function(tableName) {
       let table = storage[tableName] || {};
@@ -97,6 +106,19 @@
           storage[key] = data[key];
         }
       }
+    });
+  }
+
+  function registerPopupEvents() {
+    popup.on("show", function() {
+      popup.port.emit("show");
+    });
+    popup.port.on("openTab", function(url) {
+      popup.hide();
+      tabs.open(url);
+    });
+    popup.port.on("getDealsForTab", function() {
+      pageWorker.port.emit("getDealsForTab", { tabId: tabs.activeTab.id });
     });
   }
 
@@ -132,6 +154,7 @@
   });
 
   registerPageWorkerEvents();
+  registerPopupEvents();
 
   exports.onUnload = function() {
     if (pageAction) {

@@ -13,6 +13,12 @@
 
   /* XUL level functions */
 
+  function pageActionClickHandler(popup, event) {
+    if (popup) {
+      popup.show(/*{ position: event.target }*/);
+    }
+  }
+
   function createPageActionButton(xulWindow, options) {
     if (!xulWindow) {
       return null;
@@ -27,7 +33,7 @@
     button.setAttribute("id", options.id);
     button.setAttribute("image", data.url(options.defaultImage));
     button.setAttribute("tooltiptext", options.tooltip);
-    button.addEventListener("command", options.onClick, false);
+    button.addEventListener("command", pageActionClickHandler.bind(null, options.popup), false);
 
     button.setAttribute("collapsed", "true"); // create button as invisible
 

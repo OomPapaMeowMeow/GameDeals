@@ -68,9 +68,13 @@
       });
   }
 
+  function cacheDealsPerTab(tabId, message) {
+    dealsPerTab[tabId] = { price: message.price, deals: message.deals };
+  }
+
   function showPageAction(message, sender) {
     let tabId = sender.tab.id;
-    dealsPerTab[tabId] = { price: message.price, deals: message.deals };
+    cacheDealsPerTab(tabId, message);
     chrome.pageAction.show(tabId);
     if (message.important) {
       chrome.pageAction.setIcon({ tabId: tabId, path: cartImportant });
@@ -114,13 +118,11 @@
         self.port.emit("makeBackgroundRequest", response);
       });
     });
-    //self.port.on("showPageAction", function() {
-    //  /* do nothing atm */
-    //});
+    self.port.on("showPageAction", function(message) {
+      cacheDealsPerTab(message.tabId, message);
+    });
     self.port.on("getDealsForTab", function(message) {
       getDealsForTab(message, function(response) {
-        response.tabId = message.tabId;
-        response.messageId = message.messageId;
         self.port.emit("getDealsForTab", response);
       });
     });
