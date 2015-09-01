@@ -64,7 +64,6 @@
     let tabId = worker.tab.id;
     workers[tabId] = worker;
     registerWorkerMessage(worker, "makeBackgroundRequest");
-    //registerWorkerMessage(worker, "showPageAction");
     registerWorkerMessage(worker, "getDealsForTab");
     worker.port.on("getOption", function (message) {
       message[message.optionName] = prefs[message.optionName];
@@ -74,7 +73,7 @@
       let imagePath = message.important ? cartGrayImportant : cartGray;
       pageAction.setImage(worker.tab, imagePath);
       pageAction.show(worker.tab);
-      // TODO: track per-tab status, hide on detach, show/hide on tab active/deactivate, smaller icon
+      // TODO: popup, option, smaller icon
     });
     worker.on("detach", function () {
       delete workers[tabId];
@@ -83,7 +82,6 @@
 
   function registerPageWorkerEvents() {
     registerPageWorkerMessage("makeBackgroundRequest");
-    //registerPageWorkerMessage("showPageAction");
     registerPageWorkerMessage("getDealsForTab");
 
     pageWorker.port.on("get", function(tableName) {
@@ -134,4 +132,11 @@
   });
 
   registerPageWorkerEvents();
+
+  exports.onUnload = function() {
+    if (pageAction) {
+      pageAction.destroy();
+      pageAction = null;
+    }
+  };
 })();

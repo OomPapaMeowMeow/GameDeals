@@ -8,10 +8,20 @@
 
   const { viewFor } = require("sdk/view/core");
   const { data } = require("sdk/self");
+  const tabs = require("sdk/tabs");
+  const windows = require("sdk/windows");
 
+  /* XUL level functions */
 
   function createPageActionButton(xulWindow, options) {
+    if (!xulWindow) {
+      return null;
+    }
     let doc = xulWindow.document;
+    if (!doc) {
+      return null;
+    }
+
     let urlBarIcons = doc.getElementById("urlbar-icons");
     let button = doc.createElement("toolbarbutton");
     button.setAttribute("id", options.id);
@@ -19,19 +29,59 @@
     button.setAttribute("tooltiptext", options.tooltip);
     button.addEventListener("command", options.onClick, false);
 
-    button.setAttribute("disabled", "true"); // create button as disabled
+    button.setAttribute("collapsed", "true"); // create button as invisible
 
     urlBarIcons.appendChild(button);
     return button;
   }
 
-  function getPageActionButton(xulWindow, id) {
-    return xulWindow.document.getElementById(id);
+  function removePageActionButton(xulWindow, id) {
+    if (!xulWindow) {
+      return null;
+    }
+    let doc = xulWindow.document;
+    if (!doc) {
+      return null;
+    }
+
+    let button = doc.getElementById(id);
+    if (button && button.parentNode) {
+      button.parentNode.removeChild(button);
+    }
   }
 
-  function ensurePageActionButton(xulWindow, options) {
-    return getPageActionButton(xulWindow, options.id) || createPageActionButton(xulWindow, options);
+  function removeAllPageActionButtons(id) {
+    for (let window of windows.browserWindows) {
+      removePageActionButton(viewFor(window), id);
+    }
   }
+
+  function getPageActionButton(xulWindow, id) {
+    if (xulWindow && xulWindow.document) {
+      return xulWindow.document.getElementById(id);
+    } else {
+      return null;
+    }
+  }
+
+  function setPageActionButtonVisibility(xulWindow, options, visible) {
+    let button = getPageActionButton(xulWindow, options.id);
+    if (!button && visible) {
+      button = createPageActionButton(xulWindow, options);
+    }
+    if (button) {
+      button.collapsed = !visible;
+    }
+  }
+
+  function setPageActionButtonImage(xulWindow, options, image) {
+    let button = getPageActionButton(xulWindow, options.id) || createPageActionButton(xulWindow, options);
+    if (button) {
+      button.image = data.url(image);
+    }
+  }
+
+  /* SDK level functions */
 
   function isActiveTab(sdkTab) {
     return sdkTab.window.tabs.activeTab.id === sdkTab.id;
@@ -42,22 +92,26 @@
       return; // already visible
     }
     stateDict[sdkTab.id] = true;
-    if (!isActiveTab(sdkTab)) {
-      return; // inactive tab, flagging the state dict is enough
+    if (isActiveTab(sdkTab)) {
+      setPageActionButtonVisibility(viewFor(sdkTab.window), options, true);
     }
+  }
 
-    let button = ensurePageActionButton(viewFor(sdkTab.window), options);
-    button.disabled = false;
+  function hidePageActionForTab(options, stateDict, sdkTab) {
+    if (!stateDict[sdkTab.id]) {
+      return; // already hidden
+    }
+    stateDict[sdkTab.id] = false;
+    if (isActiveTab(sdkTab)) {
+      setPageActionButtonVisibility(viewFor(sdkTab.window), options, false);
+    }
   }
 
   function setPageActionImageForTab(options, imageDict, sdkTab, image) {
     imageDict[sdkTab.id] = image;
-    if (!isActiveTab(sdkTab)) {
-      return; // inactive tab, setting the image in the dict is enough
+    if (isActiveTab(sdkTab)) {
+      setPageActionButtonImage(viewFor(sdkTab.window), options, image);
     }
-
-    let button = ensurePageActionButton(viewFor(sdkTab.window), options);
-    button.image = data.url(image);
   }
 
   function createPageAction(options) {
@@ -68,9 +122,25 @@
     let stateDict = {};
     let imageDict = {};
 
+    tabs.on("ready",  function(sdkTab) {
+      hidePageActionForTab(options, stateDict, sdkTab);
+    });
+    tabs.on("activate", function(sdkTab) {
+      let visible = stateDict[sdkTab.id];
+      if (visible) {
+        setPageActionButtonImage(viewFor(sdkTab.window), options, imageDict[sdkTab.id] || options.defaultImage);
+      }
+      setPageActionButtonVisibility(viewFor(sdkTab.window), options, visible);
+    });
+    tabs.on("close", function(sdkTab) {
+      setPageActionButtonVisibility(viewFor(sdkTab.window), options, false);
+      stateDict[sdkTab.id] = false;
+    });
+
     return {
       show: showPageActionForTab.bind(null, options, stateDict),
-      setImage: setPageActionImageForTab.bind(null, options, imageDict)
+      setImage: setPageActionImageForTab.bind(null, options, imageDict),
+      destroy: removeAllPageActionButtons.bind(null, options.id)
     };
   }
 
