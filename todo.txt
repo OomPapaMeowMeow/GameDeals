@@ -17,7 +17,6 @@ Shops:
 - mobile: Apple AppStore, Google Play, Windows Store Mobile
 
 Maintenance:
-- 'page action' for FF
 - add tests
 
 Promotion:

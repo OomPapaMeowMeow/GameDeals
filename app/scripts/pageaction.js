@@ -93,12 +93,16 @@
     return sdkTab.window.tabs.activeTab.id === sdkTab.id;
   }
 
+  function isPageActionVisibleForTab(options, stateDict, sdkTab) {
+    return !options.suppressed && stateDict[sdkTab.id];
+  }
+
   function showPageActionForTab(options, stateDict, sdkTab) {
     if (stateDict[sdkTab.id]) {
       return; // already visible
     }
     stateDict[sdkTab.id] = true;
-    if (isActiveTab(sdkTab)) {
+    if (isActiveTab(sdkTab) && isPageActionVisibleForTab(options, stateDict, sdkTab)) {
       setPageActionButtonVisibility(viewFor(sdkTab.window), options, true);
     }
   }
@@ -120,6 +124,21 @@
     }
   }
 
+  function redisplayPageActionForTab(options, stateDict, imageDict, sdkTab) {
+    let visible = isPageActionVisibleForTab(options, stateDict, sdkTab);
+    if (visible) {
+      setPageActionButtonImage(viewFor(sdkTab.window), options, imageDict[sdkTab.id] || options.defaultImage);
+    }
+    setPageActionButtonVisibility(viewFor(sdkTab.window), options, visible);
+  }
+
+  function setPageActionSuppressedState(options, stateDict, imageDict, value) {
+    options.suppressed = value;
+    for (let window of windows.browserWindows) {
+      redisplayPageActionForTab(options, stateDict, imageDict, window.tabs.activeTab);
+    }
+  }
+
   function createPageAction(options) {
     if (!options || !options.id) {
       return null;
@@ -131,13 +150,7 @@
     tabs.on("ready",  function(sdkTab) {
       hidePageActionForTab(options, stateDict, sdkTab);
     });
-    tabs.on("activate", function(sdkTab) {
-      let visible = stateDict[sdkTab.id];
-      if (visible) {
-        setPageActionButtonImage(viewFor(sdkTab.window), options, imageDict[sdkTab.id] || options.defaultImage);
-      }
-      setPageActionButtonVisibility(viewFor(sdkTab.window), options, visible);
-    });
+    tabs.on("activate", redisplayPageActionForTab.bind(null, options, stateDict, imageDict));
     tabs.on("close", function(sdkTab) {
       setPageActionButtonVisibility(viewFor(sdkTab.window), options, false);
       stateDict[sdkTab.id] = false;
@@ -146,6 +159,7 @@
     return {
       show: showPageActionForTab.bind(null, options, stateDict),
       setImage: setPageActionImageForTab.bind(null, options, imageDict),
+      suppress: setPageActionSuppressedState.bind(null, options, stateDict, imageDict),
       destroy: removeAllPageActionButtons.bind(null, options.id)
     };
   }

@@ -1,6 +1,13 @@
 {
   "preferences": [
     {
+      "name": "usePageAction",
+      "title": "Show \"Best deals\" icon in the address bar",
+      "description": "",
+      "type": "bool",
+      "value": true
+    },
+    {
       "name": "showNonDeals",
       "title": "Show deals even if the current price is the best",
       "description": "",

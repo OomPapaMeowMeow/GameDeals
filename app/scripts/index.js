@@ -13,7 +13,7 @@
   const tabs = require("sdk/tabs");
 
   let { storage } = require("sdk/simple-storage");
-  let { prefs } = require("sdk/simple-prefs");
+  let simplePrefs = require("sdk/simple-prefs");
 
   const cartGray = "images/cart-gray-19.png";
   const cartGrayImportant = "images/cart-gray-important-19.png";
@@ -38,7 +38,8 @@
     id: "gs-page-action",
     defaultImage: cartGray,
     tooltip: "Game Deals",
-    popup: popup
+    popup: popup,
+    suppressed: !simplePrefs.prefs.usePageAction
   });
 
   let pageWorker = PageWorker({
@@ -66,14 +67,13 @@
     registerWorkerMessage(worker, "makeBackgroundRequest");
     registerWorkerMessage(worker, "showPageAction");
     worker.port.on("getOption", function (message) {
-      message[message.optionName] = prefs[message.optionName];
+      message[message.optionName] = simplePrefs.prefs[message.optionName];
       worker.port.emit("getOption"  + message.messageId, message);
     });
     worker.port.on("showPageAction", function (message) {
       let imagePath = message.important ? cartGrayImportant : cartGray;
       pageAction.setImage(worker.tab, imagePath);
       pageAction.show(worker.tab);
-      // TODO: option
     });
     worker.on("detach", function () {
       delete workers[tabId];
@@ -122,6 +122,10 @@
     });
     popup.port.on("getDealsForTab", function() {
       pageWorker.port.emit("getDealsForTab", { tabId: tabs.activeTab.id });
+    });
+
+    simplePrefs.on("usePageAction", function() {
+      pageAction.suppress(!simplePrefs.prefs.usePageAction);
     });
   }
 
