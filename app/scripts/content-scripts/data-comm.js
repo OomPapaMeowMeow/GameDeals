@@ -69,7 +69,8 @@
     // TODO: disregarding currency, just dumb compare the values
     let isBetterDeal = dealPriceData.value < priceData.value;
     if (isBetterDeal && !isWishlist) {
-      showPageAction(priceString, deals, dealPriceData.value <= priceData.value/2);
+      let reformattedPriceString = GameDeals.Currency.formatCurrency(priceData.value, priceData.currencyType);
+      showPageAction(reformattedPriceString, deals, dealPriceData.value <= priceData.value/2);
     }
     return isBetterDeal;
   }

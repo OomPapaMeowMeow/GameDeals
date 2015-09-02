@@ -69,11 +69,11 @@
     }
   }
 
-  function createLinkBase(dealData, iconClass, linkClass) {
+  function createLinkBase(dealData, iconClass, linkClass, needsSpan) {
     let $icon = $("<i>", { "class": "fa gs-icon " + iconClass });
     let $link = $("<a>", { "class": linkClass, "href": dealData.url }).text(dealData.storeTitle).prepend($icon);
     let $priceDiv = $("<div>", { "class": "gs-price" }).text(dealData.price);
-    return $("<div>", { "class": "gs-marker" }).append($link, $priceDiv);
+    return $(needsSpan ? "<span>" : "<div>", { "class": "gs-marker" }).append($link, $priceDiv);
   }
 
   const storePageData = {
@@ -309,6 +309,32 @@
       },
       addDealsBlock: function($container, $block) {
         safeAfter($container, $block);
+      },
+      addDealLinksToDealsBlock: function($block, dealLinks) {
+        safeAppend($block, dealLinks);
+      }
+    },
+    "gamesplanet": {
+      containerSelector: "div.info_sales",
+      dealsLimit: 1,
+      getGameId: function() {
+        return GameDeals.Tools.getGameIdFromPathName().split("--").pop();
+      },
+      createBlock: function(blockTitle) {
+        let $blockTitle = $("<strong>").text(blockTitle + ":");
+        return $("<li>", { "class": "gs-marker" }).append($blockTitle);
+      },
+      createLink: function (dealData, iconClass) {
+        return createLinkBase(dealData, iconClass, null, true);
+      },
+      getPrice: function($topContainer) {
+        return $topContainer.find("span.price_current").text();
+      },
+      getDealsContainer($topContainer) {
+        return $topContainer.find("ul");
+      },
+      addDealsBlock: function($container, $block) {
+        safeAppend($container, $block);
       },
       addDealLinksToDealsBlock: function($block, dealLinks) {
         safeAppend($block, dealLinks);

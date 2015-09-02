@@ -57,8 +57,8 @@
   }
 
   function removeAllPageActionButtons(id) {
-    for (let window of windows.browserWindows) {
-      removePageActionButton(viewFor(window), id);
+    for (let i = 0; i < windows.browserWindows.length; i++) {
+      removePageActionButton(viewFor(windows.browserWindows[i]), id);
     }
   }
 
@@ -134,8 +134,8 @@
 
   function setPageActionSuppressedState(options, stateDict, imageDict, value) {
     options.suppressed = value;
-    for (let window of windows.browserWindows) {
-      redisplayPageActionForTab(options, stateDict, imageDict, window.tabs.activeTab);
+    for (let i = 0; i < windows.browserWindows.length; i++) {
+      redisplayPageActionForTab(options, stateDict, imageDict, windows.browserWindows[i].tabs.activeTab);
     }
   }
 

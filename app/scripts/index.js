@@ -141,7 +141,8 @@
       /.*www\.gamersgate\.com\/.*/,
       /.*www\.greenmangaming\.com\/.*/,
       /.*www\.desura\.com\/games\/.*/,
-      /.*gamesrepublic\.com\/game\/.*/
+      /.*gamesrepublic\.com\/game\/.*/,
+      /.*gamesplanet\.com\/game\/.*/
     ],
     attachTo: ["existing", "top"],
     contentStyleFile: [

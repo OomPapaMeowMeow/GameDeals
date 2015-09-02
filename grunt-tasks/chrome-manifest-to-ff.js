@@ -77,7 +77,6 @@ module.exports = function (grunt) {
 
       if (options) {
         var optionsData = grunt.file.readJSON(options);
-        grunt.log.writeln("Options data: " + optionsData.preferences);
         dstData.preferences = optionsData.preferences;
       }
 

@@ -16,7 +16,8 @@
     "gamersgate": "gamersgate",
     "greenmangaming": "greenmangaming",
     "desura": "desura",
-    "gamesrepublic": "gamesrepublic"
+    "gamesrepublic": "gamesrepublic",
+    "gamesplanet": "gamesplanet" // TODO: UK; has separate ids for DE and FR
   };
 
   const idsDictWishlist = {
