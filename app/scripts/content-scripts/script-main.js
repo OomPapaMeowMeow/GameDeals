@@ -23,7 +23,9 @@
   const idsDictWishlist = {
     "steamcommunity": "steam",
     "humblebundle": "humblestore",
-    "gog": "gog"
+    "gog": "gog",
+    "wingamestore": "wingamestore",
+    "macgamestore": "wingamestore"
   };
 
   function getStoreIdFromLocation(dict) {

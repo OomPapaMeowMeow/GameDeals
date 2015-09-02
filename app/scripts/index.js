@@ -137,7 +137,7 @@
       /.*www\.gog\.com\/game\/.*/,
       /.*www\.gog\.com\/.*\/wishlist/,
       /.*www\.origin\.com\/.*\/store\/buy\/.*/,
-      /.*www\.(win|mac)gamestore\.com\/product\/.*/,
+      /.*www\.(win|mac)gamestore\.com\/.*/,
       /.*www\.gamersgate\.com\/.*/,
       /.*www\.greenmangaming\.com\/.*/,
       /.*www\.desura\.com\/games\/.*/,

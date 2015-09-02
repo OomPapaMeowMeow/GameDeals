@@ -379,8 +379,8 @@
       createLink: function (dealData, iconClass) {
         return createLinkBase(dealData, iconClass + " gs-line").addClass("gs-humble-line");
       },
-      getPrice: function ($container) {
-        return $container.find("span.text").text().trim();
+      getPrice: function ($topContainer) {
+        return $topContainer.find("span.text").text().trim();
       },
       getDealsContainer($topContainer) {
         return $topContainer.find("div.platforms-and-buy-button");
@@ -400,14 +400,40 @@
       createLink: function (dealData, iconClass) {
         return createLinkBase(dealData, iconClass).addClass("gs-gog-link");
       },
-      getPrice: function ($container) {
-        return $container.find("div.price-btn").children().last().children().last().text().trim();
+      getPrice: function ($topContainer) {
+        return $topContainer.find("div.price-btn").children().last().children().last().text().trim();
       },
       addDealsBlock: function () { },
       addDealLinksToDealsBlock: function ($block, dealLinks, $container) { // jshint ignore:line
         let $rating = $container.find("span.rating");
         safeBefore($rating, dealLinks);
         $rating.addClass("gs-hide-marker").hide();
+      }
+    },
+    "wingamestore": {
+      containerSelector: "tr.product",
+      dealsLimit: 1,
+      needsObserver: true,
+      getGameId: function($topContainer) {
+        return $topContainer.find("a.popm").attr("pid");
+      },
+      createBlock: function () {
+        return $("<div>", { "class": "gs-marker" });
+      },
+      createLink: function (dealData, iconClass) {
+        return createLinkBase(dealData, iconClass).addClass("product-type");
+      },
+      getPrice: function ($topContainer) {
+        return $topContainer.find("span.price").text();
+      },
+      getDealsContainer($topContainer) {
+        return $topContainer.find("td.details");
+      },
+      addDealsBlock: function ($container, $block) {
+        safeAppend($container, $block);
+      },
+      addDealLinksToDealsBlock: function ($block, dealLinks) {
+        safeAppend($block, dealLinks);
       }
     }
   };
