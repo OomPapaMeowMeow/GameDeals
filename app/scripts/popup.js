@@ -6,10 +6,11 @@
 (function() {
   "use strict";
 
+  const magicPadding = 16;
   const isChrome = typeof chrome !== "undefined";
 
   function createLink(dealData) {
-    let $link = $("<a class='gs-black'></a>").attr("href", dealData.url).append(dealData.storeTitle);
+    let $link = $("<a class='gs-black'></a>").attr("href", dealData.url).text(dealData.storeTitle);
     let $priceDiv = $("<div class='gs-price'></div>").text(dealData.price);
     return $("<div class='gs-nowrap'></div>").append($link, $priceDiv);
   }
@@ -49,7 +50,15 @@
   if (isChrome) { // Chrome
     getDealsForTab();
   } else { // Firefox
-    self.port.on("getDealsForTab", showDeals);
+    self.port.on("getDealsForTab", function(message) {
+      showDeals(message);
+      self.port.emit("resize",
+        {
+          width: 160/*document.body.scrollWidth + magicPadding*/, // TODO: solve fit width
+          height: document.body.scrollHeight + magicPadding
+        }
+      );
+    }, 0);
     self.port.on("show", getDealsForTab);
   }
 })();

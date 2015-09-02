@@ -15,7 +15,7 @@
 
   function pageActionClickHandler(popup, event) {
     if (popup) {
-      popup.show(/*{ position: event.target }*/);
+      popup.show(event.target);
     }
   }
 

@@ -21,6 +21,8 @@
   let workers = {};
 
   let popup = Popup({
+    width: 160,
+    height: 40,
     contentStyleFile: [
       "./font-awesome.css",
       "./content-style.css"
@@ -65,13 +67,13 @@
     registerWorkerMessage(worker, "showPageAction");
     worker.port.on("getOption", function (message) {
       message[message.optionName] = prefs[message.optionName];
-      worker.port.emit("getOption"  + message.messageId, message );
+      worker.port.emit("getOption"  + message.messageId, message);
     });
     worker.port.on("showPageAction", function (message) {
       let imagePath = message.important ? cartGrayImportant : cartGray;
       pageAction.setImage(worker.tab, imagePath);
       pageAction.show(worker.tab);
-      // TODO: popup size and position, option, smaller icon
+      // TODO: option
     });
     worker.on("detach", function () {
       delete workers[tabId];
@@ -88,7 +90,6 @@
         }
       }
     });
-
     pageWorker.port.on("getDealsForTab", function(message) {
       popup.port.emit("getDealsForTab", message);
     });
@@ -99,7 +100,6 @@
       data[tableName] = table;
       pageWorker.port.emit("get", data);
     });
-
     pageWorker.port.on("set", function(data) {
       for (let key in data) {
         if (data.hasOwnProperty(key)) {
@@ -112,6 +112,9 @@
   function registerPopupEvents() {
     popup.on("show", function() {
       popup.port.emit("show");
+    });
+    popup.port.on("resize", function(size) {
+      popup.resize(size.width, size.height);
     });
     popup.port.on("openTab", function(url) {
       popup.hide();
