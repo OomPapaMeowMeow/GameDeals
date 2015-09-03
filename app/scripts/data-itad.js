@@ -96,23 +96,9 @@
     });
   }
 
-  function getStoreLink(storeId, gamePlain) { // TODO: does not work if the shop is not in top 5 deals
-    assert(getStoreLink.name, storeId, gamePlain);
-    let url = "http://isthereanydeal.com/ajax/game/info?plain=" + gamePlain;
-    return makeItadGetRequest(url).then(function(html) {
-      let storeTitle = GameDeals.Consts.getStoreTitleById(storeId);
-      let url = $(html).find("a.shopTitle:contains('" + storeTitle + "')").attr("href");
-      assert(getStoreLink.name, storeId, gamePlain, successStr, url);
-      return url;
-    }).catch(function(jqXHR) {
-      assert(getStoreLink.name, storeId, gamePlain, failStr, jqXHR.status, jqXHR.statusText);
-    });
-  }
-
   window.GameDeals = window.GameDeals || {};
   window.GameDeals.Itad = {
     getGamePlain: getGamePlain,
-    getBestDeals: getBestDeals,
-    getStoreLink: getStoreLink
+    getBestDeals: getBestDeals
   };
 })();

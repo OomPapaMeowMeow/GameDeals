@@ -81,19 +81,18 @@
       containerSelector: "div.game_meta_data",
       getGameId: GameDeals.Tools.getGameIdFromPathName,
       createBlock: function(blockTitle) {
-        let $blockTitle = $("<div class='block_title gs-steam-title'></div>").text(blockTitle + ":");
-        return $("<div class='block gs-marker'></div>").append($blockTitle);
+        let $blockTitle = $("<div>", { "class": "block_title gs-steam-title" }).text(blockTitle + ":");
+        return $("<div>", { "class": "block gs-marker" }).append($blockTitle);
       },
       createLink: function(dealData, iconClass) {
-        let $icon = $("<i class='fa fa-lg gs-steam-icon'></i>").addClass(iconClass);
-        let $iconLink = $("<a></a>").attr("href", dealData.url).append($icon);
-        let $iconDiv = $("<div class='icon'></div>").append($iconLink);
+        let $icon = $("<i>", { "class": "fa fa-lg gs-steam-icon " + iconClass });
+        let $iconLink = $("<a>", { "href": dealData.url }).append($icon);
+        let $iconDiv = $("<div>", { "class": "icon" }).append($iconLink);
 
-        let $priceDiv = $("<div class='gs-steam-price'></div>").text(dealData.price);
-        let $textLink = $("<a class='name'></a>");
-        $textLink.text(dealData.storeTitle).attr("href", dealData.url).append($priceDiv);
+        let $priceDiv = $("<div>", { "class": "gs-steam-price" }).text(dealData.price);
+        let $textLink = $("<a>", { "class": "name", "href": dealData.url }).text(dealData.storeTitle).append($priceDiv);
 
-        return $("<div class='game_area_details_specs'></div>").append($iconDiv, $textLink);
+        return $("<div>", { "class": "game_area_details_specs" }).append($iconDiv, $textLink);
       },
       getPrice: function() {
         let $priceArea = $("#game_area_purchase");
@@ -103,12 +102,8 @@
         }
         return $priceDiv.first().text();
       },
-      addDealsBlock: function($container, $block) {
-        safePrepend($container, $block);
-      },
-      addDealLinksToDealsBlock: function($block, dealLinks) {
-        safeAppend($block, dealLinks);
-      }
+      addDealsBlock: safePrepend,
+      addDealLinksToDealsBlock: safeAppend
     },
     "humblestore": {
       containerSelector: "div.product-details",
@@ -240,9 +235,7 @@
       addDealsBlock: function($container, $block) {
         safeBefore($container.children().last(), $block);
       },
-      addDealLinksToDealsBlock: function($block, dealLinks) {
-        safeAfter($block, dealLinks);
-      }
+      addDealLinksToDealsBlock: safeAfter
     },
     "greenmangaming": {
       containerSelector: "#aside",
@@ -339,6 +332,29 @@
       addDealLinksToDealsBlock: function($block, dealLinks) {
         safeAppend($block, dealLinks);
       }
+    },
+    "uplay": {
+      containerSelector: "#dr_ProductDetails",
+      gameIdType: 2,
+      getGameId: function() {
+        //return $topContainer.find("div.productRight").find("input").val(); // gives region-dependent type-0 id
+        return $("#productName").text();
+      },
+      createBlock: function(blockTitle) {
+        let $blockTitle = $("<h3>", { "class": "gs-uplay-title" }).text(blockTitle + ":");
+        return $("<div>", { "class": "gs-marker gs-uplay-block box1Column" }).append($blockTitle);
+      },
+      createLink: function (dealData, iconClass) {
+        return createLinkBase(dealData, iconClass);
+      },
+      getPrice: function($topContainer) {
+        return $topContainer.find("span.dr_actualPrice").text().trim();
+      },
+      getDealsContainer($topContainer) {
+        return $topContainer.find("div.productDesRight");
+      },
+      addDealsBlock: safePrepend,
+      addDealLinksToDealsBlock: safeAppend
     }
   };
 

@@ -78,7 +78,6 @@
   window.GameDeals = window.GameDeals || {};
   window.GameDeals.Comm = {
     getGamePlain: makeBackgroundRequest.bind(null, "getGamePlain", true),
-    getStoreLink: makeBackgroundRequest.bind(null, "getStoreLink", true),
     getBestDeals: makeBackgroundRequest.bind(null, "getBestDeals", false),
     analyzePrice: analyzePrice,
     getOption: getOption

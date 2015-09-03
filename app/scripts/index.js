@@ -142,7 +142,8 @@
       /.*www\.greenmangaming\.com\/.*/,
       /.*www\.desura\.com\/games\/.*/,
       /.*gamesrepublic\.com\/game\/.*/,
-      /.*gamesplanet\.com\/game\/.*/
+      /.*gamesplanet\.com\/game\/.*/,
+      /.*shop\.ubi\.com\/store\/.*/
     ],
     attachTo: ["existing", "top"],
     contentStyleFile: [

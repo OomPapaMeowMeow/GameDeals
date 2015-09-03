@@ -17,7 +17,8 @@
     "greenmangaming": "greenmangaming",
     "desura": "desura",
     "gamesrepublic": "gamesrepublic",
-    "gamesplanet": "gamesplanet" // TODO: UK; has separate ids for DE and FR
+    "gamesplanet": "gamesplanet", // TODO: UK; has separate ids for DE and FR
+    "ubi": "uplay"
   };
 
   const idsDictWishlist = {
