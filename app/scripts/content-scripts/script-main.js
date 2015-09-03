@@ -18,7 +18,8 @@
     "desura": "desura",
     "gamesrepublic": "gamesrepublic",
     "gamesplanet": "gamesplanet", // TODO: UK; has separate ids for DE and FR
-    "ubi": "uplay"
+    "ubi": "uplay",
+    "bundlestars": "bundlestars"
   };
 
   const idsDictWishlist = {

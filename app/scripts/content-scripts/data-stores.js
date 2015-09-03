@@ -344,9 +344,7 @@
         let $blockTitle = $("<h3>", { "class": "gs-uplay-title" }).text(blockTitle + ":");
         return $("<div>", { "class": "gs-marker gs-uplay-block box1Column" }).append($blockTitle);
       },
-      createLink: function (dealData, iconClass) {
-        return createLinkBase(dealData, iconClass);
-      },
+      createLink: createLinkBase,
       getPrice: function($topContainer) {
         return $topContainer.find("span.dr_actualPrice").text().trim();
       },
@@ -354,6 +352,24 @@
         return $topContainer.find("div.productDesRight");
       },
       addDealsBlock: safePrepend,
+      addDealLinksToDealsBlock: safeAppend
+    },
+    "bundlestars": {
+      containerSelector: "div.col-md-4",
+      getGameId: function($topContainer) {
+        return $topContainer.find("input[name='productid']").val();
+      },
+      createBlock: function(blockTitle) {
+        let $blockTitle = $("<h5>", { "class": "" }).text(blockTitle);
+        return $("<div>", { "class": "gs-marker resale-notice gs-bundlestars-block" }).append($blockTitle);
+      },
+      createLink: createLinkBase,
+      getPrice: function($topContainer) {
+        return $topContainer.find("p.deal-buy-box-price").contents().first().text();
+      },
+      addDealsBlock: function($container, $block) {
+        safeAfter($container.children().first(), $block);
+      },
       addDealLinksToDealsBlock: safeAppend
     }
   };

@@ -143,7 +143,8 @@
       /.*www\.desura\.com\/games\/.*/,
       /.*gamesrepublic\.com\/game\/.*/,
       /.*gamesplanet\.com\/game\/.*/,
-      /.*shop\.ubi\.com\/store\/.*/
+      /.*shop\.ubi\.com\/store\/.*/,
+      /.*www\.bundlestars\.com\/store\/.*/
     ],
     attachTo: ["existing", "top"],
     contentStyleFile: [

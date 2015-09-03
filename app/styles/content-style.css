@@ -94,3 +94,8 @@
 .gs-uplay-title {
     margin-bottom: 7px;
 }
+.gs-bundlestars-block {
+    padding-top: 15px !important;
+    padding-bottom: 15px !important;
+    margin-bottom: 2px !important;
+}

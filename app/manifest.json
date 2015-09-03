@@ -1,6 +1,6 @@
 {
   "name": "Game Deals",
-  "version": "0.6.3",
+  "version": "0.6.4",
   "manifest_version": 2,
   "description": "Shows best deals when you shop for games",
   "author": "Daniel Kamkha",
@@ -51,7 +51,8 @@
         "*://www.desura.com/games/*",
         "*://*.gamesrepublic.com/game/*",
         "*://*.gamesplanet.com/game/*",
-        "*://shop.ubi.com/store/*"
+        "*://shop.ubi.com/store/*",
+        "*://www.bundlestars.com/store/*"
       ],
       "css": [
         "styles/font-awesome.css",
