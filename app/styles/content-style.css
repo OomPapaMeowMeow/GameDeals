@@ -99,3 +99,10 @@
     padding-bottom: 15px !important;
     margin-bottom: 2px !important;
 }
+.gs-getgames-line {
+    color: black;
+    background-color: white;
+    padding-top: 2px;
+    padding-left: 3px;
+    padding-bottom: 3px;
+}

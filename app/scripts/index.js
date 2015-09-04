@@ -144,7 +144,8 @@
       /.*gamesrepublic\.com\/game\/.*/,
       /.*gamesplanet\.com\/game\/.*/,
       /.*shop\.ubi\.com\/store\/.*/,
-      /.*www\.bundlestars\.com\/store\/.*/
+      /.*www\.bundlestars\.com\/store\/.*/,
+      /.*www\.getgamesgo\.com\/product\/.*/
     ],
     attachTo: ["existing", "top"],
     contentStyleFile: [

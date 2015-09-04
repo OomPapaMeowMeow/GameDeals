@@ -19,7 +19,8 @@
     "gamesrepublic": "gamesrepublic",
     "gamesplanet": "gamesplanet", // TODO: UK; has separate ids for DE and FR
     "ubi": "uplay",
-    "bundlestars": "bundlestars"
+    "bundlestars": "bundlestars",
+    "getgamesgo": "getgames"
   };
 
   const idsDictWishlist = {

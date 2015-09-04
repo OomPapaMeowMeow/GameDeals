@@ -360,7 +360,7 @@
         return $topContainer.find("input[name='productid']").val();
       },
       createBlock: function(blockTitle) {
-        let $blockTitle = $("<h5>", { "class": "" }).text(blockTitle);
+        let $blockTitle = $("<h5>").text(blockTitle);
         return $("<div>", { "class": "gs-marker resale-notice gs-bundlestars-block" }).append($blockTitle);
       },
       createLink: createLinkBase,
@@ -370,6 +370,26 @@
       addDealsBlock: function($container, $block) {
         safeAfter($container.children().first(), $block);
       },
+      addDealLinksToDealsBlock: safeAppend
+    },
+    "getgames": {
+      containerSelector: "#panelPriceBox",
+      gameIdType: 2,
+      getGameId: function() {
+        //return $("#hfProductCode").val(); // ITAD gets wrong plains by these ids
+        return $("#pageTitle").text();
+      },
+      createBlock: function(blockTitle) {
+        let $blockTitle = $("<h3>", { "class": "" }).text(blockTitle);
+        return $("<div>", { "class": "gs-marker panelCell" }).append($blockTitle);
+      },
+      createLink: function (dealData, iconClass) {
+        return createLinkBase(dealData, iconClass).addClass("gs-getgames-line");
+      },
+      getPrice: function() {
+        return $("#priceboxPrice").text();
+      },
+      addDealsBlock: safeAfter,
       addDealLinksToDealsBlock: safeAppend
     }
   };
