@@ -145,7 +145,8 @@
       /.*gamesplanet\.com\/game\/.*/,
       /.*shop\.ubi\.com\/store\/.*/,
       /.*www\.bundlestars\.com\/store\/.*/,
-      /.*www\.getgamesgo\.com\/product\/.*/
+      /.*www\.getgamesgo\.com\/product\/.*/,
+      /.*www\.nuuvem\.com\/.*/
     ],
     attachTo: ["existing", "top"],
     contentStyleFile: [

@@ -106,3 +106,9 @@
     padding-left: 3px;
     padding-bottom: 3px;
 }
+.gs-nvm-title {
+    margin-bottom: 7px;
+}
+.gs-nvm-line {
+    margin-top: 0 !important;
+}

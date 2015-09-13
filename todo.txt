@@ -1,3 +1,6 @@
+Bugs:
+- Nuuvem cart icon on main page
+
 Features:
 - price data on wishlists
 - ownership data

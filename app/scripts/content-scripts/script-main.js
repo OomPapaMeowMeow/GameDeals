@@ -20,7 +20,8 @@
     "gamesplanet": "gamesplanet", // TODO: UK; has separate ids for DE and FR
     "ubi": "uplay",
     "bundlestars": "bundlestars",
-    "getgamesgo": "getgames"
+    "getgamesgo": "getgames",
+    "nuuvem": "nuuvem"
   };
 
   const idsDictWishlist = {
@@ -91,7 +92,7 @@
       observer = GameDeals.Tools.waitForElementObserver(
         storeData.containerSelector,
         addAllDealLinks.bind(null, storeId, storeData, isWishlist),
-        false, true
+        false, true, $(document)
       );
     }
 

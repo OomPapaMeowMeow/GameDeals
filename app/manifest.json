@@ -1,6 +1,6 @@
 {
   "name": "Game Deals",
-  "version": "0.6.5",
+  "version": "0.6.6",
   "manifest_version": 2,
   "description": "Shows best deals when you shop for games",
   "author": "Daniel Kamkha",
@@ -53,7 +53,8 @@
         "*://*.gamesplanet.com/game/*",
         "*://shop.ubi.com/store/*",
         "*://www.bundlestars.com/store/*",
-        "*://www.getgamesgo.com/product/*"
+        "*://www.getgamesgo.com/product/*",
+        "*://www.nuuvem.com/*"
       ],
       "css": [
         "styles/font-awesome.css",

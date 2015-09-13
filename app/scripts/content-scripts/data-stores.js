@@ -69,11 +69,13 @@
     }
   }
 
-  function createLinkBase(dealData, iconClass, linkClass, needsSpan) {
+  const tagTypes = ["<div>", "<span>", "<p>"];
+
+  function createLinkBase(dealData, iconClass, linkClass, tagType) {
     let $icon = $("<i>", { "class": "fa gs-icon " + iconClass });
     let $link = $("<a>", { "class": linkClass, "href": dealData.url }).text(dealData.storeTitle).prepend($icon);
     let $priceDiv = $("<div>", { "class": "gs-price" }).text(dealData.price);
-    return $(needsSpan ? "<span>" : "<div>", { "class": "gs-marker" }).append($link, $priceDiv);
+    return $(tagTypes[tagType || 0], { "class": "gs-marker" }).append($link, $priceDiv);
   }
 
   const storePageData = {
@@ -318,7 +320,7 @@
         return $("<li>", { "class": "gs-marker" }).append($blockTitle);
       },
       createLink: function (dealData, iconClass) {
-        return createLinkBase(dealData, iconClass, null, true);
+        return createLinkBase(dealData, iconClass, null, 1);
       },
       getPrice: function($topContainer) {
         return $topContainer.find("span.price_current").text();
@@ -380,7 +382,7 @@
         return $("#pageTitle").text();
       },
       createBlock: function(blockTitle) {
-        let $blockTitle = $("<h3>", { "class": "" }).text(blockTitle);
+        let $blockTitle = $("<h3>").text(blockTitle);
         return $("<div>", { "class": "gs-marker panelCell" }).append($blockTitle);
       },
       createLink: function (dealData, iconClass) {
@@ -388,6 +390,30 @@
       },
       getPrice: function() {
         return $("#priceboxPrice").text();
+      },
+      addDealsBlock: safeAfter,
+      addDealLinksToDealsBlock: safeAppend
+    },
+    "nuuvem": {
+      containerSelector: "#product",
+      needsObserver: true,
+      gameIdType: 2,
+      getGameId: function($topContainer) {
+        //return $topContainer.attr("data-product-id"); // nope, that's not the id
+        return $topContainer.find("h1.tt").text();
+      },
+      createBlock: function(blockTitle) {
+        let $blockTitle = $("<h2>", { "class": "tt gs-nvm-title" }).text(blockTitle);
+        return $("<div>", { "class": "gs-marker nvm-mod mod-content" }).append($blockTitle);
+      },
+      createLink: function (dealData, iconClass) {
+        return createLinkBase(dealData, iconClass, null, 2).addClass("gs-nvm-line");
+      },
+      getPrice: function($topContainer) {
+        return $topContainer.find("span.price").text();
+      },
+      getDealsContainer($topContainer) {
+        return $topContainer.find("aside.bl-details").children().first();
       },
       addDealsBlock: safeAfter,
       addDealLinksToDealsBlock: safeAppend
