@@ -48,6 +48,7 @@
       "./queue.js",
       "./data-consts.js",
       "./data-itad.js",
+      "./data-fixer.js",
       "./background.js"
     ],
     contentURL: "./background.html"
@@ -71,9 +72,13 @@
       worker.port.emit("getOption"  + message.messageId, message);
     });
     worker.port.on("showPageAction", function (message) {
-      let imagePath = message.important ? cartGrayImportant : cartGray;
-      pageAction.setImage(worker.tab, imagePath);
-      pageAction.show(worker.tab);
+      if (message.show) {
+        let imagePath = message.important ? cartGrayImportant : cartGray;
+        pageAction.setImage(worker.tab, imagePath);
+        pageAction.show(worker.tab);
+      } else {
+        pageAction.hide(worker.tab);
+      }
     });
     worker.on("detach", function () {
       delete workers[tabId];
@@ -92,6 +97,15 @@
     });
     pageWorker.port.on("getDealsForTab", function(message) {
       popup.port.emit("getDealsForTab", message);
+    });
+    pageWorker.port.on("getExchangeRates", function (message) {
+      let tabId = message.tabId;
+      if (tabId) {
+        let worker = workers[tabId];
+        if (worker) {
+          worker.port.emit("getExchangeRates" + message.messageId, message);
+        }
+      }
     });
 
     pageWorker.port.on("get", function(tableName) {

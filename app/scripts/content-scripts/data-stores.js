@@ -410,7 +410,7 @@
         return createLinkBase(dealData, iconClass, null, 2).addClass("gs-nvm-line");
       },
       getPrice: function($topContainer) {
-        return $topContainer.find("span.price").text();
+        return $topContainer.find("span.price").text().trim();
       },
       getDealsContainer($topContainer) {
         return $topContainer.find("aside.bl-details").children().first();

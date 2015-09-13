@@ -1,6 +1,6 @@
 {
   "name": "Game Deals",
-  "version": "0.6.6",
+  "version": "0.7.0",
   "manifest_version": 2,
   "description": "Shows best deals when you shop for games",
   "author": "Daniel Kamkha",
@@ -20,6 +20,7 @@
       "scripts/lib/queue.js",
       "scripts/chromereload.js",
       "scripts/data-itad.js",
+      "scripts/data-fixer.js",
       "scripts/background.js"
     ]
   },

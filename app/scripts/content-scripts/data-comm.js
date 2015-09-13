@@ -32,6 +32,26 @@
     });
   }
 
+  function getExchangeRates() {
+    return new Promise(function (resolve, reject) {
+      sendMessage(
+        "getExchangeRates",
+        {},
+        function(data) {
+          if (data) {
+            if (data.value) {
+              resolve(data.value);
+            } else {
+              reject(data.response);
+            }
+          } else {
+            reject({});
+          }
+        }
+      );
+    });
+  }
+
   function makeBackgroundRequest(requestName, cache) {
     let varArgs = Array.prototype.slice.call(arguments, 2);
     return new Promise(function (resolve, reject) {
@@ -53,11 +73,11 @@
     });
   }
 
-  function showPageAction(price, deals, important) {
-    sendMessage("showPageAction", { price: price, deals: deals, important: important });
+  function showPageAction(price, deals, important, show) {
+    sendMessage("showPageAction", { price: price, deals: deals, important: important, show: show });
   }
 
-  function analyzePrice(priceString, deals, isWishlist) {
+  function analyzePrice(priceString, deals, rates, isWishlist) {
     let priceData = GameDeals.Currency.parseCurrency(priceString);
     if (!priceData) {
       return;
@@ -66,11 +86,14 @@
     if (!dealPriceData) {
       return;
     }
-    // TODO: disregarding currency, just dumb compare the values
-    let isBetterDeal = dealPriceData.value < priceData.value;
-    if (isBetterDeal && !isWishlist) {
-      let reformattedPriceString = GameDeals.Currency.formatCurrency(priceData.value, priceData.currencyType);
-      showPageAction(reformattedPriceString, deals, dealPriceData.value <= priceData.value/2);
+    let currentPrice = priceData.value;
+    if (rates && rates[priceData.currencyType]) {
+      currentPrice /= rates[priceData.currencyType];
+    }
+    let isBetterDeal = dealPriceData.value < currentPrice;
+    if (!isWishlist) {
+      let reformattedPriceString = GameDeals.Currency.formatCurrency(currentPrice, dealPriceData.currencyType);
+      showPageAction(reformattedPriceString, deals, dealPriceData.value <= currentPrice/2, isBetterDeal);
     }
     return isBetterDeal;
   }
@@ -80,7 +103,8 @@
     getGamePlain: makeBackgroundRequest.bind(null, "getGamePlain", true),
     getBestDeals: makeBackgroundRequest.bind(null, "getBestDeals", false),
     analyzePrice: analyzePrice,
-    getOption: getOption
+    getOption: getOption,
+    getExchangeRates: getExchangeRates
   };
 })();
 

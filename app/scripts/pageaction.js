@@ -158,6 +158,7 @@
 
     return {
       show: showPageActionForTab.bind(null, options, stateDict),
+      hide: hidePageActionForTab.bind(null, options, stateDict),
       setImage: setPageActionImageForTab.bind(null, options, imageDict),
       suppress: setPageActionSuppressedState.bind(null, options, stateDict, imageDict),
       destroy: removeAllPageActionButtons.bind(null, options.id)

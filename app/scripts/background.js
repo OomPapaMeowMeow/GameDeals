@@ -6,6 +6,7 @@
 (function() {
   "use strict";
 
+  const ratesCachePeriod = 12 * 60 * 60 * 1000; // 12 hours
   const isChrome = typeof chrome !== "undefined";
 
   const cartImportant =  {
@@ -75,9 +76,13 @@
   function showPageAction(message, sender) {
     let tabId = sender.tab.id;
     cacheDealsPerTab(tabId, message);
-    chrome.pageAction.show(tabId);
-    if (message.important) {
-      chrome.pageAction.setIcon({ tabId: tabId, path: cartImportant });
+    if (message.show) {
+      chrome.pageAction.show(tabId);
+      if (message.important) {
+        chrome.pageAction.setIcon({tabId: tabId, path: cartImportant});
+      }
+    } else {
+      chrome.pageAction.hide(tabId);
     }
   }
 
@@ -96,6 +101,31 @@
     sendResponse(dealsPerTab[message.tabId]);
   }
 
+  function getExchangeRates(sendResponse) {
+    const tableName = "exchangeRates";
+    const baseCurrency = "USD"; // TODO: option
+    return new Promise(function (resolve, reject) {
+      getTableFromStorage(tableName, function(storage) {
+        let table = storage[tableName] || (storage[tableName] = {});
+        let cachedValue = table[baseCurrency];
+        if (cachedValue !== undefined && Date.now() - cachedValue.timestamp < ratesCachePeriod) {
+          resolve(cachedValue.rates);
+        } else {
+          GameDeals.Fixer.getExchangeRates(baseCurrency)
+            .then(function(value) {
+              table[baseCurrency] = { timestamp: Date.now(), rates: value };
+              setTableToStorage(storage);
+              resolve(value);
+            }, reject);
+        }
+      });
+    }).then(function (value) {
+        sendResponse({value: value});
+      }, function (response) {
+        sendResponse({response: response});
+      });
+  }
+
   if (isChrome) { // Chrome
     chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
       switch (message.messageName) {
@@ -108,6 +138,9 @@
         case "getDealsForTab":
           getDealsForTab(message, sendResponse);
           break;
+        case "getExchangeRates":
+          getExchangeRates(sendResponse);
+          return true;
       }
     });
   } else { // Firefox
@@ -124,6 +157,13 @@
     self.port.on("getDealsForTab", function(message) {
       getDealsForTab(message, function(response) {
         self.port.emit("getDealsForTab", response);
+      });
+    });
+    self.port.on("getExchangeRates", function(message) {
+      getExchangeRates(function(response) {
+        response.tabId = message.tabId;
+        response.messageId = message.messageId;
+        self.port.emit("getExchangeRates", response);
       });
     });
   }

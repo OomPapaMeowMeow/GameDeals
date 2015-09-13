@@ -206,6 +206,7 @@ module.exports = function (grunt) {
             'scripts/lib/*.js',
             'scripts/content-scripts/*.js',
             'scripts/data-itad.js',
+            'scripts/data-fixer.js',
             'scripts/background.js',
             'scripts/popup.js',
             'styles/*.css',
