@@ -67,6 +67,7 @@
     workers[tabId] = worker;
     registerWorkerMessage(worker, "makeBackgroundRequest");
     registerWorkerMessage(worker, "showPageAction");
+    registerWorkerMessage(worker, "getExchangeRates");
     worker.port.on("getOption", function (message) {
       message[message.optionName] = simplePrefs.prefs[message.optionName];
       worker.port.emit("getOption"  + message.messageId, message);

@@ -2,18 +2,18 @@ Bugs:
 - Nuuvem cart icon on main page
 
 Features:
-- price data on wishlists
 - ownership data
 - wishlist data
 
 Improvements:
-- handle currencies
+- isBetterDeal = false if current show in 'best deals' list
 - i10n
 
 Minor tweaks:
 - Origin PC: discounted price parse
 
 Stores:
+- more wishlists processing
 - unsupported by ITAD: Windows Store PC
 - mobile: Apple AppStore, Google Play, Windows Store Mobile
 
