@@ -20,8 +20,8 @@
     "gamesplanet": "gamesplanet", // TODO: UK; has separate ids for DE and FR
     "ubi": "uplay",
     "bundlestars": "bundlestars",
-    "getgamesgo": "getgames",
-    "nuuvem": "nuuvem"
+    "getgamesgo": "getgames"/*,
+    "nuuvem": "nuuvem"*/
   };
 
   const idsDictWishlist = {
@@ -51,17 +51,17 @@
       .then(function(deals) {
         context.deals = deals;
         return deals ? GameDeals.Comm.getOption("showNonDeals") : null;
-      }).then(function(options) {
+      }).then(function(options) {/*
         context.options = options;
         return options ? GameDeals.Comm.getExchangeRates() : null;
-      }).then(function(rates) {
+      }).then(function(rates) {*/
         let deals = context.deals;
-        let options = context.options;
+        //let options = context.options;
         if (!deals || !options) {
           return;
         }
 
-        let isBetterDeal = GameDeals.Comm.analyzePrice(storeData.getPrice($topContainer), deals, rates, isWishlist);
+        let isBetterDeal = GameDeals.Comm.analyzePrice(storeData.getPrice($topContainer), deals, /*rates*/{}, isWishlist);
         if (!isBetterDeal && !options.showNonDeals) {
           return;
         }

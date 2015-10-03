@@ -1,4 +1,5 @@
 Bugs:
+- exchange rates broken; rewrite them, skip them then not needed (i.e. same currency)
 - Nuuvem cart icon on main page
 
 Features:
@@ -6,6 +7,7 @@ Features:
 - wishlist data
 
 Improvements:
+- test for failed rates retrieval
 - isBetterDeal = false if current show in 'best deals' list
 - i10n
 
